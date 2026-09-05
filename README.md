@@ -23,26 +23,28 @@ with the storefront and key flows available in **English, Japanese, and Chinese*
   cities (Shenzhen, Huizhou, …) with recording, transcription, and AI feedback.
 - **Tutorials** — how to build sites with domestic AI tools, Cloudflare Pages,
   GitHub basics, and free LLM APIs.
-- **Paid custom demo** — a showcase of RCJ deliverables.
-- **Shop** — PayPal checkout with a deposit model (pay a deposit now, the rest on
-  delivery), available in EN / 日本語 / 中文.
 
-Monetization: free past papers drive traffic → paid tools convert
-(offline packs / Anki / AI review).
+Commerce no longer lives in this repo: the standalone storefront
+**shop.955827.xyz** (repo `rcj-shop`) sells custom question banks
+(Anki + offline HTML practice pages) and done-for-you websites, with Xianyu
+as the primary checkout and PayPal live as the secondary, all in
+EN / 日本語 / 中文. Old `/shop` paths 301-redirect to the new storefront.
+
+Monetization: free past papers drive traffic → the standalone storefront
+(shop.955827.xyz) converts (custom question banks / Anki / done-for-you sites).
 
 ## Highlights
 
-- 🌐 Trilingual storefront & flows (English / 日本語 / 中文)
-- 💳 PayPal hosted-redirect checkout (works behind the GFW; no frontend SDK)
-- 💰 Deposit model — capture a small deposit, collect the balance on delivery
+- 🌐 Trilingual UI (English / 日本語 / 中文), single-click switch
 - 🎙️ Local voice recording with replay, export, and optional AI review
 - 🆓 Free to start — no account required for most practice
+- 🛒 Commerce handled by the standalone storefront (shop.955827.xyz)
 
 ## Tech stack
 
 - Cloudflare Pages (static) + Cloudflare Functions + D1 (SQLite)
-- PayPal sandbox / live via hosted redirect
 - Vanilla JS `i18n` dictionary
+- Storefront (PayPal / Xianyu) is a separate repo: `rcj-shop` → shop.955827.xyz
 
 ## Deploy
 
