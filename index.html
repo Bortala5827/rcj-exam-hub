@@ -588,8 +588,6 @@
     </p>
     <p class="site-meta">
       <span id="site-runtime">本站已运行 0 天 0 时 0 分 0 秒</span>
-      <span class="dot">·</span>
-      <span id="busuanzi_container_site_uv">访客 <span id="busuanzi_value_site_uv">—</span> 人</span>
     </p>
     <p class="site-custom"><a class="btn-cart" href="https://shop.955827.xyz/" target="_blank" rel="noopener" aria-label="Store" data-quantity="0" style="width:36px;height:36px">
   <svg class="icon-cart" viewBox="0 0 24.38 30.52" height="25.2" width="20.160000000000004" xmlns="http://www.w3.org/2000/svg">
@@ -601,23 +599,6 @@
     <p style="margin-top:4px;">© 2026 RCJ9527 · Powered by Cloudflare Pages</p>
   </footer>
 
-  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-  <script>
-    // 兜底：不蒜子被广告拦截/接口未响应时，隐藏「访客 — 人」及前面的分隔点，避免 footer 显示占位符
-    window.addEventListener('load', function () {
-      setTimeout(function () {
-        var v = document.getElementById('busuanzi_value_site_uv');
-        if (v && (v.textContent.trim() === '—' || v.textContent.trim() === '')) {
-          var c = document.getElementById('busuanzi_container_site_uv');
-          if (c) {
-            c.style.display = 'none';
-            var prev = c.previousElementSibling;
-            if (prev && prev.classList && prev.classList.contains('dot')) prev.style.display = 'none';
-          }
-        }
-      }, 2500);
-    });
-  </script>
   <script>
     (function () {
       var LAUNCH = new Date('2026-08-01T00:00:00+08:00');
