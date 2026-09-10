@@ -2,13 +2,13 @@
  * 路由: POST /api/gemini（路由名保留，内容已全量改为国内渠道）
  *
  * 支持模式:
- *   POST { topic: "主题" }                 → 生成知识卡片（国内渠道，自动降级）
- *   POST { prompt: "指令" }                 → 通用调用（国内渠道，自动降级）
- *   POST { mode: "relate", ... }           → AI 关联发散（可切换 dots/agnes/商汤/b.ai/custom）
- *   POST { mode: "relate_follow", ... }    → 关联追问
- *   POST { mode: "relate_probe", ... }     → custom 源连通性探针
+ *   POST { topic: "主题" }                  生成知识卡片（国内渠道，自动降级）
+ *   POST { prompt: "指令" }                  通用调用（国内渠道，自动降级）
+ *   POST { mode: "relate", ... }            AI 关联发散（可切换 dots/agnes/商汤/b.ai/custom）
+ *   POST { mode: "relate_follow", ... }     关联追问
+ *   POST { mode: "relate_probe", ... }      custom 源连通性探针
  *
- * 环境变量（CF 后台 Settings → Variables）:
+ * 环境变量（CF 后台 Settings  Variables）:
  *   DOTS_API_KEY          小红书 dots3 key（鉴权头 api-key）
  *   AGNES_API_KEY         Agnes key（Bearer 鉴权）
  *   SENSENOVA_API_KEY     SenseNova key（Bearer 鉴权）
@@ -20,7 +20,7 @@
  */
 
 // 统一国内渠道：dots / agnes / SenseNova / b.ai / custom（已删 Gemini、Groq）
-// 可在 CF 后台 Settings → Variables 用 *_MODEL / *_BASE / *_API_KEY 覆盖。
+// 可在 CF 后台 Settings  Variables 用 *_MODEL / *_BASE / *_API_KEY 覆盖。
 const BAI_BASE = "https://api.b.ai/v1";
 const DOTS_BASE = "https://note3-prev-api.askdiandian.com/v1";
 const AGNES_BASE = "https://apihub.agnes-ai.com/v1";
@@ -61,7 +61,7 @@ const CARD_SYSTEM = `你是一个极具洞察力的政治、社会、商业、�
   ]
 }`;
 
-// 通用国内渠道调用（topic/prompt 模式用，自动降级 dots→agnes→sensenova→bai）
+// 通用国内渠道调用（topic/prompt 模式用，自动降级 dotsagnessensenovabai）
 async function callDomestic(messages, env, opts) {
   const channels = [
     { id: "dots", base: env.DOTS_BASE || DOTS_BASE, model: env.DOTS_MODEL || "dots3-note-prev", key: env.DOTS_API_KEY, auth: "api-key" },
@@ -149,7 +149,7 @@ export async function onRequestPost(context) {
       return await handleRelateCustom(body, env);
     }
 
-    // 自动降级顺序：dots→agnes→sensenova→bai（统一国内渠道）
+    // 自动降级顺序：dotsagnessensenovabai（统一国内渠道）
     const fallbackOrder = ["dots", "agnes", "sensenova", "bai", "groq"];
     const tryOrder = [preferred, ...fallbackOrder.filter(p => p !== preferred)];
 
@@ -619,7 +619,7 @@ async function handleRelateCustom(body, env) {
   const messages = isFollow
     ? buildFollowMessages(hook, concept, nodes, userQ)
     : buildRelateMessages(hook, concept, nodes);
-  // 拼接 chat/completions URL：若用户已填完整端点（含 /chat/completions）则不再拼，避免双倍拼接 → 404
+  // 拼接 chat/completions URL：若用户已填完整端点（含 /chat/completions）则不再拼，避免双倍拼接  404
   let url;
   const baseClean = BASE.replace(/\/+$/, "");
   if (/\/chat\/completions$/i.test(baseClean)) {

@@ -30,21 +30,21 @@ Commerce no longer lives in this repo: the standalone storefront
 as the primary checkout and PayPal live as the secondary, all in
 EN / 日本語 / 中文. Old `/shop` paths 301-redirect to the new storefront.
 
-Monetization: free past papers drive traffic → the standalone storefront
+Monetization: free past papers drive traffic  the standalone storefront
 (shop.955827.xyz) converts (custom question banks / Anki / done-for-you sites).
 
 ## Highlights
 
-- 🌐 Trilingual UI (English / 日本語 / 中文), single-click switch
-- 🎙️ Local voice recording with replay, export, and optional AI review
-- 🆓 Free to start — no account required for most practice
-- 🛒 Commerce handled by the standalone storefront (shop.955827.xyz)
+-  Trilingual UI (English / 日本語 / 中文), single-click switch
+-  Local voice recording with replay, export, and optional AI review
+-  Free to start — no account required for most practice
+-  Commerce handled by the standalone storefront (shop.955827.xyz)
 
 ## Tech stack
 
 - Cloudflare Pages (static) + Cloudflare Functions + D1 (SQLite)
 - Vanilla JS `i18n` dictionary
-- Storefront (PayPal / Xianyu) is a separate repo: `rcj-shop` → shop.955827.xyz
+- Storefront (PayPal / Xianyu) is a separate repo: `rcj-shop`  shop.955827.xyz
 
 ## Deploy
 
@@ -54,5 +54,5 @@ Connect Cloudflare Pages to `main`, build setting **None**, output `/`.
 ---
 
 Part of the [RCJ ecosystem](https://955827.xyz). Repo consolidated:
-`xf-firefighter-exam` (→ `/xf`) and `aux-police-exam` (→ `/fj`) were merged in
+`xf-firefighter-exam` ( `/xf`) and `aux-police-exam` ( `/fj`) were merged in
 August 2026 and deleted; `rcj-exam-bank` now covers the whole exam ecosystem.

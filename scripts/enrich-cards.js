@@ -8,17 +8,17 @@
  *   node scripts/enrich-cards.js --fact-only  # 只补 fact，不改 concept
  *
  * 架构：
- *   本地脚本 → Cloudflare Worker (exam.955827.xyz/api/gemini) → Google Gemini API
+ *   本地脚本  Cloudflare Worker (exam.955827.xyz/api/gemini)  Google Gemini API
  *   国内无需代理，CF 边缘节点在海外直连 Google 安全完成
  *
  * 前提：
- *   Cloudflare 后台 Settings → Variables 已设置 GEMINI_API_KEY（加密存储）
+ *   Cloudflare 后台 Settings  Variables 已设置 GEMINI_API_KEY（加密存储）
  *   functions/api/gemini.js 已部署
  *
  * 安全：
  *   - API key 存 CF 加密变量，不落代码仓库
  *   - 每张卡调用前等 1.5s，避免触发免费限额
- *   - 写出前备份 learn/cards.js → learn/cards.bak.js
+ *   - 写出前备份 learn/cards.js  learn/cards.bak.js
  */
 
 const fs = require("fs");
@@ -43,7 +43,7 @@ if (fs.existsSync(envPath)) {
     });
 }
 const WORKER_URL = env.GEMINI_WORKER || "https://exam.955827.xyz/api/gemini";
-console.log(`🚀 Worker: ${WORKER_URL}`);
+console.log(` Worker: ${WORKER_URL}`);
 
 // ── 读取 cards.js ──
 const cardsPath = path.join(__dirname, "..", "learn", "cards.js");
@@ -52,7 +52,7 @@ let cardsSrc = fs.readFileSync(cardsPath, "utf-8");
 // 提取 DATA 数组：匹配 var DATA = [...];
 const dataMatch = cardsSrc.match(/var\s+DATA\s*=\s*(\[[\s\S]*?\n\]);/);
 if (!dataMatch) {
-  console.error("❌ 无法从 cards.js 中提取 DATA 数组");
+  console.error(" 无法从 cards.js 中提取 DATA 数组");
   process.exit(1);
 }
 
@@ -60,7 +60,7 @@ let cards;
 try {
   cards = eval(dataMatch[1]);
 } catch (e) {
-  console.error("❌ DATA 解析失败:", e.message);
+  console.error(" DATA 解析失败:", e.message);
   process.exit(1);
 }
 
@@ -72,12 +72,12 @@ let todo = cards;
 if (targetIds) {
   todo = cards.filter((c) => targetIds.includes(c.id));
   if (todo.length === 0) {
-    console.error("❌ --ids 指定的卡片 ID 不存在");
+    console.error(" --ids 指定的卡片 ID 不存在");
     process.exit(1);
   }
 }
-console.log(`📋 待处理: ${todo.length} 张卡片 (共 ${cards.length} 张)`);
-if (isDryRun) console.log("🏖️  预览模式，不实际写回文件");
+console.log(` 待处理: ${todo.length} 张卡片 (共 ${cards.length} 张)`);
+if (isDryRun) console.log("  预览模式，不实际写回文件");
 
 // ── 通过 CF Worker 调用 Gemini ──
 async function gemini(promptText) {
@@ -107,7 +107,7 @@ function buildPrompt(card) {
 核心概念：${card.concept || "无"}
 已有事实数据：${existing}
 标签：${(card.tags || []).join("、")}
-知识树节点：${(card.nodes || []).join(" → ")}
+知识树节点：${(card.nodes || []).join("  ")}
 
 请用中文简洁回答（50字以内）：
 ${factOnly || hasConcept
@@ -148,12 +148,12 @@ async function main() {
 
     // 跳过已有充足 fact 的卡片（除非 factOnly 模式强制覆盖）
     if (factOnly && card.fact && card.fact.length > 20) {
-      console.log(`⏭️  ${label} — 已有 fact，跳过`);
+      console.log(`  ${label} — 已有 fact，跳过`);
       continue;
     }
 
     try {
-      console.log(`🔄 ${label}`);
+      console.log(` ${label}`);
       const prompt = buildPrompt(card);
       const result = await gemini(prompt);
 
@@ -163,14 +163,14 @@ async function main() {
 
       if (factMatch) {
         card.fact = factMatch[1].trim();
-        console.log(`   ✅ fact: ${card.fact.slice(0, 60)}...`);
+        console.log(`    fact: ${card.fact.slice(0, 60)}...`);
       }
       if (conceptMatch && !factOnly) {
         card.concept = conceptMatch[1].trim();
-        console.log(`   ✅ concept: ${card.concept.slice(0, 60)}...`);
+        console.log(`    concept: ${card.concept.slice(0, 60)}...`);
       }
       if (!factMatch && !conceptMatch) {
-        console.log(`   ⚠️  API 返回格式无法解析，跳过: ${result.slice(0, 80)}`);
+        console.log(`     API 返回格式无法解析，跳过: ${result.slice(0, 80)}`);
       }
       updated++;
 
@@ -179,7 +179,7 @@ async function main() {
         await new Promise((r) => setTimeout(r, 1500));
       }
     } catch (err) {
-      console.error(`   ❌ 失败: ${err.message}`);
+      console.error(`    失败: ${err.message}`);
       failed.push(card.id);
     }
   }
@@ -188,23 +188,23 @@ async function main() {
   if (!isDryRun && updated > 0) {
     const bakPath = cardsPath.replace(".js", ".bak.js");
     fs.writeFileSync(bakPath, cardsSrc, "utf-8");
-    console.log(`\n💾 已备份: ${bakPath}`);
+    console.log(`\n 已备份: ${bakPath}`);
 
     const newData = toJSLiteral(cards, 0);
     const newSrc = cardsSrc.replace(dataMatch[1], newData);
     fs.writeFileSync(cardsPath, newSrc, "utf-8");
-    console.log(`✅ 已写入 learn/cards.js (${updated} 张卡片更新)`);
+    console.log(` 已写入 learn/cards.js (${updated} 张卡片更新)`);
   }
 
   if (failed.length > 0) {
-    console.log(`\n⚠️  失败卡片: ${failed.join(", ")}`);
+    console.log(`\n  失败卡片: ${failed.join(", ")}`);
   }
 
-  console.log(`\n📊 完成: ${updated} 张更新, ${failed.length} 张失败`);
-  if (isDryRun) console.log("🏖️  预览模式，未实际写回文件");
+  console.log(`\n 完成: ${updated} 张更新, ${failed.length} 张失败`);
+  if (isDryRun) console.log("  预览模式，未实际写回文件");
 }
 
 main().catch((err) => {
-  console.error("💥 脚本异常:", err);
+  console.error(" 脚本异常:", err);
   process.exit(1);
 });

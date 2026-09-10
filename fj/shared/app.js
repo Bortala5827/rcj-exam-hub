@@ -43,7 +43,7 @@ function answerLabel(q, letters){
 function makeResultBanner(isCorrect, q, selLetters){
   var d = document.createElement("div");
   d.className = "ans-result " + (isCorrect ? "ans-correct" : "ans-wrong");
-  var verdict = isCorrect ? "✅ 回答正确" : "❌ 回答错误";
+  var verdict = isCorrect ? " 回答正确" : " 回答错误";
   var myAns = answerLabel(q, selLetters);
   var corr = answerLabel(q, String(q.answer == null ? "" : q.answer).split(""));
   d.innerHTML = '<div class="ans-verdict">' + verdict + '</div>'
@@ -54,7 +54,7 @@ function makeResultBanner(isCorrect, q, selLetters){
 // ============ 可配置项（优先读 window.SITE_CONFIG，由 template-config.json 生成；没有则用内联默认值）============
 var _DEFAULTS = {
   siteTitle: "辅警真题卡组",
-  siteEmoji: "🚔",
+  siteEmoji: "",
   subtitle: "真实考试真题 · 结构化面试 · 离线可用",
   logo: "",
   cover: "",
@@ -124,11 +124,11 @@ var TYPE_MAP = {
 };
 var WRITTEN_TYPE_LABEL = { single: "单选题", multiple: "多选题", multi: "多选题", judge: "判断题", bool: "判断题", blank: "填空题", qa: "简答题", essay: "简答题", case: "案例分析", subjective: "主观题" };
 var TAG_MAP = {
-  "高频": { cls: "gp", icon: "🔥" },
-  "深圳特色": { cls: "sz", icon: "🏙️" },
-  "热点": { cls: "rd", icon: "📌" },
-  "必刷": { cls: "bs", icon: "⭐" },
-  "常规": { cls: "cg", icon: "📋" }
+  "高频": { cls: "gp", icon: "" },
+  "深圳特色": { cls: "sz", icon: "" },
+  "热点": { cls: "rd", icon: "" },
+  "必刷": { cls: "bs", icon: "" },
+  "常规": { cls: "cg", icon: "" }
 };
 
 // 标签统一成数组：面试 tags 是数组，笔试 tags 是空格分隔字符串
@@ -155,7 +155,7 @@ var StorageCtrl = {
     var pl = document.getElementById("progressLabel");
     var pp = document.getElementById("progressPercent");
     var pb = document.getElementById("progressBar");
-    if (pl) pl.innerHTML = "📊 已掌握 <strong>" + mc + "</strong> / " + data.length + " 道题";
+    if (pl) pl.innerHTML = " 已掌握 <strong>" + mc + "</strong> / " + data.length + " 道题";
     if (pp) pp.textContent = pct + "%";
     if (pb) pb.style.width = pct + "%";
   }
@@ -184,9 +184,9 @@ function initRoundStat() {
   box.className = "round-stat";
   box.id = "roundStatBox";
   box.setAttribute("aria-live", "polite");
-  box.innerHTML = '<span class="rs-label">🎯 本轮</span>'
+  box.innerHTML = '<span class="rs-label"> 本轮</span>'
     + '<span class="rs-val">已答 0 · 正确率 —</span>'
-    + '<button type="button" class="round-stat-reset" id="roundStatReset" title="重置本轮战绩" aria-label="重置本轮战绩">↻</button>';
+    + '<button type="button" class="round-stat-reset" id="roundStatReset" title="重置本轮战绩" aria-label="重置本轮战绩"></button>';
   ti.appendChild(box);
   box.querySelector("#roundStatReset").addEventListener("click", function () {
     roundStats = { answered: 0, correct: 0 }; updateRoundStat();
@@ -340,20 +340,20 @@ function tagBadgesHtml(q) {
   return h;
 }
 function answerSection(html) {
-  return '<div class="answer-section"><div class="answer-title">📝 ' + (MODE === "interview" ? "参考答案" : "答案与解析") + '</div><div class="answer-content">' + html + "</div></div>";
+  return '<div class="answer-section"><div class="answer-title"> ' + (MODE === "interview" ? "参考答案" : "答案与解析") + '</div><div class="answer-content">' + html + "</div></div>";
 }
 function frameworkHtml(q) {
   if (!q || !q.framework) return "";
   var lines = String(q.framework).split("\n");
   var inner = lines.map(function (l) { return '<div class="fw-line">' + escapeHtml(l) + "</div>"; }).join("");
-  return '<div class="framework-box"><div class="fw-title">🧩 结构化思路</div>' + inner + "</div>";
+  return '<div class="framework-box"><div class="fw-title"> 结构化思路</div>' + inner + "</div>";
 }
 function abilityLogicHtml(q) {
   if (!q || MODE !== "interview") return "";
   if (!q.ability && !q.logic) return "";
   var h = '<div class="ability-logic-box">';
-  if (q.ability) h += '<div class="al-item"><span class="al-label">🎯 考察能力</span><span class="al-text">' + escapeHtml(q.ability) + "</span></div>";
-  if (q.logic) h += '<div class="al-item"><span class="al-label">🧠 出题逻辑</span><span class="al-text">' + escapeHtml(q.logic) + "</span></div>";
+  if (q.ability) h += '<div class="al-item"><span class="al-label"> 考察能力</span><span class="al-text">' + escapeHtml(q.ability) + "</span></div>";
+  if (q.logic) h += '<div class="al-item"><span class="al-label"> 出题逻辑</span><span class="al-text">' + escapeHtml(q.logic) + "</span></div>";
   h += "</div>";
   return h;
 }
@@ -362,7 +362,7 @@ function cardHtml(q) {
   var badges, titleHtml, bodyInner;
   if (MODE === "interview") {
     var ti = TYPE_MAP[q.type] || { cls: "zhfx", label: q.type };
-    badges = '<span class="badge badge-type-' + ti.cls + '">📝 ' + escapeHtml(ti.label) + "</span>"
+    badges = '<span class="badge badge-type-' + ti.cls + '"> ' + escapeHtml(ti.label) + "</span>"
       + (q.year ? '<span class="badge badge-year">' + escapeHtml(q.year) + "</span>" : "")
       + (q.session ? '<span class="badge badge-session">' + escapeHtml(q.session) + "</span>" : "")
       + tagBadgesHtml(q);
@@ -372,15 +372,15 @@ function cardHtml(q) {
     var wl = WRITTEN_TYPE_LABEL[q.type] || q.type;
     badges = (q.num != null ? '<span class="badge badge-year">#' + q.num + "</span>" : "")
       + (q.batch ? '<span class="badge badge-session">' + escapeHtml(q.batch) + "</span>" : "")
-      + '<span class="badge badge-type-zhfx">📝 ' + escapeHtml(wl) + "</span>"
+      + '<span class="badge badge-type-zhfx"> ' + escapeHtml(wl) + "</span>"
       + tagBadgesHtml(q);
     titleHtml = highlight(q.stem || "", currentSearch);
     var isSubjective = normType(q.type) === "subjective";
     if (isSubjective) {
       // 主观题（简答/案例）：无选项，点「查看答案」直接展开参考答案，不判分
       var subAns = '<div class="subjective-answer">' + formatAnswer(q.answer || "（暂无参考答案）", currentSearch) + "</div>";
-      if (q.explanation) subAns += '<div class="subjective-tip">💡 要点提示：' + formatAnswer(q.explanation, currentSearch) + "</div>";
-      bodyInner = '<div class="study-check"><button type="button" class="study-check-btn" data-idx="' + q._idx + '" onclick="revealStudyAnswer(' + q._idx + ')">📖 查看答案</button></div>'
+      if (q.explanation) subAns += '<div class="subjective-tip"> 要点提示：' + formatAnswer(q.explanation, currentSearch) + "</div>";
+      bodyInner = '<div class="study-check"><button type="button" class="study-check-btn" data-idx="' + q._idx + '" onclick="revealStudyAnswer(' + q._idx + ')"> 查看答案</button></div>'
         + '<div class="study-answer" id="ans' + q._idx + '" style="display:none">' + answerSection(subAns) + "</div>";
     } else {
       var optsHtml = "";
@@ -392,7 +392,7 @@ function cardHtml(q) {
       var ansHtml = "<div>答案：<b>" + escapeHtml(displayAnswer(q)) + "</b></div>";
       if (q.explanation) ansHtml += '<div style="margin-top:10px">解析：' + formatAnswer(q.explanation, currentSearch) + "</div>";
       bodyInner = (optsHtml ? '<div style="margin:12px 0">' + optsHtml + "</div>" : "")
-        + '<div class="study-check"><button type="button" class="study-check-btn" data-idx="' + q._idx + '" onclick="revealStudyAnswer(' + q._idx + ')">✅ 提交答案</button></div>'
+        + '<div class="study-check"><button type="button" class="study-check-btn" data-idx="' + q._idx + '" onclick="revealStudyAnswer(' + q._idx + ')"> 提交答案</button></div>'
         + '<div class="study-answer" id="ans' + q._idx + '" style="display:none">' + answerSection(ansHtml) + "</div>";
     }
   }
@@ -400,10 +400,10 @@ function cardHtml(q) {
   var cur = statusDB[q._idx] || "not-mastered";
   var actNM = cur === "not-mastered" ? "active" : "";
   var actM = cur === "mastered" ? "active" : "";
-  return '<div class="card" id="q' + q._idx + '"><div class="card-header"><div class="card-left"><div class="card-badges">' + badges + '</div><div class="card-title">' + titleHtml + '</div></div><span class="arrow">▼</span></div>'
-    + '<div class="card-body"><div class="card-body-inner"><div class="hint-bar"><span>' + (MODE === "interview" ? "💡 先自我作答，再展开参考答案。" : (isSubjective ? "💡 先自行作答，点「查看答案」核对要点。" : "💡 选择答案后，点「提交答案」查看对错与解析。")) + '</span>'
-    + '<div class="study-actions"><button class="study-btn not-mastered ' + actNM + '" onclick="changeTrack(event,' + q._idx + ",'not-mastered')\">❌ 仍需练习</button>"
-    + '<button class="study-btn mastered ' + actM + '" onclick="changeTrack(event,' + q._idx + ",'mastered')\">🟢 已掌握</button></div></div>"
+  return '<div class="card" id="q' + q._idx + '"><div class="card-header"><div class="card-left"><div class="card-badges">' + badges + '</div><div class="card-title">' + titleHtml + '</div></div><span class="arrow"></span></div>'
+    + '<div class="card-body"><div class="card-body-inner"><div class="hint-bar"><span>' + (MODE === "interview" ? " 先自我作答，再展开参考答案。" : (isSubjective ? " 先自行作答，点「查看答案」核对要点。" : " 选择答案后，点「提交答案」查看对错与解析。")) + '</span>'
+    + '<div class="study-actions"><button class="study-btn not-mastered ' + actNM + '" onclick="changeTrack(event,' + q._idx + ",'not-mastered')\"> 仍需练习</button>"
+    + '<button class="study-btn mastered ' + actM + '" onclick="changeTrack(event,' + q._idx + ",'mastered')\"> 已掌握</button></div></div>"
     + bodyInner + "</div></div></div>";
 }
 
@@ -418,7 +418,7 @@ function render() {
   if (MODE === "interview") flatItems.sort(function (a, b) { return String(b.year || "").localeCompare(String(a.year || "")); });
   flatItems.forEach(function (q) { var g = groupKey(q); groupCounts[g] = (groupCounts[g] || 0) + 1; });
   var container = document.getElementById("questionsList");
-  if (flatItems.length === 0) { container.innerHTML = '<div class="no-result">🔍 未找到匹配的题目，请调整筛选条件</div>'; hideLoadMore(); updateCount(); return; }
+  if (flatItems.length === 0) { container.innerHTML = '<div class="no-result"> 未找到匹配的题目，请调整筛选条件</div>'; hideLoadMore(); updateCount(); return; }
   container.innerHTML = "";
   appendBatch();
 }
@@ -482,8 +482,8 @@ function buildModeTabs() {
   var box = document.getElementById("modeTabs");
   box.innerHTML = "";
   var tabs = [];
-  if ((hasW || singleMode === "written") && !CONFIG.hideWritten) tabs.push({ m: "written", label: "📖 笔试真题" });
-  if (hasI || singleMode === "interview") tabs.push({ m: "interview", label: "🎤 面试真题" });
+  if ((hasW || singleMode === "written") && !CONFIG.hideWritten) tabs.push({ m: "written", label: " 笔试真题" });
+  if (hasI || singleMode === "interview") tabs.push({ m: "interview", label: " 面试真题" });
   if (tabs.length <= 1) { box.style.display = "none"; return; }
   box.style.display = "inline-flex";
   tabs.forEach(function (t) {
@@ -533,7 +533,7 @@ function revealStudyAnswer(idx) {
   var ansEl = document.getElementById("ans" + idx);
   // 未选择则提示，不判分、不展开
   if (selLetters.length === 0) {
-    if (btn) { var orig = btn.textContent; btn.textContent = "⚠️ 请先选择答案"; setTimeout(function () { btn.textContent = orig; }, 1200); }
+    if (btn) { var orig = btn.textContent; btn.textContent = " 请先选择答案"; setTimeout(function () { btn.textContent = orig; }, 1200); }
     return;
   }
   card.querySelectorAll(".study-opt").forEach(function (o) {
@@ -560,7 +560,7 @@ function revealStudyAnswer(idx) {
  } catch (err) {
     console.error("revealStudyAnswer error (idx=" + idx + "):", err);
     var _ansEl = document.getElementById("ans" + idx);
-    if (_ansEl) { _ansEl.style.display = "block"; _ansEl.innerHTML = '<div class="ans-result ans-wrong">⚠️ 答案显示异常，请刷新页面重试（错误：' + escapeHtml(String(err && err.message || err)) + '）</div>' + _ansEl.innerHTML; }
+    if (_ansEl) { _ansEl.style.display = "block"; _ansEl.innerHTML = '<div class="ans-result ans-wrong"> 答案显示异常，请刷新页面重试（错误：' + escapeHtml(String(err && err.message || err)) + '）</div>' + _ansEl.innerHTML; }
  }
 }
 document.getElementById("questionsList").addEventListener("click", function (e) {
@@ -613,8 +613,8 @@ document.getElementById("loadMoreBtn").addEventListener("click", appendBatch);
     var t = CONFIG.xianyuCode;
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(t).then(function () {
-        xb.textContent = "✅ 已复制：" + t;
-        setTimeout(function () { xb.textContent = "📋 复制作者ID：" + t; }, 2000);
+        xb.textContent = " 已复制：" + t;
+        setTimeout(function () { xb.textContent = " 复制作者ID：" + t; }, 2000);
       });
     } else { xb.textContent = "作者ID：" + t; }
   });
@@ -643,9 +643,9 @@ function startTimerCountdown() {
       fillEl.style.width = "0%";
       // 时间到不强制停止录音：用户仍可在规定时间后继续作答、录音，点「停止」才结束
       if (isRecording) {
-        rcjToast("⏰ 规定时间已到，仍可继续录音，结束后点「停止」或「下载录音(MP3)」");
+        rcjToast(" 规定时间已到，仍可继续录音，结束后点「停止」或「下载录音(MP3)」");
       } else {
-        rcjToast("⏰ 时间到！如需练习可重置计时器");
+        rcjToast(" 时间到！如需练习可重置计时器");
       }
     }
   }, 1000);
@@ -703,10 +703,10 @@ function initSpeechRecognizer() {
       _recGiveUp = true;
     }
     var msg = "";
-    if (e.error === "network") msg = "⚠️ 网络无法连接语音识别服务（国内网络常见，需科学上网），文字转写暂不可用，但录音回听不受影响";
-    else if (e.error === "not-allowed" || e.error === "service-not-allowed") msg = "⚠️ 麦克风/语音识别权限被拒绝，请检查浏览器权限设置";
+    if (e.error === "network") msg = " 网络无法连接语音识别服务（国内网络常见，需科学上网），文字转写暂不可用，但录音回听不受影响";
+    else if (e.error === "not-allowed" || e.error === "service-not-allowed") msg = " 麦克风/语音识别权限被拒绝，请检查浏览器权限设置";
     else if (e.error === "no-speech") msg = "";
-    else msg = "⚠️ 语音转文字暂时出错（" + e.error + "），不影响录音回听";
+    else msg = " 语音转文字暂时出错（" + e.error + "），不影响录音回听";
     if (msg && transcriptNote) { transcriptNote.textContent = msg; transcriptNote.style.display = "block"; }
   };
   // 仅在“仍在录音且未遇硬错误”时温和重启；遇错直接放弃，杜绝死循环反复弹权限
@@ -761,11 +761,11 @@ function initAudioRecorderSystem() {
     var box = document.getElementById("recBlockedTip");
     if (!box) { alert(reason || "无法调用麦克风"); return; }
     var isFile = (location.protocol.indexOf("file:") === 0);
-    var h = "<strong>🚫 " + (reason || "无法调用麦克风") + "</strong><br>";
+    var h = "<strong> " + (reason || "无法调用麦克风") + "</strong><br>";
     if (isFile) {
       h += "你是「双击本地文件」方式打开的，Chrome 出于安全策略会拦截本地 HTML 的麦克风权限。<br><br>";
-      h += "✅ <b>最省事</b>：用手机自带浏览器（如小米浏览器）打开本文件，可直接录音；<br>";
-      h += "💻 <b>电脑 Chrome</b>：在文件所在目录执行 <code>python -m http.server 8000</code>，再访问 <code>http://localhost:8000/你的文件名.html</code>（localhost 视为安全来源，可正常录音）。";
+      h += " <b>最省事</b>：用手机自带浏览器（如小米浏览器）打开本文件，可直接录音；<br>";
+      h += " <b>电脑 Chrome</b>：在文件所在目录执行 <code>python -m http.server 8000</code>，再访问 <code>http://localhost:8000/你的文件名.html</code>（localhost 视为安全来源，可正常录音）。";
     } else {
       h += "请检查浏览器麦克风权限设置，或改用 HTTPS / localhost 打开本页面。";
     }
@@ -810,7 +810,7 @@ function initAudioRecorderSystem() {
         isRecording = true;
         rcjCollapsePrepBlocks();
         // ── 紧凑录音条状态：录音中 ──
-        recordBtn.textContent = "⏹️ 停止录音";
+        recordBtn.textContent = " 停止录音";
         recordBtn.className = "rec-btn recording";
         if (recBar) recBar.classList.add("recording");
         // 录音计时器
@@ -826,11 +826,11 @@ function initAudioRecorderSystem() {
         var _asrPref = { engine: "webspeech" };
         try { var _tmp = JSON.parse(localStorage.getItem("rcj_web_asr_v1") || "{}"); if (_tmp.asrEngine) _asrPref.engine = _tmp.asrEngine; } catch (_e) {}
         if (_asrPref.engine === "cloud") {
-          if (transcriptNote) { transcriptNote.style.display = "block"; transcriptNote.textContent = "🎙️ 录音中…停止后将调用云端 API 转写（请确保已配置 Key）"; }
+          if (transcriptNote) { transcriptNote.style.display = "block"; transcriptNote.textContent = " 录音中…停止后将调用云端 API 转写（请确保已配置 Key）"; }
         } else if (location.protocol === "file:") {
           // 本地双击打开（file://）时 Chrome 不持久化麦克风授权，且语音识别需联网，
           // 为避免反复弹权限框、保证录音/MP3 正常，这里跳过实时语音转写（仅关本机文件模式的转写，不影响录音）
-          if (transcriptNote) { transcriptNote.style.display = "block"; transcriptNote.textContent = "📝 本地文件双击打开时实时转写已停用（用 localhost/https 或手机浏览器打开可启用），录音与 MP3 保存不受影响。"; }
+          if (transcriptNote) { transcriptNote.style.display = "block"; transcriptNote.textContent = " 本地文件双击打开时实时转写已停用（用 localhost/https 或手机浏览器打开可启用），录音与 MP3 保存不受影响。"; }
         } else {
           if (transcriptNote) transcriptNote.style.display = "none";
           if (transcriptBox) { speechRecognizer = initSpeechRecognizer(); if (speechRecognizer) { try { speechRecognizer.start(); } catch (e1) {} } }
@@ -853,7 +853,7 @@ function initAudioRecorderSystem() {
     var isWechat = /micromessenger/i.test(ua);
     if (isWechat) {
       // 微信内置浏览器禁止 blob 文件下载，引导用系统浏览器打开
-      rcjToast("微信内无法直接下载文件，请点右上角 ⋯ →「在浏览器打开」，再点下载录音");
+      rcjToast("微信内无法直接下载文件，请点右上角 ⋯ 「在浏览器打开」，再点下载录音");
       try { window.open(url, "_blank"); } catch (e) {}
       return;
     }
@@ -861,7 +861,7 @@ function initAudioRecorderSystem() {
       // iOS Safari 忽略 download 属性且不支持程序化下载，改在新标签页打开让用户保存
       try {
         window.open(url, "_blank");
-        rcjToast("已在新标签页打开录音，请长按音频或点分享 →「存储到文件」");
+        rcjToast("已在新标签页打开录音，请长按音频或点分享 「存储到文件」");
       } catch (e) { rcjToast("当前环境下载受限，请在系统浏览器中打开本页后重试"); }
       return;
     }
@@ -900,7 +900,7 @@ function stopAndEncodeRecording() {
   audioPlayer.style.display = "block";
   downloadRecordBtn.style.display = "inline-block";
   // ── 紧凑录音条状态：录音结束 ──
-  recordBtn.textContent = "🎙️ 开始录音";
+  recordBtn.textContent = " 开始录音";
   if (recBar) recBar.classList.remove("recording");
   if (recTick) { clearInterval(recTick); recTick = null; }
   if (speechRecognizer) { try { speechRecognizer.onend = null; speechRecognizer.stop(); } catch (e8) {} }
@@ -909,10 +909,10 @@ function stopAndEncodeRecording() {
   // 弹窗内提示：本次录音已存档（统一引导语，同步首屏与设置两个入口）
   var _sh = document.getElementById("voiceLogSavedHint");
   if (_sh) {
-    var _where = "首屏「🎙️ 我的练习录音」和设置里的「🎙️ 我的练习录音」";
+    var _where = "首屏「 我的练习录音」和设置里的「 我的练习录音」";
     _sh.textContent = (window.RCJVoice && window.RCJVoice.GUIDE)
       ? window.RCJVoice.GUIDE.afterRecord(_where)
-      : ("✅ 已保存到" + _where + "，随时回放全部练习");
+      : (" 已保存到" + _where + "，随时回放全部练习");
     _sh.style.display = "block";
   }
   // 若使用云端 ASR，把 MP3 发过去转写
@@ -929,7 +929,7 @@ function resetAudioRecorderUI() {
   if (audioCtx) { try { audioCtx.close(); } catch (e11) {} audioCtx = null; }
   if (speechRecognizer) { try { speechRecognizer.onend = null; speechRecognizer.stop(); } catch (e12) {} }
   // ── 紧凑录音条状态：完全重置 ──
-  recordBtn.textContent = "🎙️ 开始录音";
+  recordBtn.textContent = " 开始录音";
   if (recBar) recBar.classList.remove("recording");
   if (recTick) { clearInterval(recTick); recTick = null; }
   recElapsed = 0;
@@ -1026,7 +1026,7 @@ function _vlDownload(blob, name) {
   var isWechat = /micromessenger/i.test(ua);
   if (isWechat) {
     // 微信内置浏览器禁止 blob 文件下载，引导用系统浏览器打开
-    rcjToast("微信内无法直接下载文件，请点右上角 ⋯ →「在浏览器打开」，再点下载录音");
+    rcjToast("微信内无法直接下载文件，请点右上角 ⋯ 「在浏览器打开」，再点下载录音");
     try { window.open(url, "_blank"); } catch (e) {}
     setTimeout(function () { try { URL.revokeObjectURL(url); } catch (e) {} }, 8000);
     return;
@@ -1035,7 +1035,7 @@ function _vlDownload(blob, name) {
     // iOS Safari 忽略 download 属性且不支持程序化下载，改在新标签页打开让用户保存
     try {
       window.open(url, "_blank");
-      rcjToast("已在新标签页打开录音，请长按音频或点分享 →「存储到文件」");
+      rcjToast("已在新标签页打开录音，请长按音频或点分享 「存储到文件」");
     } catch (e) { rcjToast("当前环境下载受限，请在系统浏览器中打开本页后重试"); }
     setTimeout(function () { try { URL.revokeObjectURL(url); } catch (e) {} }, 8000);
     return;
@@ -1136,7 +1136,7 @@ function renderVoiceLogInto(listEl, items) {
   if (!items || !items.length) {
     var empty = document.createElement("div");
     empty.className = "voice-log-empty";
-    empty.textContent = "暂无录音，点「🎲 随机抽题」开口练一练吧";
+    empty.textContent = "暂无录音，点「 随机抽题」开口练一练吧";
     listEl.appendChild(empty);
     return;
   }
@@ -1173,9 +1173,9 @@ function renderVoiceLogInto(listEl, items) {
     } else {
       audio.controls = false;
     }
-    var del = document.createElement("button"); del.type = "button"; del.className = "voice-log-del"; del.textContent = "🗑"; del.title = "删除这条录音";
+    var del = document.createElement("button"); del.type = "button"; del.className = "voice-log-del"; del.textContent = ""; del.title = "删除这条录音";
     del.onclick = function () { _vlDelete(it.id).then(function () { renderVoiceLog(); }).catch(function () {}); };
-    var dl = document.createElement("button"); dl.type = "button"; dl.className = "voice-log-dl"; dl.textContent = "⬇️"; dl.title = "下载到本机（免费，存到你自己的设备）";
+    var dl = document.createElement("button"); dl.type = "button"; dl.className = "voice-log-dl"; dl.textContent = ""; dl.title = "下载到本机（免费，存到你自己的设备）";
     dl.onclick = function () { _vlDownload(it.blob, _vlFileName(it)); };
     item.appendChild(meta);
     item.appendChild(q);
@@ -1207,7 +1207,7 @@ function randomBadgesHtml(q) {
   var html = "";
   if (MODE === "interview") {
     var ti = TYPE_MAP[q.type] || { cls: "zhfx", label: q.type };
-    html += '<span class="badge badge-type-' + ti.cls + '">📝 ' + escapeHtml(ti.label) + "</span>";
+    html += '<span class="badge badge-type-' + ti.cls + '"> ' + escapeHtml(ti.label) + "</span>";
     if (q.year) html += '<span class="badge badge-year">' + escapeHtml(q.year) + "</span>";
     if (q.session) html += '<span class="badge badge-session">' + escapeHtml(q.session) + "</span>";
     html += tagBadgesHtml(q);
@@ -1215,7 +1215,7 @@ function randomBadgesHtml(q) {
     if (q.num != null) html += '<span class="badge badge-year">#' + q.num + "</span>";
     if (q.batch) html += '<span class="badge badge-session">' + escapeHtml(q.batch) + "</span>";
     var wl = WRITTEN_TYPE_LABEL[q.type] || q.type;
-    html += '<span class="badge badge-type-zhfx">📝 ' + escapeHtml(wl) + "</span>";
+    html += '<span class="badge badge-type-zhfx"> ' + escapeHtml(wl) + "</span>";
     html += tagBadgesHtml(q);
   }
   return html;
@@ -1223,7 +1223,7 @@ function randomBadgesHtml(q) {
 function randomQuestionHtml(q) {
   if (MODE === "interview") {
     var h = escapeHtml(q.title || "");
-    h += '<div class="random-modal-hint" style="margin-top:12px;margin-bottom:0;font-size:13px;padding:10px 12px;">💡 先自己组织作答，点下方「显示答案」查看参考答案与结构化思路</div>';
+    h += '<div class="random-modal-hint" style="margin-top:12px;margin-bottom:0;font-size:13px;padding:10px 12px;"> 先自己组织作答，点下方「显示答案」查看参考答案与结构化思路</div>';
     return h;
   }
   var h = escapeHtml(q.stem || "");
@@ -1235,7 +1235,7 @@ function randomQuestionHtml(q) {
     h += "</div>";
   }
   if (MODE !== "interview") {
-    h += '<div class="random-modal-hint" style="margin-top:12px;margin-bottom:0;font-size:13px;padding:10px 12px;">💡 选择答案后，点击下方「提交答案」查看对错</div>';
+    h += '<div class="random-modal-hint" style="margin-top:12px;margin-bottom:0;font-size:13px;padding:10px 12px;"> 选择答案后，点击下方「提交答案」查看对错</div>';
   }
   return h;
 }
@@ -1259,7 +1259,7 @@ function randomScopeLabel(count) {
   });
   if (currentSearch) parts.push("搜索“" + currentSearch + "”");
   var scope = parts.length ? parts.join(" · ") : "全部题目";
-  return "🎯 本次抽题范围：" + scope + "（共 " + count + " 题）";
+  return " 本次抽题范围：" + scope + "（共 " + count + " 题）";
 }
 function showRandomQuestion() {
   resetAudioRecorderUI();
@@ -1279,10 +1279,10 @@ function showRandomQuestion() {
   var submitBtn = document.getElementById("randomModalSubmit");
   if (MODE === "interview") {
     // 面试：默认隐藏答案，点「显示答案」才展开
-    if (submitBtn) { submitBtn.style.display = ""; submitBtn.textContent = "💡 显示答案"; }
+    if (submitBtn) { submitBtn.style.display = ""; submitBtn.textContent = " 显示答案"; }
     document.getElementById("randomModalAnswer").classList.remove("show");
   } else {
-    if (submitBtn) { submitBtn.style.display = ""; submitBtn.textContent = "✅ 提交答案"; }
+    if (submitBtn) { submitBtn.style.display = ""; submitBtn.textContent = " 提交答案"; }
     document.getElementById("randomModalAnswer").classList.remove("show");
   }
   document.getElementById("audioRecorderZone").style.display = (MODE === "interview" && _mRecord) ? "block" : "none";
@@ -1322,7 +1322,7 @@ function gradeRandomSelection() {
   });
   if (selLetters.length === 0) {
     var btn = document.getElementById("randomModalSubmit");
-    if (btn) { var orig = btn.textContent; btn.textContent = "⚠️ 请先选择答案"; setTimeout(function () { btn.textContent = orig; }, 1200); }
+    if (btn) { var orig = btn.textContent; btn.textContent = " 请先选择答案"; setTimeout(function () { btn.textContent = orig; }, 1200); }
     return;
   }
   opts.forEach(function (o) {
@@ -1405,7 +1405,7 @@ function fallbackCopy(text) {
     var ok = document.execCommand("copy"); document.body.removeChild(ta); return ok;
   } catch (e) { return false; }
 }
-// 「获取离线版 / RCJ 服务」按钮 → 跳转 shop.955827.xyz（替代原闲鱼入口，闲鱼弹层已移除）
+// 「获取离线版 / RCJ 服务」按钮  跳转 shop.955827.xyz（替代原闲鱼入口，闲鱼弹层已移除）
 var dlBtn = document.getElementById("downloadOfflineBtn");
 if (dlBtn) dlBtn.addEventListener("click", function () { window.open("https://shop.955827.xyz/", "_blank", "noopener"); });
 
@@ -1421,11 +1421,11 @@ window.addEventListener("scroll", function () { if (window.scrollY > 400) backTo
 backToTop.addEventListener("click", function () { window.scrollTo({ top: 0, behavior: "smooth" }); });
 var themeToggle = document.getElementById("themeToggle");
 var savedTheme = localStorage.getItem("theme") || "light";
-if (savedTheme === "dark") { document.documentElement.setAttribute("data-theme", "dark"); themeToggle.textContent = "☀️"; }
+if (savedTheme === "dark") { document.documentElement.setAttribute("data-theme", "dark"); themeToggle.textContent = ""; }
 themeToggle.addEventListener("click", function () {
   var cur = document.documentElement.getAttribute("data-theme");
-  if (cur === "dark") { document.documentElement.removeAttribute("data-theme"); themeToggle.textContent = "🌙"; localStorage.setItem("theme", "light"); }
-  else { document.documentElement.setAttribute("data-theme", "dark"); themeToggle.textContent = "☀️"; localStorage.setItem("theme", "dark"); }
+  if (cur === "dark") { document.documentElement.removeAttribute("data-theme"); themeToggle.textContent = ""; localStorage.setItem("theme", "light"); }
+  else { document.documentElement.setAttribute("data-theme", "dark"); themeToggle.textContent = ""; localStorage.setItem("theme", "dark"); }
 });
 
 // 只看未掌握 / 快捷键
@@ -1435,7 +1435,7 @@ themeToggle.addEventListener("click", function () {
   markModeBtn.addEventListener("click", function () {
     filterMark = !filterMark;
     markModeBtn.classList.toggle("active", filterMark);
-    markModeBtn.textContent = filterMark ? "✅ 显示全部" : "🟢 只看未掌握";
+    markModeBtn.textContent = filterMark ? " 显示全部" : " 只看未掌握";
     render();
   });
   function currentQuestions() {
@@ -1466,7 +1466,7 @@ themeToggle.addEventListener("click", function () {
 // 撒花（答对/标记掌握时的正向反馈，纯视觉、无音效）
 (function () {
   function playConfetti() {
-    var emojis = ["🎉", "⭐", "💡", "✅", "🔥", "🏆", "💪", "🌟"];
+    var emojis = ["", "", "", "", "", "", "", ""];
     for (var i = 0; i < 18; i++) {
       var s = document.createElement("div"); s.className = "fx-confetti";
       s.textContent = emojis[Math.floor(Math.random() * emojis.length)];
@@ -1482,7 +1482,7 @@ themeToggle.addEventListener("click", function () {
   changeTrack = function (e, idx, status) { _ct(e, idx, status); if (status === "mastered") celebrate(); };
 })();
 
-// ====== 套题模考模式（抽题 → 作答 → 提交判分）======
+// ====== 套题模考模式（抽题  作答  提交判分）======
 var examActive = false, examGraded = false, examSelections = {};
 var examView = document.getElementById("examView");
 var examQuestions = document.getElementById("examQuestions");
@@ -1498,8 +1498,8 @@ function typeLabel(t){ return t==="multi"?"多选":(t==="bool"?"判断":(t==="su
 function shuffleArr(a){ for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var x=a[i];a[i]=a[j];a[j]=x; } return a; }
 function scopeKey(){ return (MODE==="interview") ? "year" : "batch"; }
 function scopeLabel(v){
-  if(v==="__random__") return "🎲 随机抽一套";
-  if(v==="__all__") return "📚 全库随机抽题";
+  if(v==="__random__") return " 随机抽一套";
+  if(v==="__all__") return " 全库随机抽题";
   if(MODE==="interview") return (v?("年份 "+v):"未注明");
   return (v||"未注明")+" 批";
 }
@@ -1604,7 +1604,7 @@ function refreshExamInfo(){
     if (s > avail.single) warn.push('单选库仅 '+avail.single+' 题');
     if (m > avail.multi) warn.push('多选库仅 '+avail.multi+' 题');
     if (bo > avail.bool) warn.push('判断库仅 '+avail.bool+' 题');
-    if (warn.length) info += '<br><span style="color:#dc2626">⚠️ '+warn.join('，')+'，将自动按上限抽取</span>';
+    if (warn.length) info += '<br><span style="color:#dc2626"> '+warn.join('，')+'，将自动按上限抽取</span>';
   }
   if (typing) info += '；另加打字题 <b>'+tmin+'</b> 分钟（不计入客观题分）';
   document.getElementById("examSetupInfo").innerHTML = info;
@@ -1642,7 +1642,7 @@ function enterExamView() {
   if (!_mPromo) document.getElementById("promoBanner").style.display = "none";
   examView.style.display = "block";
   document.getElementById("examModeLabel").textContent = (MODE === "interview") ? "面试" : "笔试";
-  examSubmitBtn.textContent = (MODE === "interview") ? "📖 显示参考答案" : "✅ 提交试卷";
+  examSubmitBtn.textContent = (MODE === "interview") ? " 显示参考答案" : " 提交试卷";
   window.scrollTo({ top: 0 });
 }
 function exitExamMode() {
@@ -1687,13 +1687,13 @@ function startExam() {
   document.getElementById("examSubInfo").innerHTML = typesText(meta.per) + (examTypingOn ? "　+ 打字题" : "");
   var arr = list.slice();
   examQuestions.innerHTML = "";
-  if (!arr.length) { examQuestions.innerHTML = '<div class="no-result">🔍 该范围没有题目</div>'; return; }
+  if (!arr.length) { examQuestions.innerHTML = '<div class="no-result"> 该范围没有题目</div>'; return; }
   arr.forEach(function (q, i) { examQuestions.appendChild(buildExamCard(q, i + 1)); });
   if (examTypingOn && MODE === "written") {
     var passage = CONFIG.typingText || "";
     var tcard = document.createElement("div");
     tcard.className = "exam-q typing-q";
-    tcard.innerHTML = '<div class="exam-q-head"><div class="exam-q-meta"><span class="exam-q-tag" style="background:linear-gradient(135deg,#d97706,#f59e0b)">打字题</span><span class="exam-q-num">限时 ' + examTypingMinutes + ' 分钟 · 不计入客观题分</span></div><div class="exam-q-stem">✍️ 请照抄下方范文</div></div>'
+    tcard.innerHTML = '<div class="exam-q-head"><div class="exam-q-meta"><span class="exam-q-tag" style="background:linear-gradient(135deg,#d97706,#f59e0b)">打字题</span><span class="exam-q-num">限时 ' + examTypingMinutes + ' 分钟 · 不计入客观题分</span></div><div class="exam-q-stem"> 请照抄下方范文</div></div>'
       + '<div class="typing-passage" id="typingPassage">' + escapeHtml(passage) + '</div>'
       + '<textarea class="typing-area" id="typingArea" placeholder="在此处对照上方范文抄写……"></textarea>';
     examQuestions.insertBefore(tcard, examQuestions.firstChild);
@@ -1752,7 +1752,7 @@ function submitExam() {
   var list = examPaperList;
   if (MODE === "interview") {
     list.forEach(function (q) { var card = document.getElementById("examQ" + q._idx); if (card) card.classList.add("graded"); });
-    examResult.innerHTML = '<div class="exam-result-detail">面试为开放作答，提交后已展示各题参考答案，请对照自评，并用上方「🎲 随机抽题」里的 🎙️ 录音功能演练口述作答。</div>';
+    examResult.innerHTML = '<div class="exam-result-detail">面试为开放作答，提交后已展示各题参考答案，请对照自评，并用上方「 随机抽题」里的  录音功能演练口述作答。</div>';
     examResult.style.display = "block";
     window.scrollTo({ top: 0 });
     return;
@@ -1781,21 +1781,21 @@ function submitExam() {
       if (isAns) el.classList.add("correct");
       if (sel.indexOf(o.letter) !== -1 && !isAns) el.classList.add("wrong");
       var mk = el.querySelector(".exam-mark");
-      if (isAns) mk.textContent = "✅"; else if (sel.indexOf(o.letter) !== -1) mk.textContent = "❌";
+      if (isAns) mk.textContent = ""; else if (sel.indexOf(o.letter) !== -1) mk.textContent = "";
     });
   });
   examGraded = true;
   if (MODE === "interview") {
-    examResult.innerHTML = '<div class="exam-result-detail">面试为开放作答，提交后已展示各题参考答案，请对照自评，并用上方「🎲 随机抽题」里的 🎙️ 录音功能演练口述作答。</div>';
+    examResult.innerHTML = '<div class="exam-result-detail">面试为开放作答，提交后已展示各题参考答案，请对照自评，并用上方「 随机抽题」里的  录音功能演练口述作答。</div>';
   } else {
     var pct = total ? Math.round((correct / total) * 100) : 0;
-    var grade = pct >= 90 ? "🏆 优秀" : pct >= 60 ? "👍 合格" : "💪 继续加油";
+    var grade = pct >= 90 ? " 优秀" : pct >= 60 ? " 合格" : " 继续加油";
     var html = '<div class="exam-result-score">' + correct + ' / ' + total + '</div>'
-      + '<div class="exam-result-detail">客观题正确率 <b>' + pct + '%</b>　' + grade + '　（答错 ' + wrong + ' 题，已用 ❌ 标出）</div>';
+      + '<div class="exam-result-detail">客观题正确率 <b>' + pct + '%</b>　' + grade + '　（答错 ' + wrong + ' 题，已用  标出）</div>';
     if (examTypingOn) html += gradeTyping();
     html += '<div class="exam-ai-analysis" id="examAiAnalysis">'
-      + '<div class="exam-ai-head">🤖 AI 智能分析本次作答</div>'
-      + '<button type="button" class="exam-ai-btn" id="examAiAnalyzeBtn">🤖 开始 AI 分析</button>'
+      + '<div class="exam-ai-head"> AI 智能分析本次作答</div>'
+      + '<button type="button" class="exam-ai-btn" id="examAiAnalyzeBtn"> 开始 AI 分析</button>'
       + '<div class="exam-ai-result" id="examAiResult" style="display:none"></div>'
       + '</div>';
     examResult.innerHTML = html;
@@ -1815,7 +1815,7 @@ function gradeTyping(){
   for (var i = 0; i < len; i++){ if (typed.charAt(i) === passage.charAt(i)) matched++; }
   var acc = passage.length ? Math.round(matched / passage.length * 100) : 0;
   var speed = examTypingMinutes ? Math.round(n / examTypingMinutes) : n;
-  return '<div class="exam-result-detail" style="margin-top:8px">✍️ 打字题：共录入 <b>' + n + '</b> 字 · 准确率 <b>' + acc + '%</b> · 速度约 <b>' + speed + '</b> 字/分钟（不计入客观题分）</div>';
+  return '<div class="exam-result-detail" style="margin-top:8px"> 打字题：共录入 <b>' + n + '</b> 字 · 准确率 <b>' + acc + '%</b> · 速度约 <b>' + speed + '</b> 字/分钟（不计入客观题分）</div>';
 }
 function resetExam() {
   examGraded = false; examSelections = {}; examResult.style.display = "none"; examResult.innerHTML = ""; examQuestions.innerHTML = "";
@@ -1856,11 +1856,11 @@ document.getElementById("siteSubtitle").textContent = CONFIG.subtitle + (CONFIG.
   var row = document.getElementById("regionsRow");
   if (!row) return;
   var withData = CONFIG.regionsWithData || [];
-  var h = '<span class="region-chip"><span class="chip-icon">📍</span>适用地区</span>';
+  var h = '<span class="region-chip"><span class="chip-icon"></span>适用地区</span>';
   for (var i = 0; i < regions.length; i++) {
     var has = withData.indexOf(regions[i]) !== -1;
     if (has) {
-      h += '<span class="region-chip"><span class="chip-icon">✅</span>' + escapeHtml(regions[i]) + '</span>';
+      h += '<span class="region-chip"><span class="chip-icon"></span>' + escapeHtml(regions[i]) + '</span>';
     } else {
       h += '<span class="region-chip muted">' + escapeHtml(regions[i]) + '</span>';
     }
@@ -1876,7 +1876,7 @@ if (CONFIG.themeColor) {
 }
 
 // 封面头像（可选）：超长 base64 会阻塞首屏，自动回退到轻量 SVG
-function lightCover(){ return "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%231e3a5f'/%3E%3Ctext x='50' y='64' font-size='44' text-anchor='middle' fill='%23fff'%3E🚔%3C/text%3E%3C/svg%3E"; }
+function lightCover(){ return "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%231e3a5f'/%3E%3Ctext x='50' y='64' font-size='44' text-anchor='middle' fill='%23fff'%3E%3C/text%3E%3C/svg%3E"; }
 function safeCover(src){ return (src && src.length > 8192) ? lightCover() : src; }
 if (CONFIG.cover) {
   var _hc = document.querySelector('.header-content');
@@ -1908,16 +1908,16 @@ if (!_mRecord) {
   _hide('voiceLogSavedHint');    // 录音已保存提示
   // 随机按钮文案改为通用（去掉"开口练"）
   var _rb = document.getElementById('randomBtn');
-  if (_rb) _rb.textContent = '🎲 随机抽题';
+  if (_rb) _rb.textContent = ' 随机抽题';
   // 弹窗标题改为通用（去掉"开口录音演练"）
   var _rmt = document.querySelector('#randomModal .random-modal-header h3');
-  if (_rmt) _rmt.textContent = '🎲 随机抽题';
+  if (_rmt) _rmt.textContent = ' 随机抽题';
 }
 
 // 闲鱼文案（仅开启时才有意义）
 document.getElementById("promoTitle").textContent = CONFIG.promoTitle;
 document.getElementById("promoText").innerHTML = CONFIG.promoText;
-var _px = document.getElementById("promoXianyu"); if (_px) _px.textContent = "📋 复制作者ID：" + CONFIG.xianyuCode;
+var _px = document.getElementById("promoXianyu"); if (_px) _px.textContent = " 复制作者ID：" + CONFIG.xianyuCode;
 var _xt = document.getElementById("xtCode"); if (_xt) _xt.textContent = CONFIG.xianyuCode;
 
 // 打赏文案与赞赏码（仅 reward 开启时有意义）
@@ -1978,7 +1978,7 @@ if (_footer) {
 
 window.addEventListener("DOMContentLoaded", function () {
   if (!hasW && !hasI && !G_DATA.length) {
-    document.getElementById("questionsList").innerHTML = '<div class="no-result">⚠️ 未找到题目数据。请确认同目录存在 station-data.js（由 build 生成）。</div>';
+    document.getElementById("questionsList").innerHTML = '<div class="no-result"> 未找到题目数据。请确认同目录存在 station-data.js（由 build 生成）。</div>';
     return;
   }
   buildModeTabs();
@@ -1994,7 +1994,7 @@ window.addEventListener("DOMContentLoaded", function () {
       { label: '吸气…', dur: 4000 },
       { label: '屏住…', dur: 2000 },
       { label: '呼气…', dur: 5000 },
-      { label: '放松 ✓', dur: 1000 }
+      { label: '放松 ', dur: 1000 }
     ];
     var running = false, timer = null, phaseIdx = 0;
     circle.addEventListener('click', function () {
@@ -2111,11 +2111,11 @@ window.addEventListener("DOMContentLoaded", function () {
     var vs = document.getElementById("aiVoiceSection");
     if (vs) vs.style.display = (MODE === "interview") ? "block" : "none";
     var title = document.querySelector(".ai-settings-title");
-    if (title) title.textContent = "⚙️ 设置";
-    if (btn) btn.textContent = "⚙️ 设置";
+    if (title) title.textContent = " 设置";
+    if (btn) btn.textContent = " 设置";
     // 折叠分组标题随模式变化：面试含语音转写，笔试仅 AI 分析
     var cfgHead = document.querySelector("#aiCfgGroup .ai-collapsible-head > span:first-child");
-    if (cfgHead) cfgHead.textContent = (MODE === "interview") ? "🎙️ 语音 & AI 点评设置（自备 Key）" : "🤖 AI 分析设置（自备 Key）";
+    if (cfgHead) cfgHead.textContent = (MODE === "interview") ? " 语音 & AI 点评设置（自备 Key）" : " AI 分析设置（自备 Key）";
   }
   // 设置弹窗分组折叠（默认自动折叠，画面更简洁）
   function setAiCollapse(id, open) {
@@ -2197,22 +2197,22 @@ window.addEventListener("DOMContentLoaded", function () {
     var key = (document.getElementById("aiApiKey").value || "").trim();
     var model = (document.getElementById("aiModel").value || "").trim();
     var resEl = document.getElementById("aiTestResult");
-    if (!key) { resEl.style.color = "#dc2626"; resEl.textContent = "❌ 请先填 API Key"; return; }
-    if (!model) { resEl.style.color = "#dc2626"; resEl.textContent = "❌ 请先填模型名"; return; }
-    if (!rawUrl) { resEl.style.color = "#dc2626"; resEl.textContent = "❌ 请先填 API Base URL（需 https:// 开头）"; return; }
+    if (!key) { resEl.style.color = "#dc2626"; resEl.textContent = " 请先填 API Key"; return; }
+    if (!model) { resEl.style.color = "#dc2626"; resEl.textContent = " 请先填模型名"; return; }
+    if (!rawUrl) { resEl.style.color = "#dc2626"; resEl.textContent = " 请先填 API Base URL（需 https:// 开头）"; return; }
     var baseUrl = normalizeBaseUrl(rawUrl);
     var modelsUrl = baseUrl + "/models";
     var chatUrl = baseUrl + "/chat/completions";
-    resEl.style.color = "#6b7280"; resEl.textContent = "⏳ 第一步：探测 /models ...";
+    resEl.style.color = "#6b7280"; resEl.textContent = " 第一步：探测 /models ...";
     testBtn.disabled = true;
     var settled = false;
     function finish(color, text) { if (settled) return; settled = true; resEl.style.color = color; resEl.textContent = text; testBtn.disabled = false; }
     function explain(err, step) {
       var msg = String(err.message || err || "");
-      if (/timeout|超时|timed out/i.test(msg)) return "❌ " + step + " 超时：请检查 URL、本机外网连接、代理/防火墙。";
-      if (/Failed to fetch|NetworkError|Network request failed|Failed to load/i.test(msg)) return "❌ " + step + " 网络失败：请检查 URL 是否以 https:// 开头、本机能否访问外网。";
-      if (/CORS|cross-origin|blocked by CORS/i.test(msg)) return "❌ " + step + " 跨域被拦截：线上环境一般正常，本地 file:// 打开可能受限。";
-      return "❌ " + step + " 失败：" + msg;
+      if (/timeout|超时|timed out/i.test(msg)) return " " + step + " 超时：请检查 URL、本机外网连接、代理/防火墙。";
+      if (/Failed to fetch|NetworkError|Network request failed|Failed to load/i.test(msg)) return " " + step + " 网络失败：请检查 URL 是否以 https:// 开头、本机能否访问外网。";
+      if (/CORS|cross-origin|blocked by CORS/i.test(msg)) return " " + step + " 跨域被拦截：线上环境一般正常，本地 file:// 打开可能受限。";
+      return " " + step + " 失败：" + msg;
     }
     function checkHttp(res, url) {
       if (res.ok) return res;
@@ -2228,7 +2228,7 @@ window.addEventListener("DOMContentLoaded", function () {
     fetchWithTimeout2(modelsUrl, { method: "GET", mode: "cors", headers: { "Accept": "application/json", "Authorization": "Bearer " + key } }, 6000)
       .then(function (res) { return checkHttp(res, modelsUrl); })
       .then(function () {
-        resEl.textContent = "⏳ 第二步：验证 Key+模型 /chat/completions ...";
+        resEl.textContent = " 第二步：验证 Key+模型 /chat/completions ...";
         return fetchWithTimeout2(chatUrl, {
           method: "POST", mode: "cors",
           headers: { "Content-Type": "application/json", "Authorization": "Bearer " + key },
@@ -2239,8 +2239,8 @@ window.addEventListener("DOMContentLoaded", function () {
       .then(function (res) { return res.json(); })
       .then(function (j) {
         var ans = (j.choices && j.choices[0] && j.choices[0].message && j.choices[0].message.content) || "";
-        if (ans) finish("#059669", "✅ 连接成功！模型回复：" + ans.slice(0, 30));
-        else finish("#b45309", "⚠️ 连接成功但返回为空（模型名可能不对）");
+        if (ans) finish("#059669", " 连接成功！模型回复：" + ans.slice(0, 30));
+        else finish("#b45309", " 连接成功但返回为空（模型名可能不对）");
       })
       .catch(function (err) { finish("#dc2626", explain(err, err.stepName || "验证 /chat/completions")); });
   });
@@ -2258,7 +2258,7 @@ window.addEventListener("DOMContentLoaded", function () {
     if (s.asrEngine !== "cloud" || !s.asr.key) return;
     if (transcriptNote) {
       transcriptNote.style.display = "block";
-      transcriptNote.textContent = "⏳ 正在调用云端语音识别...";
+      transcriptNote.textContent = " 正在调用云端语音识别...";
     }
     var fd = new FormData();
     fd.append("file", blob, "audio.mp3");
@@ -2276,7 +2276,7 @@ window.addEventListener("DOMContentLoaded", function () {
       .catch(function (err) {
         if (transcriptNote) {
           transcriptNote.style.display = "block";
-          transcriptNote.textContent = "⚠️ 云端识别失败：" + err.message + "（请填支持 /audio/transcriptions 的服务，推荐硅基流动 SenseVoice）";
+          transcriptNote.textContent = " 云端识别失败：" + err.message + "（请填支持 /audio/transcriptions 的服务，推荐硅基流动 SenseVoice）";
         }
       });
   }
@@ -2290,13 +2290,13 @@ window.addEventListener("DOMContentLoaded", function () {
     var s = loadAsr();
     var hasLlm = s.llm && s.llm.enabled && s.llm.key && s.llm.baseUrl && s.llm.model;
     if (hasLlm) {
-      // 配置完整 → 显示完整 AI 点评 UI
+      // 配置完整  显示完整 AI 点评 UI
       locked.style.display = "none";
       full.style.display = "";
       // 重新绑定事件（因为 DOM 可能被隐藏/显示切换过）
       bindAiReviewBtn();
     } else {
-      // 未配置 → 显示温和提示卡片
+      // 未配置  显示温和提示卡片
       locked.style.display = "";
       full.style.display = "none";
       var ub = document.getElementById("aiUnlockBtn");
@@ -2311,14 +2311,14 @@ window.addEventListener("DOMContentLoaded", function () {
     btn.parentNode.replaceChild(newBtn, btn);
     newBtn.addEventListener("click", function () {
       var s = loadAsr();
-      if (!s.llm.enabled) { showAiErr("AI 点评未启用：请点「⚙️ 语音 & AI 设置」勾选启用并填入 Key。"); return; }
+      if (!s.llm.enabled) { showAiErr("AI 点评未启用：请点「 语音 & AI 设置」勾选启用并填入 Key。"); return; }
       if (!s.llm.key || !s.llm.baseUrl || !s.llm.model) { showAiErr("AI 点评配置不完整：请补全 Base URL / Key / 模型名。"); return; }
       runAiReview(s);
     });
   }
   function showAiErr(msg) {
     var res = document.getElementById("aiReviewResult");
-    if (res) { res.style.display = "block"; res.style.color = "#dc2626"; res.innerHTML = "⚠️ " + msg; }
+    if (res) { res.style.display = "block"; res.style.color = "#dc2626"; res.innerHTML = " " + msg; }
   }
   window.showAiHint = showAiHint;
 
@@ -2335,11 +2335,11 @@ window.addEventListener("DOMContentLoaded", function () {
 
     var resultBox = document.getElementById("aiReviewResult");
     resultBox.style.display = "block";
-    resultBox.innerHTML = '<div class="ai-review-loading">⏳ AI 点评中…（取决于你的网络与模型速度）</div>';
+    resultBox.innerHTML = '<div class="ai-review-loading"> AI 点评中…（取决于你的网络与模型速度）</div>';
     var reviewBtn = document.getElementById("aiReviewBtn");
     if (reviewBtn) reviewBtn.disabled = true;
 
-    var sys = "你是深圳市公安局辅警招聘结构化面试的资深考官，具备多年一线测评经验。考生会针对抽取的题目做口头作答（已通过语音转写文字，可能有口语化、重复、卡顿，请忽略语音瑕疵，聚焦内容质量）。\n\n请结合题目、题型与参考答案要点，给出专业、可操作的点评，严格按以下四段结构输出：\n\n①【亮点】考生作答中哪怕极少的到位之处也要肯定，给信心。\n\n②【不足与标准示范】逐条指出遗漏或偏差；每条不足后紧跟一段『考官标准作答』片段作对照（标注『参考示范：』），让考生知道正确说法长什么样。若考生作答极短（如只说了一句套话就停），请直接在开头给出该题一段完整的标准作答模板，再分析不足。\n\n③【评分】按深圳辅警面试核心维度各打 0-10 分并给总分（满分自定需说明）：\n- 综合分析能力（能否抓核心矛盾、逻辑清晰）\n- 岗位匹配与职业认知（对辅警作为纪律部队辅助力量、协助执法、服务群众的职责理解）\n- 应急应变 / 计划组织协调（按题型适用维度给分，不适用注明『本题不考察』）\n- 语言表达（口述流畅度、条理性、用词）\n每个维度后补一句『达到 8 分需做到：…』。\n\n④【改进建议】给 1-2 条可立即执行的动作（如开口先表态定调，用『我对此深表…』强行起头打破卡壳）。\n\n要求：紧扣『深圳辅警』身份，点评中适当点出辅警纪律部队属性、协助执法与服务群众定位，引导考生把作答与岗位结合；具体有针对性，避免空话；考生未覆盖的参考答案要点必须明确指出；语气像真考官——专业直接能戳痛点，但给示范不给打击。";
+    var sys = "你是深圳市公安局辅警招聘结构化面试的资深考官，具备多年一线测评经验。考生会针对抽取的题目做口头作答（已通过语音转写文字，可能有口语化、重复、卡顿，请忽略语音瑕疵，聚焦内容质量）。\n\n请结合题目、题型与参考答案要点，给出专业、可操作的点评，严格按以下四段结构输出：\n\n【亮点】考生作答中哪怕极少的到位之处也要肯定，给信心。\n\n【不足与标准示范】逐条指出遗漏或偏差；每条不足后紧跟一段『考官标准作答』片段作对照（标注『参考示范：』），让考生知道正确说法长什么样。若考生作答极短（如只说了一句套话就停），请直接在开头给出该题一段完整的标准作答模板，再分析不足。\n\n【评分】按深圳辅警面试核心维度各打 0-10 分并给总分（满分自定需说明）：\n- 综合分析能力（能否抓核心矛盾、逻辑清晰）\n- 岗位匹配与职业认知（对辅警作为纪律部队辅助力量、协助执法、服务群众的职责理解）\n- 应急应变 / 计划组织协调（按题型适用维度给分，不适用注明『本题不考察』）\n- 语言表达（口述流畅度、条理性、用词）\n每个维度后补一句『达到 8 分需做到：…』。\n\n【改进建议】给 1-2 条可立即执行的动作（如开口先表态定调，用『我对此深表…』强行起头打破卡壳）。\n\n要求：紧扣『深圳辅警』身份，点评中适当点出辅警纪律部队属性、协助执法与服务群众定位，引导考生把作答与岗位结合；具体有针对性，避免空话；考生未覆盖的参考答案要点必须明确指出；语气像真考官——专业直接能戳痛点，但给示范不给打击。";
     var user = "【题目】\n" + stem + "\n\n【考生作答】\n" + answer;
 
     var url = normalizeBaseUrl(s.llm.baseUrl) + "/chat/completions";
@@ -2354,11 +2354,11 @@ window.addEventListener("DOMContentLoaded", function () {
       })
       .then(function (data) {
         var txt = (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) || "";
-        if (!txt) { resultBox.innerHTML = '<div class="ai-review-err">⚠️ 模型返回为空，可能是模型名在该平台未开通。请换一个模型。</div>'; return; }
-        resultBox.innerHTML = '<div class="ai-review-head2">🤖 AI 点评结果</div><div class="ai-review-body">' + escapeHtml(txt).replace(/\n/g, "<br>") + '</div>';
+        if (!txt) { resultBox.innerHTML = '<div class="ai-review-err"> 模型返回为空，可能是模型名在该平台未开通。请换一个模型。</div>'; return; }
+        resultBox.innerHTML = '<div class="ai-review-head2"> AI 点评结果</div><div class="ai-review-body">' + escapeHtml(txt).replace(/\n/g, "<br>") + '</div>';
       })
       .catch(function (err) {
-        resultBox.innerHTML = '<div class="ai-review-err">⚠️ AI 点评失败：' + escapeHtml(err.message) + '<br><br>排查：① Key 是否正确；② 账户是否有额度；③ 模型是否可访问；④ 浏览器能否访问该 API 域名（国内直连优先选硅基流动）。</div>';
+        resultBox.innerHTML = '<div class="ai-review-err"> AI 点评失败：' + escapeHtml(err.message) + '<br><br>排查： Key 是否正确； 账户是否有额度； 模型是否可访问； 浏览器能否访问该 API 域名（国内直连优先选硅基流动）。</div>';
       })
       .finally(function () { var rb = document.getElementById("aiReviewBtn"); if (rb) rb.disabled = false; });
   }
@@ -2423,13 +2423,13 @@ window.addEventListener("DOMContentLoaded", function () {
     var s = loadAsr();
     var resEl = document.getElementById("examAiResult");
     if (!resEl) return;
-    if (!(s.llm && s.llm.enabled)) { resEl.style.display = "block"; resEl.style.color = "#dc2626"; resEl.innerHTML = "⚠️ AI 分析未启用：请点「⚙️ 语音 & AI 设置」勾选启用并填入 Key。"; return; }
-    if (!s.llm.key || !s.llm.baseUrl || !s.llm.model) { resEl.style.display = "block"; resEl.style.color = "#dc2626"; resEl.innerHTML = "⚠️ AI 分析配置不完整：请补全 Base URL / Key / 模型名。"; return; }
+    if (!(s.llm && s.llm.enabled)) { resEl.style.display = "block"; resEl.style.color = "#dc2626"; resEl.innerHTML = " AI 分析未启用：请点「 语音 & AI 设置」勾选启用并填入 Key。"; return; }
+    if (!s.llm.key || !s.llm.baseUrl || !s.llm.model) { resEl.style.display = "block"; resEl.style.color = "#dc2626"; resEl.innerHTML = " AI 分析配置不完整：请补全 Base URL / Key / 模型名。"; return; }
     var btn = document.getElementById("examAiAnalyzeBtn");
     resEl.style.display = "block";
-    resEl.innerHTML = '<div class="ai-review-loading">⏳ AI 分析中…（取决于你的网络与模型速度）</div>';
+    resEl.innerHTML = '<div class="ai-review-loading"> AI 分析中…（取决于你的网络与模型速度）</div>';
     if (btn) btn.disabled = true;
-    var sys = "你是辅警笔试备考的智能教练，具备多年辅警/公安招考题库教研经验。用户刚提交了一套模拟卷的客观题作答数据，请你基于数据给出专业、可操作的分析，严格按以下四段结构输出：\n\n①【总体表现】用一句话总结本次模考水平，点出与合格线（通常 60%）的差距。\n\n②【题型强弱】结合各题型正确率，指出最薄弱的题型与最强题型，说明可能原因（如多选题漏选/错选、判断题概念混淆）。\n\n③【错因归类】把错题归为 2-4 类（如：法律条文记忆模糊、公安基础理论不清、审题粗心、时事政治盲区），每条给一句说明。\n\n④【针对性提分建议】给 2-3 条可立即执行的动作（如：重点刷『法律基础知识』模块的多选题、建立错题本每周复盘、判断题先用排除法）。\n\n要求：紧扣辅警笔试常见模块（法律基础知识、公安基础理论与实务、时事政治、职业道德与纪律要求、公文处理/计算机基础等）；具体有针对性，避免空话；不得承诺包过或通过率；语气专业且鼓励。";
+    var sys = "你是辅警笔试备考的智能教练，具备多年辅警/公安招考题库教研经验。用户刚提交了一套模拟卷的客观题作答数据，请你基于数据给出专业、可操作的分析，严格按以下四段结构输出：\n\n【总体表现】用一句话总结本次模考水平，点出与合格线（通常 60%）的差距。\n\n【题型强弱】结合各题型正确率，指出最薄弱的题型与最强题型，说明可能原因（如多选题漏选/错选、判断题概念混淆）。\n\n【错因归类】把错题归为 2-4 类（如：法律条文记忆模糊、公安基础理论不清、审题粗心、时事政治盲区），每条给一句说明。\n\n【针对性提分建议】给 2-3 条可立即执行的动作（如：重点刷『法律基础知识』模块的多选题、建立错题本每周复盘、判断题先用排除法）。\n\n要求：紧扣辅警笔试常见模块（法律基础知识、公安基础理论与实务、时事政治、职业道德与纪律要求、公文处理/计算机基础等）；具体有针对性，避免空话；不得承诺包过或通过率；语气专业且鼓励。";
     var user = buildExamAiPrompt();
     var url = normalizeBaseUrl(s.llm.baseUrl) + "/chat/completions";
     fetchWithTimeout2(url, {
@@ -2443,11 +2443,11 @@ window.addEventListener("DOMContentLoaded", function () {
       })
       .then(function (data) {
         var txt = (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) || "";
-        if (!txt) { resEl.innerHTML = '<div class="ai-review-err">⚠️ 模型返回为空，可能是模型名在该平台未开通。请换一个模型。</div>'; return; }
-        resEl.innerHTML = '<div class="ai-review-head2">🤖 AI 智能分析</div><div class="ai-review-body">' + escapeHtml(txt).replace(/\n/g, "<br>") + '</div>';
+        if (!txt) { resEl.innerHTML = '<div class="ai-review-err"> 模型返回为空，可能是模型名在该平台未开通。请换一个模型。</div>'; return; }
+        resEl.innerHTML = '<div class="ai-review-head2"> AI 智能分析</div><div class="ai-review-body">' + escapeHtml(txt).replace(/\n/g, "<br>") + '</div>';
       })
       .catch(function (err) {
-        resEl.innerHTML = '<div class="ai-review-err">⚠️ AI 分析失败：' + escapeHtml(err.message) + '<br><br>排查：① Key 是否正确；② 账户是否有额度；③ 模型是否可访问；④ 浏览器能否访问该 API 域名（国内直连优先选硅基流动）。</div>';
+        resEl.innerHTML = '<div class="ai-review-err"> AI 分析失败：' + escapeHtml(err.message) + '<br><br>排查： Key 是否正确； 账户是否有额度； 模型是否可访问； 浏览器能否访问该 API 域名（国内直连优先选硅基流动）。</div>';
       })
       .finally(function () { if (btn) btn.disabled = false; });
   };

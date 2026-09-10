@@ -9,8 +9,8 @@ window.RCJ_FEED = (function () {
     zh: '综合分析', zz: '组织管理', rg: '人际沟通', yy: '应急应变', zw: '自我认知', cj: '情景模拟', tz: '拓展题型'
   };
   var CAT_ICON = {
-    fj: '👮', fire: '🚒', comm: '🏘️', teacher: '📚', gk: '🏛️', gen: '💡',
-    zh: '🧠', zz: '🗂️', rg: '🤝', yy: '🚨', zw: '🪞', cj: '🎭', tz: '✨'
+    fj: '', fire: '', comm: '', teacher: '', gk: '', gen: '',
+    zh: '', zz: '', rg: '', yy: '', zw: '', cj: '', tz: ''
   };
 
   var TOPICS = [
@@ -122,7 +122,7 @@ window.RCJ_FEED = (function () {
   ];
 
   function labelOf(c) { return CAT_LABEL[c] || c; }
-  function iconOf(c) { return CAT_ICON[c] || '📋'; }
+  function iconOf(c) { return CAT_ICON[c] || ''; }
 
   // 随机抽一题
   function pick() {

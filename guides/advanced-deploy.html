@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>高阶玩法：绑定自己的域名 · 教学专区 · RCJ Exam Hub</title>
-  <meta name="description" content="进阶路线：用自己的域名（如 yourname.xyz）替换 xxx.pages.dev，免费把站点挂在独立品牌名下。流程：在 Spaceship 买域名 → DNS 托管到 Cloudflare → Cloudflare Pages 一键绑定。全程零服务器、无需备案。">
+  <meta name="description" content="进阶路线：用自己的域名（如 yourname.xyz）替换 xxx.pages.dev，免费把站点挂在独立品牌名下。流程：在 Spaceship 买域名  DNS 托管到 Cloudflare  Cloudflare Pages 一键绑定。全程零服务器、无需备案。">
   <link rel="stylesheet" href="assets/tutorial.css?v=20260814">
 </head>
 <body>
@@ -12,7 +12,7 @@
     <div class="nav">
       <a class="brand" href="/"><span><b>RCJ</b> Exam Hub</span></a>
       <div class="nav-actions">
-        <a class="back-link" href="index.html">← 教学专区</a>
+        <a class="back-link" href="index.html"> 教学专区</a>
       </div>
     </div>
   </header>
@@ -20,9 +20,9 @@
   <main class="article">
     <div class="breadcrumb"><a href="index.html">教学专区</a> / 高阶玩法：绑定自己的域名</div>
     <h1>高阶玩法：把站点挂到自己的域名下</h1>
-    <p class="lead">前面的课你已经用 <strong>Cloudflare Pages</strong> 把站点免费上线了，地址形如 <code>xxx.pages.dev</code>。再往前走一步——花十几块钱买个自己的域名（如 <code>yourname.xyz</code>），就能让访客记在独立品牌名下。本篇按<strong>已经走通的实际路径</strong>写：在 <strong>Spaceship</strong> 买域名 → DNS 托管到 <strong>Cloudflare</strong> → <strong>Cloudflare Pages</strong> 一键绑定。无需服务器、无需备案。</p>
+    <p class="lead">前面的课你已经用 <strong>Cloudflare Pages</strong> 把站点免费上线了，地址形如 <code>xxx.pages.dev</code>。再往前走一步——花十几块钱买个自己的域名（如 <code>yourname.xyz</code>），就能让访客记在独立品牌名下。本篇按<strong>已经走通的实际路径</strong>写：在 <strong>Spaceship</strong> 买域名  DNS 托管到 <strong>Cloudflare</strong>  <strong>Cloudflare Pages</strong> 一键绑定。无需服务器、无需备案。</p>
 
-    <div class="callout warn"><span class="cic">⚠️</span><p class="ctext">本篇只覆盖「<strong>静态站 + 自定义域名</strong>」这条最常见的高阶路径。如果你要跑后端 / 数据库 / 自建 API 中转，那是另一个话题（需要 VPS + Nginx + 运维），不在本页范围内——而且那条路成本高、运维累，普通人没必要碰。</p></div>
+    <div class="callout warn"><span class="cic"></span><p class="ctext">本篇只覆盖「<strong>静态站 + 自定义域名</strong>」这条最常见的高阶路径。如果你要跑后端 / 数据库 / 自建 API 中转，那是另一个话题（需要 VPS + Nginx + 运维），不在本页范围内——而且那条路成本高、运维累，普通人没必要碰。</p></div>
 
     <nav class="toc">
       <div class="toc-title">本篇目录</div>
@@ -51,7 +51,7 @@
       <li>官网：<a href="https://www.spaceship.com/" target="_blank" rel="noopener">spaceship.com</a></li>
       <li>支持支付宝 / 微信 / 信用卡 / PayPal，国内付款无门槛。</li>
       <li>常见 <code>.xyz</code> 后缀首年只要几美元（续费会涨到 10 美元左右），<code>.com</code> 通常 8–10 美元/年。</li>
-      <li>购买流程：搜想要的域名 → 加购物车 → 注册 / 登录 Spaceship 账号 → 选年限 → 付款 → 进后台 <strong>Domains</strong> 看到已购域名。</li>
+      <li>购买流程：搜想要的域名  加购物车  注册 / 登录 Spaceship 账号  选年限  付款  进后台 <strong>Domains</strong> 看到已购域名。</li>
     </ul>
 
     <h3>备选方案</h3>
@@ -61,9 +61,9 @@
       <li><strong>NameSilo / Porkbun / Namecheap</strong>：老牌国外注册商，价格实惠、<strong>免费 WHOIS 隐私保护</strong>（默认挡住你的注册人信息）。</li>
     </ul>
 
-    <div class="callout tip"><span class="cic">💡</span><p class="ctext">新手首推 <strong>.xyz</strong> 后缀：便宜、好记、不限制注册人；<code>.com</code> 经典但首年常被「首年特价、续费涨」套路，结算前要看清<strong>续费价</strong>，别只看首年。</p></div>
+    <div class="callout tip"><span class="cic"></span><p class="ctext">新手首推 <strong>.xyz</strong> 后缀：便宜、好记、不限制注册人；<code>.com</code> 经典但首年常被「首年特价、续费涨」套路，结算前要看清<strong>续费价</strong>，别只看首年。</p></div>
 
-    <div class="callout warn"><span class="cic">⚠️</span><p class="ctext">买之前先用搜索引擎查一下这个域名有没有「黑历史」——曾被用于违规站点、灰色行业的域名会影响后续收录和信任度，搜索引擎不一定恢复排名。</p></div>
+    <div class="callout warn"><span class="cic"></span><p class="ctext">买之前先用搜索引擎查一下这个域名有没有「黑历史」——曾被用于违规站点、灰色行业的域名会影响后续收录和信任度，搜索引擎不一定恢复排名。</p></div>
 
     <h2 id="dns">三、第二步：DNS 托管到 Cloudflare</h2>
     <p>买完域名后，DNS 默认在 Spaceship 解析。但 Cloudflare 的 DNS 是<strong>免费</strong>的、性能更好，还能一键给 Pages 上 HTTPS。所以把域名的「NS 记录」改成 Cloudflare 给你的两个地址，DNS 就由 Cloudflare 管了。</p>
@@ -71,33 +71,33 @@
     <h3>在 Cloudflare 添加站点</h3>
     <ol class="steps">
       <li class="step"><h3>注册 / 登录 Cloudflare</h3><p>打开 <a href="https://dash.cloudflare.com/" target="_blank" rel="noopener">dash.cloudflare.com</a>，用邮箱注册或登录。</p></li>
-      <li class="step"><h3>添加站点</h3><p>点 <strong>Add a site</strong> → 输入你刚买的域名（如 <code>yourname.xyz</code>）→ 选 <strong>Free</strong> 计划。</p></li>
+      <li class="step"><h3>添加站点</h3><p>点 <strong>Add a site</strong>  输入你刚买的域名（如 <code>yourname.xyz</code>） 选 <strong>Free</strong> 计划。</p></li>
       <li class="step"><h3>Cloudflare 扫描现有解析</h3><p>点 <strong>Continue</strong>，Cloudflare 会自动扫描 Spaceship 已有的解析记录（如 <code>www</code>、<code>@</code>）。先按默认继续，后面绑定 Pages 时 Cloudflare 会自动加正确的 CNAME。</p></li>
       <li class="step"><h3>拿到 Cloudflare 的 NS 记录</h3><p>Cloudflare 给你两个 NS 地址（形如 <code>ada.ns.cloudflare.com</code>、<code>bob.ns.cloudflare.com</code>），<strong>复制下来</strong>。</p></li>
     </ol>
 
     <h3>在 Spaceship 把 NS 改成 Cloudflare</h3>
     <ol class="steps">
-      <li class="step"><h3>登录 Spaceship 后台</h3><p>在 <strong>Domains</strong> 列表里找到你的域名 → 点 <strong>Manage</strong>。</p></li>
+      <li class="step"><h3>登录 Spaceship 后台</h3><p>在 <strong>Domains</strong> 列表里找到你的域名  点 <strong>Manage</strong>。</p></li>
       <li class="step"><h3>修改 Nameservers</h3><p>在 <strong>Nameservers</strong> 项，把默认的 Spaceship NS（形如 <code>ns1.spaceship.com</code>）<strong>删掉</strong>，填上 Cloudflare 给你的两个 NS 地址。</p></li>
       <li class="step"><h3>保存并等待生效</h3><p>通常几分钟到几小时生效。Cloudflare 后台的域名会从 <strong>Pending</strong> 变成 <strong>Active</strong>，说明接管成功。</p></li>
     </ol>
 
-    <div class="callout note"><span class="cic">📌</span><p class="ctext">NS 修改是「域名所有权交接」级别的操作——改完后，域名解析<strong>完全由 Cloudflare 说了算</strong>，Spaceship 这边不再提供 DNS 编辑功能（要加解析记录就得去 Cloudflare）。所以改之前先确认 Cloudflare 已扫到你之前重要的解析记录。</p></div>
+    <div class="callout note"><span class="cic"></span><p class="ctext">NS 修改是「域名所有权交接」级别的操作——改完后，域名解析<strong>完全由 Cloudflare 说了算</strong>，Spaceship 这边不再提供 DNS 编辑功能（要加解析记录就得去 Cloudflare）。所以改之前先确认 Cloudflare 已扫到你之前重要的解析记录。</p></div>
 
     <h2 id="pages">四、第三步：在 Cloudflare Pages 绑定自定义域名</h2>
     <p>NS 生效后，回到 Cloudflare Pages 控制台，给已有项目加一个 Custom domain 就完事了。</p>
 
     <ol class="steps">
-      <li class="step"><h3>进入 Pages 项目</h3><p>Cloudflare 左侧菜单点 <strong>Workers & Pages</strong> → 选中你已经部署好的 Pages 项目。</p></li>
-      <li class="step"><h3>添加自定义域</h3><p>点 <strong>Custom domains</strong> → <strong>Set up a custom domain</strong>，输入 <code>yourname.xyz</code>。建议把 <code>www.yourname.xyz</code> 也一起加上，CF 会自动做重定向。</p></li>
+      <li class="step"><h3>进入 Pages 项目</h3><p>Cloudflare 左侧菜单点 <strong>Workers & Pages</strong>  选中你已经部署好的 Pages 项目。</p></li>
+      <li class="step"><h3>添加自定义域</h3><p>点 <strong>Custom domains</strong>  <strong>Set up a custom domain</strong>，输入 <code>yourname.xyz</code>。建议把 <code>www.yourname.xyz</code> 也一起加上，CF 会自动做重定向。</p></li>
       <li class="step"><h3>Cloudflare 自动配置</h3><p>由于 DNS 已经在 Cloudflare 托管，它会<strong>自动添加 CNAME 解析</strong>指向你的 Pages 项目，并<strong>自动签发免费证书</strong>（Universal SSL）——这两步你什么都不用做。</p></li>
       <li class="step"><h3>等待 + 验证</h3><p>几秒到几分钟，状态变成 <strong>Active</strong> 即可。浏览器打开 <code>https://yourname.xyz</code> 能看到你的站点就成功了。</p></li>
     </ol>
 
-    <div class="callout tip"><span class="cic">🚀</span><p class="ctext">想强制全部走 HTTPS？在 Cloudflare 域名后台 → <strong>SSL/TLS</strong> → 选 <strong>Full (Strict)</strong>，再开启 <strong>Always Use HTTPS</strong>，访客输入 <code>http://</code> 也会被自动 301 到 <code>https://</code>。</p></div>
+    <div class="callout tip"><span class="cic"></span><p class="ctext">想强制全部走 HTTPS？在 Cloudflare 域名后台  <strong>SSL/TLS</strong>  选 <strong>Full (Strict)</strong>，再开启 <strong>Always Use HTTPS</strong>，访客输入 <code>http://</code> 也会被自动 301 到 <code>https://</code>。</p></div>
 
-    <div class="callout note"><span class="cic">📋</span><p class="ctext">配置生效后若页面没更新，请按 <strong>Ctrl+F5</strong>（Mac：Cmd+Shift+R）<strong>硬刷新</strong>清除浏览器缓存。</p></div>
+    <div class="callout note"><span class="cic"></span><p class="ctext">配置生效后若页面没更新，请按 <strong>Ctrl+F5</strong>（Mac：Cmd+Shift+R）<strong>硬刷新</strong>清除浏览器缓存。</p></div>
 
     <h2 id="cost">五、成本与常见问题</h2>
 
@@ -118,11 +118,11 @@ SSL 证书：Cloudflare Universal SSL 自动签发，免费
       <li><strong>一个域名能绑多个 Pages 项目吗？</strong>可以，用<strong>子域名</strong>区分：如 <code>blog.yourname.xyz</code> 给博客、<code>tools.yourname.xyz</code> 给工具站，每个子域名在对应 Pages 项目里绑一次就行。</li>
     </ul>
 
-    <div class="callout note"><span class="cic">📌</span><p class="ctext">本教学专区所有内容免费公开。域名注册请通过 Spaceship / Cloudflare / 各厂商<strong>官方渠道</strong>，谨防仿冒钓鱼站。</p></div>
+    <div class="callout note"><span class="cic"></span><p class="ctext">本教学专区所有内容免费公开。域名注册请通过 Spaceship / Cloudflare / 各厂商<strong>官方渠道</strong>，谨防仿冒钓鱼站。</p></div>
 
     <div class="pager">
-      <a class="prev" href="build-site.html"><div class="plabel">← 上一篇</div><div class="ptitle">零成本搭建你的个人站点</div></a>
-      <a class="next" href="index.html"><div class="plabel">返回 →</div><div class="ptitle">教学专区首页</div></a>
+      <a class="prev" href="build-site.html"><div class="plabel"> 上一篇</div><div class="ptitle">零成本搭建你的个人站点</div></a>
+      <a class="next" href="index.html"><div class="plabel">返回 </div><div class="ptitle">教学专区首页</div></a>
     </div>
   </main>
 

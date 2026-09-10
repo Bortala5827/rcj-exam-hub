@@ -2,16 +2,16 @@
 // 部署后由 Cloudflare 自动对每个请求执行。
 //
 // 计数方案（两档自动切换）：
-//   ★ 真·按 IP 硬限制（D1）：在 Cloudflare 后台把 D1 数据库绑定到本函数(绑定名 DB)后，
+//    真·按 IP 硬限制（D1）：在 Cloudflare 后台把 D1 数据库绑定到本函数(绑定名 DB)后，
 //     自动按访客 IP 记当日浏览页数。优点：清 Cookie / 开无痕 / 换浏览器都绕不过，最硬。
-//   ★ 回退·Cookie 软限制：未绑定 D1 时，用浏览器 Cookie 记当日页数（零配置，push 即生效）。
+//    回退·Cookie 软限制：未绑定 D1 时，用浏览器 Cookie 记当日页数（零配置，push 即生效）。
 //     缺点：访客清 Cookie 可重置（足够拦住大部分白嫖党）。
 //
 // 作者本人永不被限（优先级从高到低）：
-//   1) ALLOW_IPS：在 Cloudflare 后台 Settings→Functions 环境变量设 ALLOW_IPS=你的IP(逗号分隔)，
+//   1) ALLOW_IPS：在 Cloudflare 后台 SettingsFunctions 环境变量设 ALLOW_IPS=你的IP(逗号分隔)，
 //      该 IP 直接放行——【私密、最安全、推荐】。
 //   2) VIP 密钥：访问一次 https://你的域名/sz/?vip=VIP_SECRET 即种下免限制 Cookie(rcj_vip=1)，全站永不被限。
-//      ⚠️ 此密钥写在公开仓库里属「软豁免」，懂行的人也能 ?vip= 自豁免；故优先用 ALLOW_IPS。
+//       此密钥写在公开仓库里属「软豁免」，懂行的人也能 ?vip= 自豁免；故优先用 ALLOW_IPS。
 //
 // 计数范围：仅统计「HTML 页面导航(GET)」，静态资源(js/css/png/json/...)不计数，省开销且不影响加载。
 
@@ -28,25 +28,25 @@ const LIMIT_HTML = `<!doctype html><html lang="zh-CN"><head><meta charset="utf-8
   .b{display:inline-block;margin-top:20px;background:#1e3a5f;color:#fff;padding:11px 20px;border-radius:11px;text-decoration:none;font-size:14px;font-weight:600}
   .b:hover{opacity:.92}
 </style></head><body><div class="box">
-  <div class="emoji">🚧</div>
+  <div class="emoji"></div>
   <h1 class="t">今日免费体验已达上限</h1>
   <p class="d">本开源题库为<b>引流体验版</b>，每位访客每日可免费浏览若干次。<br><br>
   需要<b>全量真题 + AI 智能点评（录音即出分）+ 离线无广告版</b>，请前往 <b>shop</b> 获取完整版。</p>
-  <a class="b" href="https://shop.955827.xyz/" target="_blank" rel="noopener">前往 shop →</a>
+  <a class="b" href="https://shop.955827.xyz/" target="_blank" rel="noopener">前往 shop </a>
 </div></body></html>`;
 
 // ============ 定时下线（到点自动锁站）============
 // 下线时间（毫秒时间戳）。
-//   ★ 0 = 功能关闭（不挂横幅、不锁站）。
-//   ★ 当前状态：已关闭——改用「3 天试用期」方案（见下方 TRIAL 逻辑），网站恢复开放。
-//   ★ 想启用：改成目标时刻毫秒时间戳再 push，或 Cloudflare 后台设环境变量 OFFLINE_AT 覆盖。
+//    0 = 功能关闭（不挂横幅、不锁站）。
+//    当前状态：已关闭——改用「3 天试用期」方案（见下方 TRIAL 逻辑），网站恢复开放。
+//    想启用：改成目标时刻毫秒时间戳再 push，或 Cloudflare 后台设环境变量 OFFLINE_AT 覆盖。
 const OFFLINE_AT_DEFAULT = 0;
 
 // ============ 3 天试用期（防长期白嫖，不影响新访客体验）============
 // 首次访问时种 rcj_trial Cookie 记录时间戳；满 TRIAL_DAYS 天后 HTML 导航一律返回「试用结束」页。
-//   ★ 天数可在 Cloudflare 后台用环境变量 TRIAL_DAYS 覆盖（无需改代码）。
-//   ★ 软限制：清 Cookie / 换浏览器可重置（与每日限额同级别，足够拦住大部分白嫖党）。
-//   ★ VIP / ALLOW_IPS 豁免；离线版 file:// 打开不经过 Cloudflare，天然免疫。
+//    天数可在 Cloudflare 后台用环境变量 TRIAL_DAYS 覆盖（无需改代码）。
+//    软限制：清 Cookie / 换浏览器可重置（与每日限额同级别，足够拦住大部分白嫖党）。
+//    VIP / ALLOW_IPS 豁免；离线版 file:// 打开不经过 Cloudflare，天然免疫。
 const TRIAL_DAYS_DEFAULT = 0; // 0 = 关闭试用期限制，页面不再显示「试用结束」与顶部试用条
 
 // —— 试用期结束页（极简，只留引流）——
@@ -63,10 +63,10 @@ const TRIAL_HTML = `<!doctype html><html lang="zh-CN"><head><meta charset="utf-8
   .b{display:inline-block;margin-top:22px;background:#1e3a5f;color:#fff;padding:12px 22px;border-radius:11px;text-decoration:none;font-size:14px;font-weight:600}
   .b:hover{opacity:.92}
 </style></head><body><div class="box">
-  <div class="emoji">⏳</div>
+  <div class="emoji"></div>
   <h1 class="t">免费试用已结束</h1>
   <p class="d">3 天在线试用期已满。<br>需继续使用请获取<b>离线完整版</b>（全量真题·AI 点评·永久使用）。<br>获取方式：前往 shop</p>
-  <a class="b" href="https://shop.955827.xyz/" target="_blank" rel="noopener">前往 shop →</a>
+  <a class="b" href="https://shop.955827.xyz/" target="_blank" rel="noopener">前往 shop </a>
 </div></body></html>`;
 
 // —— 试用期内注入页面顶部的提示条（琥珀色，实时倒计时到分钟，促转化不刺眼）——
@@ -83,7 +83,7 @@ function trialBannerHtml(trialEnd) {
     + '#rcjTrialBar a{color:#fff;text-decoration:underline;font-weight:700;white-space:nowrap}'
     + '@media(max-width:520px){#rcjTrialBar{font-size:12px;padding:6px 10px}}'
     + '</style>'
-    + '<div id="rcjTrialBar">🎁 免费试用中 · 剩余 <b id="rcjTrialCd">--</b>'
+    + '<div id="rcjTrialBar"> 免费试用中 · 剩余 <b id="rcjTrialCd">--</b>'
     + ' · 长期使用请获取离线完整版（前往 '
     + '<a href="https://shop.955827.xyz/" target="_blank" rel="noopener">shop</a>）</div>'
     + '<script>(function(){var T=' + trialEnd + ';'
@@ -128,10 +128,10 @@ const OFFLINE_HTML = `<!doctype html><html lang="zh-CN"><head><meta charset="utf
   .b{display:inline-block;margin-top:22px;background:#1e3a5f;color:#fff;padding:12px 22px;border-radius:11px;text-decoration:none;font-size:14px;font-weight:600}
   .b:hover{opacity:.92}
 </style></head><body><div class="box">
-  <div class="emoji">🛠️</div>
+  <div class="emoji"></div>
   <h1 class="t">网站升级维护中</h1>
   <p class="d">在线版暂停开放。<br><b>离线完整版不受影响</b>，可正常刷题，联网即可使用 AI 点评。<br>获取离线完整版：前往 shop</p>
-  <a class="b" href="https://shop.955827.xyz/" target="_blank" rel="noopener">前往 shop →</a>
+  <a class="b" href="https://shop.955827.xyz/" target="_blank" rel="noopener">前往 shop </a>
 </div></body></html>`;
 
 // —— 到期前注入到每个在线页面顶部的「倒计时横幅」（红色，实时倒计时，促转化）——
@@ -148,7 +148,7 @@ function bannerHtml(offlineAt) {
     + '#rcjOfflineBar a{color:#fff;text-decoration:underline;font-weight:700;white-space:nowrap}'
     + '@media(max-width:520px){#rcjOfflineBar{font-size:12px;padding:7px 10px}}'
     + '</style>'
-    + '<div id="rcjOfflineBar">🛠️ 本站即将进入升级维护、在线版暂停开放 · 剩余 '
+    + '<div id="rcjOfflineBar"> 本站即将进入升级维护、在线版暂停开放 · 剩余 '
     + '<b id="rcjOfflineCd">--:--:--</b> · 需长期使用请获取离线完整版（前往 '
     + '<a href="https://shop.955827.xyz/" target="_blank" rel="noopener">shop</a>）</div>'
     + '<script>(function(){var T=' + offlineAt + ';'
@@ -175,7 +175,7 @@ function injectBanner(res, offlineAt) {
 }
 
 // ============ 访客统计 & 爬虫过滤 ============
-// 命中已知爬虫 / 空 UA → 视为「非真人」，跳过试用 / 限额计数（仍正常返回页面，不影响收录）。
+// 命中已知爬虫 / 空 UA  视为「非真人」，跳过试用 / 限额计数（仍正常返回页面，不影响收录）。
 function isBot(req) {
   const ua = (req.headers.get("user-agent") || "").toLowerCase();
   if (!ua) return true; // 空 UA 几乎都是脚本 / 工具
@@ -189,7 +189,7 @@ function isBot(req) {
 
 // 若 Cloudflare 后台设了 GA4_ID 环境变量，则向每个 HTML 页面注入 Google Analytics（GA4），
 // 用于查看真实「独立访客数 / 活跃用户 / 新老用户」——Cloudflare Web Analytics 免费版无此指标。
-// ⚠️ ID 放环境变量（不进公开仓库），更安全；未设置则不注入（零副作用）。
+//  ID 放环境变量（不进公开仓库），更安全；未设置则不注入（零副作用）。
 function injectGa4(res, ga4Id) {
   if (!ga4Id) return res;
   const ct = res.headers.get("content-type") || "";
@@ -217,7 +217,7 @@ export async function onRequest(context) {
   const cookie = request.headers.get("cookie") || "";
 
   // 配置（硬编码默认值，确保部署即生效；若 Cloudflare 后台设了同名环境变量则优先覆盖）
-  // ⚠️ VIP_SECRET 写在公开仓库里，属「软豁免」；真正私有豁免请用 ALLOW_IPS。
+  //  VIP_SECRET 写在公开仓库里，属「软豁免」；真正私有豁免请用 ALLOW_IPS。
   const VIP_SECRET = (env && env.VIP_SECRET) || "rcj9527-vip-KZ9qu6kWkSH1uujsbn_3_QL6";
   const DAILY_LIMIT = parseInt((env && env.DAILY_LIMIT) || "30", 10);
   const allowIps = (env && env.ALLOW_IPS)
@@ -248,7 +248,7 @@ export async function onRequest(context) {
     url.pathname
   );
 
-  // —— ★ 定时下线：到点后，非作者的 HTML 页面导航一律返回「已停服」页；
+  // ——  定时下线：到点后，非作者的 HTML 页面导航一律返回「已停服」页；
   //    静态资源放行（停服页全内联、不依赖它们，放行也无妨）。作者(VIP/ALLOW_IPS)上面已放行，不受影响。——
   const OFFLINE_AT = parseInt((env && env.OFFLINE_AT) || String(OFFLINE_AT_DEFAULT), 10) || 0;
   if (OFFLINE_AT > 0 && Date.now() >= OFFLINE_AT) {
@@ -267,7 +267,7 @@ export async function onRequest(context) {
   // —— 3.5) 爬虫 / 空 UA：跳过试用与限额计数（仍正常返回页面）——
   if (isBot(request)) return next();
 
-  // —— ★ 3 天试用期检查：首次访问记时间戳，到期返回「试用结束」页 ——
+  // ——  3 天试用期检查：首次访问记时间戳，到期返回「试用结束」页 ——
   // TRIAL_DAYS <= 0 时关闭试用期限制（页面不再显示试用结束与顶部提示条）。
   const TRIAL_DAYS = parseInt((env && env.TRIAL_DAYS) || String(TRIAL_DAYS_DEFAULT), 10);
   let trialStart = 0, trialEnd = 0;
@@ -287,7 +287,7 @@ export async function onRequest(context) {
 
   // —— 4) 每日访问计数 ——
   const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD (UTC)
-  const db = getDB(env); // 后台绑定 D1(绑定名 DB)后存在 → 按 IP 硬限制
+  const db = getDB(env); // 后台绑定 D1(绑定名 DB)后存在  按 IP 硬限制
 
   if (db) {
     // ===== 真·按 IP 硬限制（D1）=====

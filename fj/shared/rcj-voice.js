@@ -13,7 +13,7 @@
  *     onDownload: function(blob, id){...},
  *     onUpdateNote: function(id, note){...}
  *   });
- *   RCJVoice.GUIDE.afterRecord('首屏「🎙️ 我的练习录音」') -> 引导语
+ *   RCJVoice.GUIDE.afterRecord('首屏「 我的练习录音」') -> 引导语
  */
 (function () {
   'use strict';
@@ -89,7 +89,7 @@
     if (!items.length) {
       var empty = document.createElement('div');
       empty.className = 'voice-log-empty';
-      empty.textContent = opts.emptyText || '暂无录音，点「🎲 随机抽题」开口练一练吧';
+      empty.textContent = opts.emptyText || '暂无录音，点「 随机抽题」开口练一练吧';
       listEl.appendChild(empty);
       return;
     }
@@ -123,11 +123,11 @@
       } else { audio.controls = false; }
 
       var dl = document.createElement('button'); dl.type = 'button'; dl.className = 'voice-log-dl';
-      dl.textContent = '⬇️'; dl.title = '下载到本机（免费，存到你自己的设备）';
+      dl.textContent = ''; dl.title = '下载到本机（免费，存到你自己的设备）';
       dl.onclick = function () { if (opts.onDownload) opts.onDownload(it.blob, it.id); };
 
       var del = document.createElement('button'); del.type = 'button'; del.className = 'voice-log-del';
-      del.textContent = '🗑'; del.title = '删除这条录音';
+      del.textContent = ''; del.title = '删除这条录音';
       del.onclick = function () { if (opts.onDelete) opts.onDelete(it.id); };
 
       // 备注：blur 即存（卡壳点 / 改进方向）
@@ -151,7 +151,7 @@
   // 录音结束引导语：各站统一文案，where 描述录音存到哪
   var GUIDE = {
     afterRecord: function (where) {
-      return '✅ 已保存到' + (where || '本机练习日志') + '，随时回放全部练习';
+      return ' 已保存到' + (where || '本机练习日志') + '，随时回放全部练习';
     }
   };
 

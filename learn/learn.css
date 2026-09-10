@@ -51,7 +51,7 @@ body {
 .ln-stage {
   max-width: 480px; margin: 0 auto; padding: 28px 16px 110px;
   /* 撑过一屏：页面必须可滚动，手机原生下拉刷新才会触发（此前 min-height 只到 100dvh-120px，
-     加上顶栏刚好卡在视口内 → 页面不可滚动 → 下拉刷新彻底失效） */
+     加上顶栏刚好卡在视口内  页面不可滚动  下拉刷新彻底失效） */
   min-height: calc(100dvh - 20px);
 }
 /* 「我的」视图：内部滚动容器，锁定高度防溢出；牌堆/瀑布流不进这里 */
@@ -393,7 +393,7 @@ body {
 /* ===== 瀑布流视图（像刷小红书一样纵向刷）===== */
 .feed-stage {
   /* 布局不变（column-count 双列 / max-width 520px），仅改为页面原生滚动：
-     去掉内部滚动容器（height+overflow），让 body 滚动 → 手机下拉刷新恢复 */
+     去掉内部滚动容器（height+overflow），让 body 滚动  手机下拉刷新恢复 */
   max-width: 520px; margin: 0 auto;
   padding: 8px 16px 40px;
   min-height: calc(100dvh - 20px);
@@ -495,7 +495,7 @@ body {
   font-size: 1.18rem; font-weight: 800; line-height: 1.32;
   letter-spacing: -.4px; color: var(--text);
   margin: 0 0 12px;
-  /* 不同字数 → 不同卡片高度 → 真瀑布流的视觉差异 */
+  /* 不同字数  不同卡片高度  真瀑布流的视觉差异 */
 }
 .feed-card-bot {
   display: flex; align-items: center; justify-content: space-between; gap: 8px;
@@ -530,7 +530,7 @@ body {
 
 /* ===== 4 种卡型:视觉不统一,瀑布流高度自然错落 ===== */
 
-/* —— 🪧 大字报卡(poster):短 hook(金句) → 居中 + 大字 + 柔和彩色底 —— */
+/* ——  大字报卡(poster):短 hook(金句)  居中 + 大字 + 柔和彩色底 —— */
 .feed-card.feed-type-poster {
   padding: 26px 17px 18px;
   border-radius: 18px;
@@ -546,7 +546,7 @@ body {
   justify-content: center; margin: 0 0 14px;
 }
 
-/* —— ❌ 反差辟谣卡(mis):有 misconception → "你以为…其实…"两段式 —— */
+/* ——  反差辟谣卡(mis):有 misconception  "你以为…其实…"两段式 —— */
 .feed-card.feed-type-mis {
   padding: 15px 13px 11px;
   border-radius: 16px;
@@ -583,7 +583,7 @@ body {
   font-weight: 900;
 }
 
-/* —— 🎟 标签长卡(rich):tags≥3 + hook≥50字 → 圆润大边 + 高留白 + 全标签 —— */
+/* ——  标签长卡(rich):tags≥3 + hook≥50字  圆润大边 + 高留白 + 全标签 —— */
 .feed-card.feed-type-rich {
   padding: 18px 14px 13px;
   border-radius: 22px;
@@ -599,7 +599,7 @@ body {
 }
 .feed-card.feed-type-rich .feed-card-bot { padding-top: 2px; }
 
-/* —— 🗒 标准卡(base):其余,~30% 走 tight(更紧凑)制造高低差 —— */
+/* ——  标准卡(base):其余,~30% 走 tight(更紧凑)制造高低差 —— */
 .feed-card.feed-type-base {
   padding: 14px 13px 11px;
   border-radius: 14px;
@@ -665,7 +665,7 @@ body {
 }
 .detail-close:hover { color: var(--text); border-color: #94a3b8; }
 
-/* 详情右上角常驻胶囊「🤖 AI 关联」：与关闭按钮并排，靠内侧"一点点"，克制不抢眼 */
+/* 详情右上角常驻胶囊「 AI 关联」：与关闭按钮并排，靠内侧"一点点"，克制不抢眼 */
 .detail-ai {
   position: absolute; top: 10px; right: 52px; z-index: 3;
   display: inline-flex; align-items: center; gap: 4px;
@@ -871,7 +871,7 @@ body {
 }
 .ai-follow-btn:hover { background: #dbeafe; border-color: #93c5fd; }
 .ai-follow-btn:active { transform: scale(.97); }
-.ai-follow-btn::before { content: "↳ "; opacity: .6; }
+.ai-follow-btn::before { content: " "; opacity: .6; }
 .my-ai-guide { font-size: .76rem; color: var(--muted); line-height: 1.7; margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--border); }
 .my-ai-guide a { color: var(--primary); font-weight: 700; text-decoration: none; }
 .my-ai-guide a:hover { text-decoration: underline; }

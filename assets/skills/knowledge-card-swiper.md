@@ -143,7 +143,7 @@ var feedObserver = new IntersectionObserver(function (entries) {
 
 ## 三、详情 Modal
 
-瀑布流卡片点击 → 底部弹出详情面板，复用牌堆的 `renderCardHTML`，展示完整知识图谱 + 收藏按钮 + "在牌堆里刷" 跳转。
+瀑布流卡片点击  底部弹出详情面板，复用牌堆的 `renderCardHTML`，展示完整知识图谱 + 收藏按钮 + "在牌堆里刷" 跳转。
 
 ```css
 #detailModal {
@@ -179,7 +179,7 @@ var state = {
   seen: {},        // 已看过的卡片 id
   favs: {},        // 已收藏的卡片 id
   skip: {},        // 跳过的卡片 id
-  interest: {},    // 兴趣标签权重（tag → 分值）
+  interest: {},    // 兴趣标签权重（tag  分值）
   history: []      // 操作历史栈（支持「回到上一题」）
 };
 // 存储：localStorage（零云成本），key = "rcj_learn_v1"
@@ -189,12 +189,12 @@ var state = {
 
 ## 六、知识树 SVG
 
-左→右 DAG 分层布局，蛇形折行（每行最多 4 列，超出折到下一行反向排列）。
+左右 DAG 分层布局，蛇形折行（每行最多 4 列，超出折到下一行反向排列）。
 
 ```js
 function layout(nodes, edges) {
   // 1. 拓扑排序计算每层深度
-  // 2. 分层分列，偶数行左→右，奇数行右→左（蛇形）
+  // 2. 分层分列，偶数行左右，奇数行右左（蛇形）
   // 3. 计算节点坐标，返回 SVG 的 viewBox 尺寸
 }
 ```

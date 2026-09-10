@@ -269,9 +269,9 @@ body{padding-bottom:80px;}
 
 
 <header class="header">
-  <button class="theme-toggle" id="themeToggle" title="切换深色模式">🌙</button>
+  <button class="theme-toggle" id="themeToggle" title="切换深色模式"></button>
   <a class="hub-btn" href="https://exam.955827.xyz/" target="_blank" rel="noopener">
-    <span class="hub-icon">←</span>
+    <span class="hub-icon"></span>
     <span class="hub-txt">题库首页</span>
   </a>
   <h1>消防员面试真题库</h1>
@@ -295,15 +295,15 @@ body{padding-bottom:80px;}
     </div>
     <div class="tool-panel">
       <div class="top-row">
-        <button class="tool-toggle" id="collapseTool" title="折叠工具栏">🔽 折叠<span class="chev">▾</span></button>
+        <button class="tool-toggle" id="collapseTool" title="折叠工具栏"> 折叠<span class="chev"></span></button>
         <div class="search-wrap">
-          <span class="search-icon">🔍</span>
+          <span class="search-icon"></span>
           <input type="text" class="search-input" id="searchInput" placeholder="搜索题目关键词、参考答案内容…">
         </div>
         <div class="action-row">
-          <button class="action-btn primary" id="randomBtn" title="随机抽取一道题并进入录音演练">🎲 随机抽题</button>
-          <button class="action-btn" id="practiceLogBtn" title="查看我的练习录音">📋 练习记录</button>
-          <button class="action-btn" id="daziBtn" onclick="window.open('https://facetalk.955827.xyz/?role=消防员&from=xf','_blank')" title="前往面试搭子">🤝 面试搭子</button>
+          <button class="action-btn primary" id="randomBtn" title="随机抽取一道题并进入录音演练"> 随机抽题</button>
+          <button class="action-btn" id="practiceLogBtn" title="查看我的练习录音"> 练习记录</button>
+          <button class="action-btn" id="daziBtn" onclick="window.open('https://facetalk.955827.xyz/?role=消防员&from=xf','_blank')" title="前往面试搭子"> 面试搭子</button>
           <span class="result-count" id="resultCount"></span>
         </div>
       </div>
@@ -329,14 +329,14 @@ body{padding-bottom:80px;}
 <div class="voice-log-overlay" id="voiceLogOverlay">
   <div class="voice-log-modal">
     <div class="voice-log-modal-header">
-      <h3>🎙️ 我的练习记录</h3>
-      <button class="voice-log-modal-close" id="voiceLogModalClose" type="button">✕</button>
+      <h3> 我的练习记录</h3>
+      <button class="voice-log-modal-close" id="voiceLogModalClose" type="button"></button>
     </div>
     <div class="voice-log-modal-body">
       <div class="voice-log-list" id="voiceLogModalList"></div>
     </div>
     <div class="voice-log-modal-footer">
-      <button type="button" class="voice-log-export" id="voiceLogExportAll" style="display:none;">⬇️ 全部存到本机</button>
+      <button type="button" class="voice-log-export" id="voiceLogExportAll" style="display:none;"> 全部存到本机</button>
     </div>
   </div>
 </div>
@@ -344,22 +344,22 @@ body{padding-bottom:80px;}
 <div class="modal-overlay" id="randomModal">
   <div class="modal">
     <div class="modal-head">
-      <h3>🎲 随机抽题 · 开口练</h3>
-      <button class="modal-close" id="randomClose">✕</button>
+      <h3> 随机抽题 · 开口练</h3>
+      <button class="modal-close" id="randomClose"></button>
     </div>
     <div class="modal-body">
       <div class="random-modal-scope" id="randomModalScope" style="margin:0 0 12px;font-size:13px;font-weight:600;padding:8px 12px;border-radius:8px;background:rgba(181,72,70,.1);color:#b54846;"></div>
       <div class="timer-box">
         <div class="timer-header">
-          <span>⏳ 考场限时模拟答题</span>
+          <span> 考场限时模拟答题</span>
           <span class="timer-right">
             <span class="timer-digits" id="timerDigits">03:00</span>
-            <button class="timer-reset-btn" id="timerResetBtn" title="重置计时">🔄 重置</button>
+            <button class="timer-reset-btn" id="timerResetBtn" title="重置计时"> 重置</button>
           </span>
         </div>
         <div class="timer-bar"><div class="timer-bar-fill" id="timerBarFill"></div></div>
         <div class="timer-duration-row">
-          <span class="timer-duration-label">⏱️ 演练时长</span>
+          <span class="timer-duration-label"> 演练时长</span>
           <div class="timer-duration-btns" id="timerDurationBtns">
             <button type="button" data-min="3" class="dur-btn active">3分钟</button>
             <button type="button" data-min="4" class="dur-btn">4分钟</button>
@@ -369,25 +369,25 @@ body{padding-bottom:80px;}
       </div>
       <div class="rec-zone" id="recZone">
         <div class="rec-bar" id="recBar">
-          <button class="record-btn idle" id="recordBtn" aria-label="开始录音">🎙️ 开始录音</button>
+          <button class="record-btn idle" id="recordBtn" aria-label="开始录音"> 开始录音</button>
           <span class="rec-timer" id="recTimer">00:00</span>
         </div>
         <audio class="local-audio" id="localAudio" controls style="display:none"></audio>
-        <div class="voice-saved-hint" id="voiceSavedHint">✅ 已保存到「📋 练习记录」</div>
-        <button class="dl-btn" id="dlBtn" style="display:none">⬇️ 下载录音</button>
+        <div class="voice-saved-hint" id="voiceSavedHint"> 已保存到「 练习记录」</div>
+        <button class="dl-btn" id="dlBtn" style="display:none"> 下载录音</button>
       </div>
       <div class="q-text" id="rqText"></div>
-      <button class="reveal-btn" id="rqReveal">✅ 提交并查看参考答案</button>
+      <button class="reveal-btn" id="rqReveal"> 提交并查看参考答案</button>
       <div class="answer-reveal" id="rqAnswer" style="display:none"></div>
     </div>
     <div class="modal-foot">
-      <button class="action-btn" id="rqNext">🔄 换一题</button>
-      <button class="action-btn" id="rqDone">✕ 关闭</button>
+      <button class="action-btn" id="rqNext"> 换一题</button>
+      <button class="action-btn" id="rqDone"> 关闭</button>
     </div>
   </div>
 </div>
 
-<button class="back-to-top" id="backToTop" title="回到顶部">↑</button>
+<button class="back-to-top" id="backToTop" title="回到顶部"></button>
 
 <div class="rcj-toast" id="rcjToast"></div>
 
@@ -489,7 +489,7 @@ body{padding-bottom:80px;}
   function formatAnswer(s){
     var h = escapeHtml(s || "");
     h = h.replace(/【([^】]+)】/g, '<span class="sec-h">【$1】</span>');
-    h = h.replace(/([①②③④])/g, '<span class="pt">$1</span>');
+    h = h.replace(/([])/g, '<span class="pt">$1</span>');
     return h;
   }
   function buildMeta(q){
@@ -513,12 +513,12 @@ body{padding-bottom:80px;}
           '</div>'+
           '<p class="q-title">'+escapeHtml(q.title)+'</p>'+
         '</div>'+
-        '<span class="q-toggle">▾</span>'+
+        '<span class="q-toggle"></span>'+
       '</div>'+
       '<div class="q-body"><div class="q-body-inner">'+
-        '<div class="answer-block"><div class="answer-title">📝 参考答案</div>'+
+        '<div class="answer-block"><div class="answer-title"> 参考答案</div>'+
           '<div class="answer-text">'+formatAnswer(q.answer)+'</div></div>'+
-        '<div class="points-block"><div class="points-title">🎯 答题要点</div>'+
+        '<div class="points-block"><div class="points-title"> 答题要点</div>'+
           '<div class="points-text">'+formatAnswer(q.points)+'</div></div>'+
       '</div></div>'+
     '</div>';
@@ -561,7 +561,7 @@ body{padding-bottom:80px;}
   if (markModeBtn) {
     markModeBtn.addEventListener("click", function(){
       markMode = !markMode;
-      this.textContent = markMode ? "📋 显示全部" : "🟢 只看未做";
+      this.textContent = markMode ? " 显示全部" : " 只看未做";
       document.querySelectorAll(".q-card").forEach(function(c){
         var id = c.dataset.id;
         if (markMode && id && browsed.has(id)) { c.style.display = "none"; }
@@ -591,12 +591,12 @@ body{padding-bottom:80px;}
 
   /* ========== 深色模式 ========== */
   var tt = document.getElementById("themeToggle");
-  if (localStorage.getItem("xf_dark") === "1"){ document.body.classList.add("dark"); tt.textContent = "☀️"; }
+  if (localStorage.getItem("xf_dark") === "1"){ document.body.classList.add("dark"); tt.textContent = ""; }
   tt.addEventListener("click", function(){
     document.body.classList.toggle("dark");
     var on = document.body.classList.contains("dark");
     localStorage.setItem("xf_dark", on ? "1" : "0");
-    tt.textContent = on ? "☀️" : "🌙";
+    tt.textContent = on ? "" : "";
   });
 
   /* ========== 回到顶部 ========== */
@@ -678,7 +678,7 @@ body{padding-bottom:80px;}
     if (!items.length){
       var empty = document.createElement('div');
       empty.className = 'practice-log-empty';
-      empty.textContent = '暂无录音，点「🎲 随机抽题」开口练一练吧';
+      empty.textContent = '暂无录音，点「 随机抽题」开口练一练吧';
       listEl.appendChild(empty);
       return;
     }
@@ -691,7 +691,7 @@ body{padding-bottom:80px;}
       var meta = document.createElement('div');
       meta.style.cssText = 'display:flex;align-items:center;gap:8px;flex:1 1 100%;flex-wrap:wrap;';
       var t = document.createElement('span'); t.className = 'q-meta'; t.textContent = (new Date(it.createdAt||Date.now())).toLocaleString('zh-CN',{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'});
-      var du = document.createElement('span'); du.style.cssText = 'color:var(--primary);font-weight:600;'; du.textContent = '⏱ ' + fmtDurMs(it.durMs || 0);
+      var du = document.createElement('span'); du.style.cssText = 'color:var(--primary);font-weight:600;'; du.textContent = ' ' + fmtDurMs(it.durMs || 0);
       meta.appendChild(t); meta.appendChild(du);
 
       var q = document.createElement('div');
@@ -704,7 +704,7 @@ body{padding-bottom:80px;}
       // 播放按钮
       var play = document.createElement('button');
       play.style.cssText = 'background:var(--primary);color:#fff;border:none;border-radius:6px;width:30px;height:30px;cursor:pointer;font-size:13px;';
-      play.textContent = '▶';
+      play.textContent = '';
       if (it.blob && it.blob.size){
         var url = URL.createObjectURL(it.blob);
         (listEl.__urls || (listEl.__urls = [])).push(url);
@@ -721,7 +721,7 @@ body{padding-bottom:80px;}
       // 下载
       var dl = document.createElement('button');
       dl.style.cssText = 'background:none;border:1px solid var(--border);color:var(--text-secondary);padding:4px 8px;border-radius:6px;font-size:11px;cursor:pointer;';
-      dl.textContent = '⬇ 下载';
+      dl.textContent = ' 下载';
       dl.addEventListener('click', function(){
         if (!it.blob) return;
         var url = URL.createObjectURL(it.blob);
@@ -733,7 +733,7 @@ body{padding-bottom:80px;}
       // 删除
       var del = document.createElement('button');
       del.style.cssText = 'background:none;border:none;color:var(--text-muted);padding:4px 6px;font-size:14px;cursor:pointer;margin-left:auto;';
-      del.textContent = '✕';
+      del.textContent = '';
       del.addEventListener('click', function(){
         dbDelete(it.id).then(function(){ renderPracticeLog(); });
       });
@@ -760,7 +760,7 @@ body{padding-bottom:80px;}
     if (!items.length){
       var empty = document.createElement('div');
       empty.className = 'practice-log-empty';
-      empty.textContent = '暂无录音，点「🎲 随机抽题」开口练一练吧';
+      empty.textContent = '暂无录音，点「 随机抽题」开口练一练吧';
       listEl.appendChild(empty);
       return;
     }
@@ -773,7 +773,7 @@ body{padding-bottom:80px;}
       var meta = document.createElement('div');
       meta.style.cssText = 'display:flex;align-items:center;gap:8px;flex:1 1 100%;flex-wrap:wrap;';
       var t = document.createElement('span'); t.style.cssText = 'color:var(--text-muted);font-size:12px;'; t.textContent = (new Date(it.createdAt||Date.now())).toLocaleString('zh-CN',{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'});
-      var du = document.createElement('span'); du.style.cssText = 'color:var(--primary);font-weight:600;font-size:12px;'; du.textContent = '⏱ ' + fmtDurMs(it.durMs || 0);
+      var du = document.createElement('span'); du.style.cssText = 'color:var(--primary);font-weight:600;font-size:12px;'; du.textContent = ' ' + fmtDurMs(it.durMs || 0);
       meta.appendChild(t); meta.appendChild(du);
 
       var q = document.createElement('div');
@@ -794,7 +794,7 @@ body{padding-bottom:80px;}
       // 下载
       var dl = document.createElement('button');
       dl.style.cssText = 'background:none;border:1px solid var(--border);color:var(--text-secondary);padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer;';
-      dl.textContent = '⬇ 下载';
+      dl.textContent = ' 下载';
       dl.addEventListener('click', function(){
         if (!it.blob) return;
         var url = URL.createObjectURL(it.blob);
@@ -806,7 +806,7 @@ body{padding-bottom:80px;}
       // 删除
       var del = document.createElement('button');
       del.style.cssText = 'background:none;border:none;color:var(--text-muted);padding:4px 8px;font-size:14px;cursor:pointer;margin-left:auto;';
-      del.textContent = '🗑';
+      del.textContent = '';
       del.title = '删除这条录音';
       del.addEventListener('click', function(){ dbDelete(it.id).then(function(){ renderPracticeLog(); }); });
       actions.appendChild(del);
@@ -905,9 +905,9 @@ body{padding-bottom:80px;}
       transcriptContent.textContent = finalTranscript + interim;
     };
     rec.onerror = function(e){
-      if (e.error === "network") transcriptNote.textContent = "⚠️ 网络无法连接语音识别服务，文字转写暂不可用，但录音回听不受影响";
+      if (e.error === "network") transcriptNote.textContent = " 网络无法连接语音识别服务，文字转写暂不可用，但录音回听不受影响";
       else if (e.error === "no-speech") transcriptNote.textContent = "";
-      else transcriptNote.textContent = "⚠️ 语音转文字暂时出错（" + e.error + "），不影响录音回听";
+      else transcriptNote.textContent = " 语音转文字暂时出错（" + e.error + "），不影响录音回听";
     };
     rec.onend = function(){
       if (isRecording){ try { rec.start(); } catch(e){} }
@@ -930,7 +930,7 @@ body{padding-bottom:80px;}
       if (remain <= 30 && !timerBarFill.classList.contains("warning")) timerBarFill.classList.add("warning");
       if (remain <= 0){
         clearInterval(timerId); timerId = null;
-        transcriptNote.textContent = "⏰ 规定时间已到，仍可继续录音，结束后点「停止」";
+        transcriptNote.textContent = " 规定时间已到，仍可继续录音，结束后点「停止」";
       }
     }, 1000);
   }
@@ -957,7 +957,7 @@ body{padding-bottom:80px;}
       dlBtn.style.display = "inline-block";
     }
     if (speechRecognizer){ try { speechRecognizer.onend = null; speechRecognizer.stop(); } catch(e){} }
-    recordBtn.textContent = "🎙️ 开始录音";
+    recordBtn.textContent = " 开始录音";
     recordBtn.className = "record-btn idle";
   }
 
@@ -993,7 +993,7 @@ body{padding-bottom:80px;}
       source.connect(scriptNode); scriptNode.connect(gainNode); gainNode.connect(audioCtx.destination);
       isRecording = true;
       finalTranscript = ""; transcriptContent.textContent = "";
-      recordBtn.textContent = "⏹ 停止录音";
+      recordBtn.textContent = " 停止录音";
       recordBtn.className = "record-btn recording";
       voiceSavedHint.classList.remove("show");
       recStartTs = Date.now();
@@ -1034,7 +1034,7 @@ body{padding-bottom:80px;}
     var ua = navigator.userAgent || "";
     var isWechat = /micromessenger/i.test(ua);
     if (isWechat){
-      toast("微信内无法直接下载，请点右上角 ⋯ →「在浏览器打开」再下载");
+      toast("微信内无法直接下载，请点右上角 ⋯ 「在浏览器打开」再下载");
       try { window.open(url, "_blank"); } catch(e){}
       return;
     }
@@ -1069,15 +1069,15 @@ body{padding-bottom:80px;}
       if (state.cat !== "all") parts.push("类别：" + state.cat);
       if (state.type !== "all") parts.push("题型：" + state.type);
       if (state.kw) parts.push("关键词：" + state.kw);
-      scopeEl.textContent = parts.length ? "🎯 当前抽题范围：" + parts.join(" · ") + "（共" + pool.length + "题）" : "🎯 当前抽题范围：全部题目（共" + pool.length + "题）";
+      scopeEl.textContent = parts.length ? " 当前抽题范围：" + parts.join(" · ") + "（共" + pool.length + "题）" : " 当前抽题范围：全部题目（共" + pool.length + "题）";
     }
     var q = pool[Math.floor(Math.random()*pool.length)];
     currentQuestion = q;
     document.getElementById("rqText").textContent = q.title;
     document.getElementById("rqAnswer").style.display = "none";
     document.getElementById("rqAnswer").innerHTML =
-      '<div class="answer-title">📝 参考答案</div><div class="answer-text">'+formatAnswer(q.answer)+'</div>'+
-      '<div class="points-block" style="margin-top:10px"><div class="points-title">🎯 答题要点</div><div class="points-text">'+formatAnswer(q.points)+'</div></div>';
+      '<div class="answer-title"> 参考答案</div><div class="answer-text">'+formatAnswer(q.answer)+'</div>'+
+      '<div class="points-block" style="margin-top:10px"><div class="points-title"> 答题要点</div><div class="points-text">'+formatAnswer(q.points)+'</div></div>';
     document.getElementById("rqReveal").style.display = "block";
     stopRecording();
     if (lastBlobUrl) URL.revokeObjectURL(lastBlobUrl);

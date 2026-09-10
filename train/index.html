@@ -135,16 +135,16 @@
     <div class="card">
       <h3><span class="dot"></span>为什么练 · 运动生理学</h3>
       <div id="knowList"></div>
-      <div class="disclaimer">⚠️ 科普免责：以下为通用运动科学常识，非医学建议。训练前请评估自身状况，伤痛或疾病请咨询专业人士。各地招录标准以官方公告为准，本工具不提供任何标准数字。</div>
+      <div class="disclaimer"> 科普免责：以下为通用运动科学常识，非医学建议。训练前请评估自身状况，伤痛或疾病请咨询专业人士。各地招录标准以官方公告为准，本工具不提供任何标准数字。</div>
     </div>
   </section>
 </div>
 
 <nav class="nav">
-  <a id="nav-goals" class="on" data-tab="goals"><span class="ic">🎯</span>我的目标</a>
-  <a id="nav-tests" data-tab="tests"><span class="ic">📝</span>我的测试</a>
-  <a id="nav-progress" data-tab="progress"><span class="ic">📈</span>成长记录</a>
-  <a id="nav-know" data-tab="know"><span class="ic">💡</span>为什么练</a>
+  <a id="nav-goals" class="on" data-tab="goals"><span class="ic"></span>我的目标</a>
+  <a id="nav-tests" data-tab="tests"><span class="ic"></span>我的测试</a>
+  <a id="nav-progress" data-tab="progress"><span class="ic"></span>成长记录</a>
+  <a id="nav-know" data-tab="know"><span class="ic"></span>为什么练</a>
 </nav>
 
 <script>
@@ -209,7 +209,7 @@
       Object.keys(ROLES).forEach(function(k){
         var r=ROLES[k];
         var el=document.createElement('span');
-        el.className='pill'; el.textContent=(S.profile.role===k?'✓ ':'')+r.name;
+        el.className='pill'; el.textContent=(S.profile.role===k?' ':'')+r.name;
         el.addEventListener('click', function(){ selectRole(k); });
         box.appendChild(el);
       });

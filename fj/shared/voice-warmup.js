@@ -3,7 +3,7 @@
 //
 // 用法：
 //   RCJVoiceWarmup.mount({ stageId:'vwarm-stage', btnId:'vwarm-btn', subId:'vwarm-sub',
-//                         faces:['😊','🎤','🔥','💪','⭐'] });
+//                         faces:['','','','',''] });
 // 返回 { start, stop, destroy }
 (function () {
   'use strict';
@@ -13,7 +13,7 @@
     var stage = document.getElementById(opts.stageId);
     var btn = document.getElementById(opts.btnId);
     var sub = document.getElementById(opts.sub);
-    var faces = opts.faces || ['😊', '🎤', '🔥', '💪', '⭐'];
+    var faces = opts.faces || ['', '', '', '', ''];
     var sensitivity = opts.sensitivity || 3.4;
     var defaultSub = sub ? sub.textContent : '';
 
@@ -59,7 +59,7 @@
     function start() {
       if (running) return;
       if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-        if (sub) sub.textContent = '当前浏览器不支持麦克风，用手机打开体验更佳 📱';
+        if (sub) sub.textContent = '当前浏览器不支持麦克风，用手机打开体验更佳 ';
         return;
       }
       navigator.mediaDevices.getUserMedia({ audio: true }).then(function (s) {
@@ -72,11 +72,11 @@
         data = new Uint8Array(analyser.fftSize);
         src.connect(analyser);
         running = true;
-        if (btn) { btn.textContent = '🛑 停止热身'; btn.classList.add('on'); }
-        if (sub) sub.textContent = '对着麦克风随便说几句，看表情跟着声纹蹦 🤸';
+        if (btn) { btn.textContent = ' 停止热身'; btn.classList.add('on'); }
+        if (sub) sub.textContent = '对着麦克风随便说几句，看表情跟着声纹蹦 ';
         loop();
       }).catch(function () {
-        if (sub) sub.textContent = '麦克风权限被拒了，点「开始」再授权一次 🎤';
+        if (sub) sub.textContent = '麦克风权限被拒了，点「开始」再授权一次 ';
       });
     }
 
@@ -87,7 +87,7 @@
       if (audioCtx) audioCtx.close().catch(function () {});
       stream = audioCtx = analyser = data = null;
       faceEls.forEach(function (f) { f.style.transform = ''; });
-      if (btn) { btn.textContent = '🎤 开始声纹热身'; btn.classList.remove('on'); }
+      if (btn) { btn.textContent = ' 开始声纹热身'; btn.classList.remove('on'); }
       if (sub) sub.textContent = defaultSub || '对着麦克风说几句 —— 表情跟着声纹蹦。';
     }
 

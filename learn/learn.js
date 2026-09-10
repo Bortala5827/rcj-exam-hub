@@ -1,6 +1,6 @@
 ﻿/* LEARN 1.0 · 核心逻辑（牌堆模式）
  * - 牌堆：顶层卡可刷，后面叠 1~2 张从上缘探出，刷走后下一张顶上来
- * - 手势：纵向=浏览器原生滚动(像看小说，跟手丝滑) / 左滑=下一张 / 右滑=上一张；收藏只走 ☆ / 底部「收藏」按钮，不拦截下滑
+ * - 手势：纵向=浏览器原生滚动(像看小说，跟手丝滑) / 左滑=下一张 / 右滑=上一张；收藏只走  / 底部「收藏」按钮，不拦截下滑
  * - 卡片过长时浏览器原生滚动，跟手、惯性、丝滑，无需额外滑块
  * - 推荐：70% 兴趣 + 20% 邻近 + 10% 随机探索
  * - 行为存 localStorage（零云、零成本；后续可平滑迁 IndexedDB）
@@ -26,7 +26,7 @@
 
   /* ---------- 顶层主题（知识地图 10 大主线）----------
    * 这 10 个词是卡片 tags 里的「骨架维度」，此前只作为死标签显示、没有任何映射。
-   * 现在把它们做成真筛选：点主题 → 按 tag 过滤；点任意卡片 tag → 跳该 tag 筛选。 */
+   * 现在把它们做成真筛选：点主题  按 tag 过滤；点任意卡片 tag  跳该 tag 筛选。 */
   var THEMES = ["城市", "产业", "财政", "制度", "就业", "稳定", "职业", "投资", "考公", "风险"];
   var themeSet = {}; THEMES.forEach(function (t) { themeSet[t] = 1; });
   // 主题 -> 含该主题 tag 的卡片列表（用于计数与「我的」按主题分组）
@@ -43,8 +43,8 @@
   /* ---------- My take 引导弹窗(用户多次刷卡后,提示跳结构化即兴表达) ----------
    * - 触发:累计刷 8~14 张首次,之后每 6~11 张再触发一次,同 session 最多 3 次
    * - session = 本次页面加载,跨刷新重置(避免骚扰)
-   * - 用户点了主按钮跳转 → 同 session 静默不再弹(已行动)
-   * - 用户点"先存着"或 ✕ → 算一次弹过,继续计数
+   * - 用户点了主按钮跳转  同 session 静默不再弹(已行动)
+   * - 用户点"先存着"或   算一次弹过,继续计数
    * - 阈值随机化:首次 8~14 随机,之后增量 6~11 随机,避免每次都在第10/18/26张弹 */
   var sessionSwipeCount = 0;     // 本次页面加载累计刷卡数(act + goTo 都算)
   var sessionPromptShown = 0;    // 本次页面加载已弹窗次数
@@ -78,7 +78,7 @@
       promptToastEl.setAttribute("role", "dialog");
       promptToastEl.setAttribute("aria-label", "即兴表达引导");
       document.body.appendChild(promptToastEl);
-      // ✕ 按钮(只绑一次)
+      //  按钮(只绑一次)
       promptToastEl.addEventListener("click", function (e) {
         var t = e.target;
         if (t.closest(".mytake-close")) hidePromptToast();
@@ -106,14 +106,14 @@
     promptToastEl.setAttribute("data-card", card.id);
     promptToastEl.innerHTML =
       '<div class="mytake-inner">' +
-        '<button class="mytake-close" aria-label="关闭">✕</button>' +
+        '<button class="mytake-close" aria-label="关闭"></button>' +
         '<div class="mytake-kicker">刷得挺认真啊 · 换个形式试试</div>' +
         '<div class="mytake-tags">' + cardTags + '</div>' +
         '<div class="mytake-hook">' + esc(hookShort) + '</div>' +
         '<div class="mytake-sub">光看记不住，开口讲一遍才是你的。去结构化练习里录个音，存个 1.0 版本的理解。</div>' +
         '<div class="mytake-actions">' +
           '<button class="mytake-secondary">先存着，继续刷</button>' +
-          '<button class="mytake-primary">🎤 就这张，讲讲看</button>' +
+          '<button class="mytake-primary"> 就这张，讲讲看</button>' +
         '</div>' +
       '</div>';
     // 触发动画(下一帧再加 .show,确保 transition 生效)
@@ -181,7 +181,7 @@
     });
   }
 
-  /* ---------- 知识树布局（左→右 DAG 分层 + 蛇形折行）----------
+  /* ---------- 知识树布局（左右 DAG 分层 + 蛇形折行）----------
    * 移动端自动缩小节点尺寸 (阈值 400px),避免文字挤成蚂蚁 */
   var isNarrow = window.innerWidth < 400;
   var TREE_NW = isNarrow ? 74 : 88, TREE_NH = isNarrow ? 26 : 30;
@@ -215,7 +215,7 @@
       var row = Math.floor(di / MAXC);
       var c = di % MAXC;
       var col = cols[d];
-      // 蛇形：偶数行左→右，奇数行右→左
+      // 蛇形：偶数行左右，奇数行右左
       var x = PADX + (row % 2 === 0 ? c : (MAXC - 1 - c)) * COLW;
       col.forEach(function (node, ri) {
         // 列内垂直居中，整体对称
@@ -240,15 +240,15 @@
 
   function esc(s) { return String(s).replace(/[&<>]/g, function (m) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;" }[m]; }); }
 
-  // 来源徽章：母图定义的 ◉官方 / △权威 / ▽报道 三档（对应 type: official/reference/media）
+  // 来源徽章：母图定义的 官方 / 权威 / 报道 三档（对应 type: official/reference/media）
   function srcBadgeHTML(src) {
     if (!src) return "";
     var map = {
-      official:  { sym: "◉", word: "官方", cls: "official" },
-      reference: { sym: "△", word: "权威", cls: "reference" },
-      media:     { sym: "▽", word: "报道", cls: "media" }
+      official:  { sym: "", word: "官方", cls: "official" },
+      reference: { sym: "", word: "权威", cls: "reference" },
+      media:     { sym: "", word: "报道", cls: "media" }
     };
-    var m = map[src.type] || { sym: "◇", word: "资料", cls: "" };
+    var m = map[src.type] || { sym: "", word: "资料", cls: "" };
     return '<span class="badge ' + m.cls + '">' + m.sym + " " + m.word + '</span>';
   }
 
@@ -268,7 +268,7 @@
         var vy2 = b.y;
         d = 'M' + vx + ',' + vy1 + ' C' + vx + ',' + ((vy1 + vy2) / 2) + ' ' + vx + ',' + ((vy1 + vy2) / 2) + ' ' + vx + ',' + vy2;
       } else if (b.x < a.x) {
-        // b 在 a 左侧（蛇形反向行）：a 左边缘 → b 右边缘
+        // b 在 a 左侧（蛇形反向行）：a 左边缘  b 右边缘
         var lx1 = a.x, ly1 = a.y + L.NH / 2, lx2 = b.x + L.NW, ly2 = b.y + L.NH / 2;
         var lmx = (lx1 + lx2) / 2;
         d = 'M' + lx1 + ',' + ly1 + ' C' + lmx + ',' + ly1 + ' ' + lmx + ',' + ly2 + ' ' + (lx2 + 4) + ',' + ly2;
@@ -369,7 +369,7 @@
     }
     // 锚点：顶层卡（当前正在看的），沿它的 related/tags 补下一块拼图
     var anchor = queue.length ? queue[0] : null;
-    // 动作感知：连续快刷(seen/skip) = 想换口味 → 探索率升到 30%；刚收藏 = 喜欢这条路径 → related 再加 4 分
+    // 动作感知：连续快刷(seen/skip) = 想换口味  探索率升到 30%；刚收藏 = 喜欢这条路径  related 再加 4 分
     var exploreRate = (lastAction === "seen" || lastAction === "skip") ? 0.3 : 0.12;
     var relBoost = (lastAction === "fav") ? 4 : 0;
     if (Math.random() < exploreRate) return pool[Math.floor(Math.random() * pool.length)];
@@ -609,7 +609,7 @@
     el.querySelectorAll(".node-g").forEach(function (g) {
       g.addEventListener("click", function () {
         var label = g.getAttribute("data-node");
-        // 优先：卡片显式指定的节点跳转（nodeLinks 映射节点文字 → 卡片 id）
+        // 优先：卡片显式指定的节点跳转（nodeLinks 映射节点文字  卡片 id）
         var explicit = current && current.nodeLinks && current.nodeLinks[label];
         if (explicit && byId[explicit]) { goTo(explicit); return; }
         // 回退 1：含该节点的其他卡片（知识图谱相邻）
@@ -631,7 +631,7 @@
         goTo(c.getAttribute("data-go"));
       });
     });
-    // 点卡片 tag → 按该 tag 筛选（主题映射：城市/产业/财政… 不再只是死标签）
+    // 点卡片 tag  按该 tag 筛选（主题映射：城市/产业/财政… 不再只是死标签）
     el.querySelectorAll(".tag-link").forEach(function (t) {
       t.addEventListener("click", function (e) {
         e.stopPropagation();
@@ -667,7 +667,7 @@
   /* ============ 瀑布流视图 + 详情 modal（2026-08-20）============
    * - 顶部 chips 筛选：全部 / 未看过 / 已收藏（带计数,实时反映进度）
    * - 双列 CSS columns 真瀑布流,卡片按 hook 字数自然变高
-   * - 卡片状态反馈：未看过→NEW 红点 / 看过→轻微淡化 / 已收藏→金色边框
+   * - 卡片状态反馈：未看过NEW 红点 / 看过轻微淡化 / 已收藏金色边框
    * - 点击卡片打开底部弹出详情 modal,复用 renderCardHTML 展示完整知识图谱
    * - modal 底部按钮：收藏/取消、在牌堆里刷（切到牌堆视图并 goTo 该卡）
    */
@@ -684,7 +684,7 @@
         '" data-filter="' + c.key + '">' + c.label +
         '<span class="cnt">' + c.count + '</span></button>';
     }).join("");
-    // 顶层主题：点主题 → 按 tag 过滤；带计数（这些是知识地图的 10 大主线，此前是死标签）
+    // 顶层主题：点主题  按 tag 过滤；带计数（这些是知识地图的 10 大主线，此前是死标签）
     var themeChips = THEMES.map(function (t) {
       return '<button class="feed-chip theme' + (currentTheme === t ? " on" : "") +
         '" data-theme="' + esc(t) + '">' + esc(t) +
@@ -717,7 +717,7 @@
     });
   }
 
-  /* 点卡片上的 tag → 切到瀑布流并按该 tag 筛选（主题映射的入口）*/
+  /* 点卡片上的 tag  切到瀑布流并按该 tag 筛选（主题映射的入口）*/
   function openTagFilter(tag) {
     currentTheme = tag || null;
     closeDetail();   // 从详情 modal 进入时，先收起 modal 再切视图
@@ -738,12 +738,12 @@
 
   /* ---------- 瀑布流卡片:4 种数据驱动卡型,概率+特征混合分配 ----------
    *  注:本批数据里 hook 几乎全是 13–20 字短问句,纯按 hook_len 会"一刀切"
-   *  策略:ID hash → 概率分配 + 数据特征兜底(有什么特性就偏什么卡型)
+   *  策略:ID hash  概率分配 + 数据特征兜底(有什么特性就偏什么卡型)
    *  目标比例:poster 20% / rich 25% / mis 30% / base 25%
-   *  type-poster: 大字报 → 柔和彩色底 + hook 居中大字 + 标签下沉居中
-   *  type-rich:   全标签长卡 → tagCount≥3 的卡,高留白 + 圆润 22 圆角 + 显示上限 4 标签
-   *  type-mis:    反差辟谣卡 → 有 misconception,灰框"你以为…"+ 主 hook 前加渐变"其实"
-   *  type-base:   其余 → 标准白卡,约 35% 走 tight(更紧凑小号),制造高度差 */
+   *  type-poster: 大字报  柔和彩色底 + hook 居中大字 + 标签下沉居中
+   *  type-rich:   全标签长卡  tagCount≥3 的卡,高留白 + 圆润 22 圆角 + 显示上限 4 标签
+   *  type-mis:    反差辟谣卡  有 misconception,灰框"你以为…"+ 主 hook 前加渐变"其实"
+   *  type-base:   其余  标准白卡,约 35% 走 tight(更紧凑小号),制造高度差 */
   function pickCardType(c) {
     var hookLen = (c.hook || '').length;
     var tagCount = (c.tags || []).length;
@@ -758,7 +758,7 @@
     if (r < 75) return c.misconception ? 'mis' : ((tagCount >= 3) ? 'rich' : 'base');
     return 'base';
   }
-  // 字符串 → 柔和 HSL 背景色 (97~98% 亮度,65~75% 饱和度),用于大字报卡的彩色底
+  // 字符串  柔和 HSL 背景色 (97~98% 亮度,65~75% 饱和度),用于大字报卡的彩色底
   function softBgStyle(seed) {
     var s = '' + (seed || 'x');
     var h = 0; for (var i = 0; i < s.length; i++) h = ((h * 31) + s.charCodeAt(i)) >>> 0;
@@ -855,11 +855,11 @@
         card.classList.toggle("faved", now);
         card.classList.toggle("seen", !!state.seen[id]);  // 收藏会顺手 mark seen
         s.classList.toggle("on", now);
-        s.textContent = now ? "★" : "☆";
+        s.textContent = now ? "" : "";
         s.title = now ? "取消收藏" : "收藏";
-        // 当前是"已收藏"筛选且取消了 → 立刻重渲整列(因为列表变了)
+        // 当前是"已收藏"筛选且取消了  立刻重渲整列(因为列表变了)
         if (currentFilter === "faved" && !now) renderFeed();
-        // 当前是"未看过"筛选且新增了收藏(顺手 seen) → 立刻重渲
+        // 当前是"未看过"筛选且新增了收藏(顺手 seen)  立刻重渲
         if (currentFilter === "unseen" && now) renderFeed();
         renderFeedFilter();  // 计数刷新
       });
@@ -968,7 +968,7 @@
     if (!detailFavBtn) detailFavBtn = document.getElementById("detailFav");
     var faved = !!state.favs[id];
     setFavBtn(detailFavBtn, faved, true);
-    // 详情内的星/相关 chip/节点 → 联动(点 chip 跳详情,点节点跳详情,点星切收藏)
+    // 详情内的星/相关 chip/节点  联动(点 chip 跳详情,点节点跳详情,点星切收藏)
     detailBody.querySelectorAll(".card-star").forEach(function (s) {
       s.addEventListener("click", function (e) {
         e.stopPropagation();
@@ -1049,7 +1049,7 @@
     var favCount = favIds.length;
     var unseenCount = total - seenCount;
 
-    var html = '<button class="ln-btn back-btn" id="backBtn">← 返回刷</button>' +
+    var html = '<button class="ln-btn back-btn" id="backBtn"> 返回刷</button>' +
       '<div class="my-head">我的知识</div>';
 
     // 进度统计：一眼看清刷到哪了
@@ -1109,7 +1109,7 @@
       allGroups += '<details class="my-group"><summary>其他<span class="gc">' + otherCards.length + '</span></summary>' +
         '<div class="my-list">' + otherItems + '</div></details>';
     }
-    html += '<details class="my-all"><summary class="my-sec-title">▸ 所有题目（按主题）</summary>' +
+    html += '<details class="my-all"><summary class="my-sec-title"> 所有题目（按主题）</summary>' +
       '<div class="my-all-inner">' + allGroups + '</div></details>';
 
     var st = myView.querySelector(".ln-stage");
@@ -1194,7 +1194,7 @@
   // 底部按钮（上一张=右滑 / 收藏=下划 / 下一张=左滑）
   document.getElementById("actPrev").addEventListener("click", undo);
   document.getElementById("actSeen").addEventListener("click", function () { act("seen", "left"); });
-  // 底部 ❤：学小红书，只切换收藏状态、不刷走当前卡
+  // 底部 ：学小红书，只切换收藏状态、不刷走当前卡
   document.getElementById("actFav").addEventListener("click", function () {
     if (!queue.length) return;
     toggleFav(queue[0].id);
@@ -1275,7 +1275,7 @@
   function openAiAssist(cardId, force) {
     if (cardId) currentDetailId = cardId;   // 悬浮助手以该卡为上下文（不进详情 modal）
     aiOpenAssist();
-    // 已生成过且非强制 → 复用缓存；否则拉取
+    // 已生成过且非强制  复用缓存；否则拉取
     var card = aiCurrentCard();
     if (card && aiRelateCache[card.id] && aiRelateCache[card.id].rounds && aiRelateCache[card.id].rounds.length && !force) {
       renderRelate(aiRelateCache[card.id], card.hook, false);
@@ -1361,7 +1361,7 @@
         listEl.innerHTML = "";
         var guide = document.createElement("li");
         guide.className = "ai-relate-item ai-relate-err";
-        guide.innerHTML = '还没填自定义模型：去首页「我的 → ⚙︎ 自定义 AI 模型」填好接口地址 / 模型名 / API Key，' +
+        guide.innerHTML = '还没填自定义模型：去首页「我的   自定义 AI 模型」填好接口地址 / 模型名 / API Key，' +
           '再点「测试连通性」验证通过，回来就能用。或直接选「小红书 dots / Agnes / 商汤 / b.ai」免费用。';
         listEl.appendChild(guide);
         if (subEl) subEl.textContent = "";
@@ -1390,7 +1390,7 @@
         };
         aiRelateCache[cardId] = cached;
         try { localStorage.setItem("rcj_ai_relate_v1", JSON.stringify({ rel: aiRelateCache })); } catch (e) {}
-        if (mainBtn) mainBtn.classList.add("on");   // 已生成过 → 胶囊高亮
+        if (mainBtn) mainBtn.classList.add("on");   // 已生成过  胶囊高亮
         renderRelate(cached, card.hook, false);
         if (loadingEl) loadingEl.hidden = true;
       })
@@ -1403,7 +1403,7 @@
         var msg = "AI 关联失败：" + (err.message || "网络异常");
         // custom 源失败时给引导：多半是三项填错/接口不通，去「我的」重填或先测试
         if (provider === "custom") {
-          msg += "（自定义接口可能填错或已失效。去首页「我的 → ⚙︎ 自定义 AI 模型」核对三项，点「测试连通性」验证通过再试；或直接切回 dots / Agnes / 商汤 / b.ai 免费用。）";
+          msg += "（自定义接口可能填错或已失效。去首页「我的   自定义 AI 模型」核对三项，点「测试连通性」验证通过再试；或直接切回 dots / Agnes / 商汤 / b.ai 免费用。）";
         }
         li.textContent = msg;
         listEl.appendChild(li);
@@ -1419,7 +1419,7 @@
       });
   }
 
-  // 用户点选引导提问 → 追问一轮（relate_follow）
+  // 用户点选引导提问  追问一轮（relate_follow）
   function fetchAiFollow(question, cardId) {
     if (aiFetchLock) return;
     var card = byId[cardId];
@@ -1503,7 +1503,7 @@
       if (round.role === "user") {
         var u = document.createElement("li");
         u.className = "ai-relate-item ai-relate-user";
-        u.textContent = "❓ " + (round.text || "");
+        u.textContent = " " + (round.text || "");
         listEl.appendChild(u);
       } else if (round.error) {
         var e = document.createElement("li");
@@ -1554,7 +1554,7 @@
     }
   }
 
-  // 渲染引导提问为可点击气泡；点击 → 发起 relate_follow 追问
+  // 渲染引导提问为可点击气泡；点击  发起 relate_follow 追问
   function renderFollowups(followups, provider) {
     var wrap = document.getElementById("aiRelateFollow");
     if (!wrap) return;
@@ -1620,7 +1620,7 @@
     btn.textContent = msg;
     setTimeout(function () { btn.textContent = old; }, 1400);
   }
-  // 详情底部「🤖 AI 关联」按钮（静态，绑定一次）
+  // 详情底部「 AI 关联」按钮（静态，绑定一次）
   var aiMainBtn = document.getElementById("detailAiRelate");
   if (aiMainBtn) aiMainBtn.addEventListener("click", function () { openAiAssist(currentDetailId, false); });
   // 模型选择器：变更即存 localStorage（下次默认），并清当前卡缓存以便切源重取
@@ -1633,7 +1633,7 @@
       syncAiPickers();
     }
   });
-  // 自定义选项引导：选中 custom 但三项未填 → 显示提示；填好了 → 隐藏
+  // 自定义选项引导：选中 custom 但三项未填  显示提示；填好了  隐藏
   function updateAiCustomTip() {
     var tip = document.getElementById("aiCustomTip");
     if (!tip) return;

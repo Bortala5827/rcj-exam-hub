@@ -80,7 +80,7 @@
         'RCJ <span>Exam Hub</span></a>' +
     '</div></header>' +
     '<main>' +
-      '<a class="backlink" href="/">← 返回考试学习中心</a>' +
+      '<a class="backlink" href="/"> 返回考试学习中心</a>' +
       '<h1>' + escapeHtml(meta.title) + '</h1>' +
       (meta.subtitle ? '<p class="sub">' + escapeHtml(meta.subtitle) + '</p>' : '') +
       '<div class="toolbar">' +

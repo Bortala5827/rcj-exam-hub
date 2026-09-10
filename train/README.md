@@ -7,7 +7,7 @@
 核心：**成长数据才是资产，标准全由用户自定义**（平台零官方数字、零误导风险，永不因标准变化失效）。
 
 ## 模块（纯前端 + localStorage，无后端）
-- **我的目标**：选"我要成为谁"（辅警 / 消防 / 自定义）→ 六维能力（心肺 / 力量 / 爆发 / 速度 / 灵敏 / 恢复）逐项自定义目标项。
+- **我的目标**：选"我要成为谁"（辅警 / 消防 / 自定义） 六维能力（心肺 / 力量 / 爆发 / 速度 / 灵敏 / 恢复）逐项自定义目标项。
 - **我的测试**：按日期记录单次成绩。
 - **成长记录**：能力地图进度条 + 与目标的差距 + 趋势 sparkline。
 - **为什么练**：6 张运动生理学知识卡 + 科普免责声明。
@@ -19,7 +19,7 @@
 
 ## 部署
 `exam.955827.xyz/train`（rcj-exam-bank 仓库，推 `main` 即 CF Pages 自动部署）。
-源：`products/projects/RCJ-Train-MVP/index.html` → 副本：`_repos/rcj-exam-bank/train/index.html`。
+源：`products/projects/RCJ-Train-MVP/index.html`  副本：`_repos/rcj-exam-bank/train/index.html`。
 
 ## 后续（验证后再做，不堆叠）
 学员扫码档案 / 多端云同步 / 账号体系、游戏化今日任务、完整雷达图 + Lv、周期化 12 周计划。

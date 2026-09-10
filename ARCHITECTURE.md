@@ -14,18 +14,18 @@
               RCJ Lab  (rcj-lab)      RCJ Exam Hub  (本仓库)
             Speak Series 入口        公职考试学习中枢
               /solospeak                  │
-              /letout                     ├── /train   （体测·体能工具，子路径嵌入 ✅）
+              /letout                     ├── /train   （体测·体能工具，子路径嵌入 ）
               /letout                     │
-                                          └── 链接出去 ↓（被 hub 指向，非合并）
+                                          └── 链接出去 （被 hub 指向，非合并）
 
-  独立产品（自有后端 / 品牌 / 边界清晰）→ 走子域名，被各 hub 链接出去：
-    exam.955827.xyz/fj ← rcj-exam-bank/fj   辅警刷题站（笔试+面试，2026-08-17 由 aux-police-exam 并入 /fj 子路径）
-    xf.955827.xyz     ← rcj-exam-bank/xf     消防刷题站（笔试+面试，已并入本仓库 /xf 子路径）
-    facetalk.955827.xyz ← facetalk          FaceTalk 面试搭子（P2P 匹配）
+  独立产品（自有后端 / 品牌 / 边界清晰） 走子域名，被各 hub 链接出去：
+    exam.955827.xyz/fj  rcj-exam-bank/fj   辅警刷题站（笔试+面试，2026-08-17 由 aux-police-exam 并入 /fj 子路径）
+    xf.955827.xyz      rcj-exam-bank/xf     消防刷题站（笔试+面试，已并入本仓库 /xf 子路径）
+    facetalk.955827.xyz  facetalk          FaceTalk 面试搭子（P2P 匹配）
 ```
 
 **设计铁律**：轻量工具进 hub 子路径；独立产品（有自己后端 / 独立品牌 / 产品边界清晰）走子域名。
-Training（体测·体能）轻、无后端 → 作 `/train` 子路径；消防刷题站自 2026-08-16 起并入本仓库 `/xf` 子路径（内容同原 xf.955827.xyz，原仓库 xf-firefighter-exam 已删除）；辅警刷题站自 2026-08-17 起并入本仓库 `/fj` 子路径（内容同原 fj.955827.xyz，原仓库 aux-police-exam 已删除）；旧 fj.955827.xyz 已设 301 跳转至本路径，FaceTalk 是完整产品 → 独立子域，不并入。
+Training（体测·体能）轻、无后端  作 `/train` 子路径；消防刷题站自 2026-08-16 起并入本仓库 `/xf` 子路径（内容同原 xf.955827.xyz，原仓库 xf-firefighter-exam 已删除）；辅警刷题站自 2026-08-17 起并入本仓库 `/fj` 子路径（内容同原 fj.955827.xyz，原仓库 aux-police-exam 已删除）；旧 fj.955827.xyz 已设 301 跳转至本路径，FaceTalk 是完整产品  独立子域，不并入。
 
 ---
 
@@ -47,7 +47,7 @@ Training（体测·体能）轻、无后端 → 作 `/train` 子路径；消防�
 ## 三、域名与 AdSense 约定
 
 - **现有子域（`exam` / `fj` / `xf` / `facetalk`）一律不动**：它们 DNS 已搞定、邮件/二维码/旧链接处处指向，回改纯自找断链。
-- **AdSense**：以根域 `955827.xyz` 为批准属性，根域获批后其下子路径与子域名均可挂广告。→ 现有子域无需为广告回改结构。
+- **AdSense**：以根域 `955827.xyz` 为批准属性，根域获批后其下子路径与子域名均可挂广告。 现有子域无需为广告回改结构。
 - **新项目默认走子路径**（`955827.xyz/<名>`，根域 Worker 代理、仓库独立、免 DNS）；独立性强的（如 FaceTalk）仍走子域名。
 
 ---
@@ -56,7 +56,7 @@ Training（体测·体能）轻、无后端 → 作 `/train` 子路径；消防�
 
 ### A. 修改 Exam Hub 本体（index.html / assets / guokao 等）
 1. 在 `_repos/rcj-exam-bank/` 改文件
-2. `git push origin main` → CF 自动部署（约 1–2 分钟）
+2. `git push origin main`  CF 自动部署（约 1–2 分钟）
 
 ### B. 修改 /train 子模块（RCJ Training）
 源码真理在 `products/projects/RCJ-Train-MVP/`，仓库内 `/train` 是副本：

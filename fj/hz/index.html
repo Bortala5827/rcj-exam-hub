@@ -33,9 +33,9 @@
 </head>
 <body>
 <header class="header">
-  <button class="theme-toggle" id="themeToggle" title="切换深色模式">🌙</button>
+  <button class="theme-toggle" id="themeToggle" title="切换深色模式"></button>
   <div class="header-content">
-    <h1><span class="emoji" id="siteEmoji">🚔</span> <span id="siteTitle">辅警真题卡组</span></h1>
+    <h1><span class="emoji" id="siteEmoji"></span> <span id="siteTitle">辅警真题卡组</span></h1>
     <p class="subtitle" id="siteSubtitle">真实考试真题 · 笔试 · 离线可用</p>
     <div class="regions-row" id="regionsRow"></div>
     <div class="mode-tabs" id="modeTabs"></div>
@@ -44,7 +44,7 @@
       <div class="stat-card"><div class="stat-num" id="statNum1">0</div><div class="stat-label" id="statLabel1">覆盖年份</div></div>
       <div class="stat-card"><div class="stat-num" id="statNum2">0</div><div class="stat-label" id="statLabel2">题型分类</div></div>
       <div class="progress-container">
-        <div class="progress-text"><span id="progressLabel">📊 离线刷题进度</span><span id="progressPercent">0%</span></div>
+        <div class="progress-text"><span id="progressLabel"> 离线刷题进度</span><span id="progressPercent">0%</span></div>
         <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressBar"></div></div>
       </div>
     </div>
@@ -53,13 +53,13 @@
 <div class="toolbar">
   <div class="toolbar-inner">
     <div class="search-wrap">
-      <span class="search-icon">🔍</span>
+      <span class="search-icon"></span>
       <input type="text" class="search-input" id="searchInput" placeholder="搜索题目关键词、答案内容…">
     </div>
     <div id="filterRows"></div>
     <div class="action-row">
-      <button class="action-btn exam-enter-btn" id="examBtn">📝 套题模考</button>
-      <button class="action-btn mark-mode-toggle" id="markModeBtnTop" type="button">🟢 错题本</button>
+      <button class="action-btn exam-enter-btn" id="examBtn"> 套题模考</button>
+      <button class="action-btn mark-mode-toggle" id="markModeBtnTop" type="button"> 错题本</button>
       <a class="btn-cart" href="https://shop.955827.xyz/" target="_blank" rel="noopener" aria-label="Store" data-quantity="0">
   <svg class="icon-cart" viewBox="0 0 24.38 30.52" height="30.52" width="24.38" xmlns="http://www.w3.org/2000/svg">
     <title>icon-cart</title>
@@ -67,7 +67,7 @@
   </svg>
   <span class="quantity"></span>
 </a>
-      <button class="action-btn reward-btn" id="rewardBtn">💝 打赏作者</button>
+      <button class="action-btn reward-btn" id="rewardBtn"> 打赏作者</button>
       <span class="result-count" id="resultCount"></span>
     </div>
     <!-- 隐藏占位元素，避免 app.js 报错 -->
@@ -97,7 +97,7 @@
 </div>
 <div class="promo-banner" id="promoBanner">
   <button class="promo-close" id="promoClose" title="收起">×</button>
-  <div class="promo-icon">✏️</div>
+  <div class="promo-icon"></div>
   <div class="promo-body">
     <div class="promo-title" id="promoTitle">作者</div>
     <div class="promo-text" id="promoText"></div>
@@ -105,19 +105,19 @@
     </div>
   </div>
 </div>
-<main class="main" id="questionsList"><div class="loader" id="loader"><div class="spinner"></div><span>📚 题库加载中…</span></div></main>
+<main class="main" id="questionsList"><div class="loader" id="loader"><div class="spinner"></div><span> 题库加载中…</span></div></main>
 <div class="load-more-wrap" id="loadMoreWrap" style="display:none;">
-  <button class="action-btn load-more-btn" id="loadMoreBtn">⬇️ 加载更多题目</button>
+  <button class="action-btn load-more-btn" id="loadMoreBtn"> 加载更多题目</button>
 </div>
 <div class="exam-setup-overlay" id="examSetupOverlay" style="display:none;">
   <div class="exam-setup-card">
-    <h3 class="exam-setup-title">📝 套题模考 · 出卷设置</h3>
-    <p class="exam-setup-tip">两种出卷方式：① <b>按套题批次</b> 直接刷整套真题；② <b>自定义随机卷</b> 按题型数量随机抽题。打字题为附加项，<b>不计入客观题分</b>（排在最前，进入模考即可看到）。</p>
+    <h3 class="exam-setup-title"> 套题模考 · 出卷设置</h3>
+    <p class="exam-setup-tip">两种出卷方式： <b>按套题批次</b> 直接刷整套真题； <b>自定义随机卷</b> 按题型数量随机抽题。打字题为附加项，<b>不计入客观题分</b>（排在最前，进入模考即可看到）。</p>
     <div class="exam-setup-row">
       <label for="examPlanMode">出卷方式</label>
       <select class="exam-setup-select" id="examPlanMode">
-        <option value="batch">📚 按套题批次刷（整套真题）</option>
-        <option value="random">🎲 自定义随机卷</option>
+        <option value="batch"> 按套题批次刷（整套真题）</option>
+        <option value="random"> 自定义随机卷</option>
       </select>
     </div>
     <div class="exam-setup-row" id="examBatchRow">
@@ -146,7 +146,7 @@
       </div>
     </div>
     <div class="exam-setup-cell exam-setup-cell-wide">
-      <label for="examMinutes" class="exam-setup-check"><span style="font-weight:600">⏱️ 考试时长</span></label>
+      <label for="examMinutes" class="exam-setup-check"><span style="font-weight:600"> 考试时长</span></label>
       <div class="exam-setup-typing-min">
         <input type="number" min="0" id="examMinutes" class="exam-setup-input exam-setup-input-sm" value="60"> <span>分钟（填 0 或不限时不计时）</span>
       </div>
@@ -154,25 +154,25 @@
     <div class="exam-setup-info" id="examSetupInfo"></div>
     <div class="exam-setup-actions">
       <button class="exam-btn exam-btn-ghost" id="examSetupCancel">取消</button>
-      <button class="exam-btn exam-btn-ghost" id="examSetupPreset" type="button">↺ <span id="examPresetLabel">标准模考</span></button>
-      <button class="exam-btn exam-btn-primary" id="examSetupStart">🚀 开始模考</button>
+      <button class="exam-btn exam-btn-ghost" id="examSetupPreset" type="button"> <span id="examPresetLabel">标准模考</span></button>
+      <button class="exam-btn exam-btn-primary" id="examSetupStart"> 开始模考</button>
     </div>
   </div>
 </div>
 <section class="exam-view" id="examView" style="display:none;">
   <div class="exam-bar">
     <div class="exam-bar-left">
-      <h2 class="exam-title">📝 套题模考 · <span id="examModeLabel">笔试</span></h2>
+      <h2 class="exam-title"> 套题模考 · <span id="examModeLabel">笔试</span></h2>
       <p class="exam-sub">本套共 <span id="examTotal">0</span> 题 · <span id="examSubInfo"></span></p>
     </div>
     <div class="exam-bar-right">
-      <button class="exam-btn exam-btn-ghost" id="examExitBtn">← 返回浏览</button>
-      <button class="exam-btn exam-btn-ghost" id="examResetBtn">🔄 重新模考</button>
-      <button class="exam-btn exam-btn-primary" id="examSubmitBtn">✅ 提交试卷</button>
+      <button class="exam-btn exam-btn-ghost" id="examExitBtn"> 返回浏览</button>
+      <button class="exam-btn exam-btn-ghost" id="examResetBtn"> 重新模考</button>
+      <button class="exam-btn exam-btn-primary" id="examSubmitBtn"> 提交试卷</button>
       </div>
     </div>
     <div class="exam-timer-bar" id="examTimerBar" style="display:none;">
-      <span class="exam-timer-label">⏱️ 剩余时间</span>
+      <span class="exam-timer-label"> 剩余时间</span>
       <div class="exam-timer-track"><div class="exam-timer-fill" id="examTimerFill"></div></div>
       <span class="exam-timer-digits" id="examTimerDigits">60:00</span>
     </div>
@@ -180,7 +180,7 @@
   <div class="exam-questions" id="examQuestions"></div>
 </section>
 
-<button class="back-to-top" id="backToTop" title="回到顶部">↑</button>
+<button class="back-to-top" id="backToTop" title="回到顶部"></button>
 <span class="build-version" id="buildVersion"></span>
 <footer class="footer"><p id="footerText">© 辅警真题卡组 · 在线开源版</p></footer>
 
@@ -188,7 +188,7 @@
 
 <div class="xianyu-toast-overlay" id="rewardToastOverlay">
   <div class="xianyu-toast">
-    <div class="xt-icon">💝</div>
+    <div class="xt-icon"></div>
     <div class="xt-title" id="rewardTitle">请作者喝水</div>
     <div class="xt-desc" id="rewardDesc"></div>
     <img class="xt-qr" id="rewardQr" src="" alt="赞赏码" loading="lazy" decoding="async">
@@ -218,7 +218,7 @@
 
 <div class="rcj-brandbar">
   <p class="rcj-links">
-    <a class="exam-hub" href="https://exam.955827.xyz/" target="_blank" rel="noopener">🏛️ RCJ EXAM HUB</a>
+    <a class="exam-hub" href="https://exam.955827.xyz/" target="_blank" rel="noopener"> RCJ EXAM HUB</a>
   </p>
   <p class="rcj-slogan" style="margin-top:4px;">© 2026 RCJ9527 · Powered by Cloudflare Pages</p>
 </div>

@@ -12,7 +12,7 @@
     <div class="nav">
       <a class="brand" href="/"><span><b>RCJ</b> Exam Hub</span></a>
       <div class="nav-actions">
-        <a class="back-link" href="index.html">← 教学专区</a>
+        <a class="back-link" href="index.html"> 教学专区</a>
       </div>
     </div>
   </header>
@@ -46,12 +46,12 @@
       <li><strong>连接 GitHub 仓库</strong>：适合准备长期维护、想自动同步代码的人。以后每次改完代码 push，Pages 都会自动重新部署。</li>
       <li><strong>直接上传文件</strong>：适合只想快速上线、暂时不想学 Git 的人。把本地文件夹拖进 Cloudflare 即可，无需仓库。</li>
     </ul>
-    <div class="callout tip"><span class="cic">💡</span><p class="ctext">第一次建站建议先用「直接上传」把页面跑起来；熟悉后再切到 GitHub，自动部署更省心。</p></div>
+    <div class="callout tip"><span class="cic"></span><p class="ctext">第一次建站建议先用「直接上传」把页面跑起来；熟悉后再切到 GitHub，自动部署更省心。</p></div>
 
     <h2 id="git">三、方式一：连接 GitHub 仓库</h2>
     <p>这种方式需要先把网站文件放到 GitHub。如果你还没建仓库，先看 <a href="github.html">GitHub 注册与仓库管理</a>。</p>
     <ol class="steps">
-      <li class="step"><h3>进入 Pages</h3><p>在 Cloudflare 后台左侧菜单找到 <strong>Workers & Pages</strong> → 点 <strong>Create</strong> → 选 <strong>Pages</strong> 标签页。</p></li>
+      <li class="step"><h3>进入 Pages</h3><p>在 Cloudflare 后台左侧菜单找到 <strong>Workers & Pages</strong>  点 <strong>Create</strong>  选 <strong>Pages</strong> 标签页。</p></li>
       <li class="step"><h3>连接 Git</h3><p>点 <strong>Connect to Git</strong>，授权 Cloudflare 访问你的 GitHub，然后选中刚才建好的仓库。</p></li>
       <li class="step"><h3>首次授权</h3><p>按提示在 GitHub 弹窗里点 "Authorize Cloudflare"，允许它读取你的仓库。</p></li>
       <li class="step"><h3>配置构建（静态站重点）</h3>
@@ -61,7 +61,7 @@
           <li><strong>Build command</strong>：<strong>留空</strong>（不用敲任何命令）。</li>
           <li><strong>Build output directory</strong>：首页在仓库根目录就填 <code>/</code>；若放在子目录（如 <code>docs/</code>）就填对应目录名。</li>
         </ul>
-        <div class="callout warn"><span class="cic">⚠️</span><p class="ctext">不要随手选了某个框架（如 React/Vite），否则它会去跑 <code>npm build</code>，找不到配置就会部署失败。纯 HTML 站一律选 None。</p></div>
+        <div class="callout warn"><span class="cic"></span><p class="ctext">不要随手选了某个框架（如 React/Vite），否则它会去跑 <code>npm build</code>，找不到配置就会部署失败。纯 HTML 站一律选 None。</p></div>
       </li>
       <li class="step"><h3>开始部署</h3><p>点 <strong>Save and Deploy</strong>，等 1–2 分钟，状态变绿即成功。你会得到一个 <code>xxx.pages.dev</code> 免费网址。</p></li>
     </ol>
@@ -69,15 +69,15 @@
     <h2 id="upload">四、方式二：直接上传文件</h2>
     <p>不需要 Git，直接把本地文件夹拖进 Cloudflare 即可上线。</p>
     <ol class="steps">
-      <li class="step"><h3>进入上传入口</h3><p>在 Cloudflare 后台打开 <strong>Workers & Pages</strong> → <strong>Create</strong> → 选 <strong>Pages</strong> → 点 <strong>Upload assets</strong>（上传资源）。</p></li>
+      <li class="step"><h3>进入上传入口</h3><p>在 Cloudflare 后台打开 <strong>Workers & Pages</strong>  <strong>Create</strong>  选 <strong>Pages</strong>  点 <strong>Upload assets</strong>（上传资源）。</p></li>
       <li class="step"><h3>命名项目</h3><p>给项目起一个名字（如 <code>my-first-site</code>），这个名字会出现在你的免费网址里。</p></li>
       <li class="step"><h3>上传文件夹</h3><p>把包含 <code>index.html</code> 的文件夹整个<strong>拖拽</strong>到上传区域，或点上传按钮选择文件夹。等待上传完成。</p></li>
       <li class="step"><h3>拿到网址</h3><p>上传完成后 Cloudflare 会自动部署，几秒到几分钟后给你一个 <code>xxx.pages.dev</code> 网址，点开后即可访问。</p></li>
     </ol>
-    <div class="callout note"><span class="cic">📌</span><p class="ctext">重新上传时，进入项目 → <strong>Deployments</strong> → <strong>Upload assets</strong>，拖入新的文件夹即可覆盖上线。对命令行熟悉的用户也可以用 Wrangler CLI 的 <code>wrangler pages deploy</code> 直接推。</p></div>
+    <div class="callout note"><span class="cic"></span><p class="ctext">重新上传时，进入项目  <strong>Deployments</strong>  <strong>Upload assets</strong>，拖入新的文件夹即可覆盖上线。对命令行熟悉的用户也可以用 Wrangler CLI 的 <code>wrangler pages deploy</code> 直接推。</p></div>
 
     <h2 id="domain">五、（可选）绑定自己的域名</h2>
-    <p>两种方式部署完成后，都可以在 Pages 项目里点 <strong>Custom domains</strong> → 添加你的域名，按提示去域名商后台加一条 CNAME 解析。没有域名也能用 <code>.pages.dev</code> 免费跑，不影响已上线内容。</p>
+    <p>两种方式部署完成后，都可以在 Pages 项目里点 <strong>Custom domains</strong>  添加你的域名，按提示去域名商后台加一条 CNAME 解析。没有域名也能用 <code>.pages.dev</code> 免费跑，不影响已上线内容。</p>
 
     <h2 id="update">六、之后如何更新</h2>
     <ul>
@@ -85,11 +85,11 @@
       <li><strong>直接上传方式</strong>：进入项目重新上传整个文件夹覆盖旧版本。</li>
       <li>浏览器看旧版？按 <strong>Ctrl+F5</strong>（Mac：Cmd+Shift+R）强制刷新。</li>
     </ul>
-    <div class="callout danger"><span class="cic">🚫</span><p class="ctext">Cloudflare Pages 免费版对<strong>单个文件有 25MB 上限</strong>。上传前请确认没有超大 PDF/视频，否则整次部署会失败。</p></div>
+    <div class="callout danger"><span class="cic"></span><p class="ctext">Cloudflare Pages 免费版对<strong>单个文件有 25MB 上限</strong>。上传前请确认没有超大 PDF/视频，否则整次部署会失败。</p></div>
 
     <div class="pager">
-      <a class="prev" href="ai-tools.html"><div class="plabel">← 上一篇</div><div class="ptitle">用 AI 桌面工具建站</div></a>
-      <a class="next" href="github.html"><div class="plabel">下一篇 →</div><div class="ptitle">GitHub 注册与仓库管理</div></a>
+      <a class="prev" href="ai-tools.html"><div class="plabel"> 上一篇</div><div class="ptitle">用 AI 桌面工具建站</div></a>
+      <a class="next" href="github.html"><div class="plabel">下一篇 </div><div class="ptitle">GitHub 注册与仓库管理</div></a>
     </div>
   </main>
 
