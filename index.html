@@ -176,12 +176,52 @@
     .ext-link p { font-size: .82rem; margin: 0; color: var(--muted); }
     .ext-link .el-tag {
       display: inline-block; font-size: .64rem; font-weight: 600; padding: 1px 7px; border-radius: 999px;
-      background: #f3f4f6; color: #6b7280; margin-left: 6px; vertical-align: middle;
+      background: transparent; color: #9ca3af; border: 1px solid var(--border);
+      margin-left: 6px; vertical-align: middle;
     }
-    .status-ext { background: #dcfce7; color: #166534; }
-    .status-local { background: #dbeafe; color: #1e40af; }
-    .status-sub { background: #ede9fe; color: #6d28d9; }
     .status-link { background: #f3f4f6; color: #6b7280; }
+    /* 视觉分层：本站核心资产（高饱和） vs 外站（弱化） */
+    .status-local {
+      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+      color: #fff; box-shadow: 0 2px 8px rgba(220,38,38,.32);
+    }
+    .status-local.amber {
+      background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+      color: #7c2d12; box-shadow: 0 2px 8px rgba(245,158,11,.36);
+    }
+    .status-ext { background: #f3f4f6; color: #9ca3af; border: 1px solid var(--border); }
+    .status-sub { background: #ede9fe; color: #6d28d9; }
+    /* 本站独家卡：消防=高饱和红，辅警=高饱和琥珀 */
+    .card-own {
+      border-left: 4px solid #dc2626; border-color: #fecaca;
+      background: linear-gradient(135deg, #ffffff 0%, #fff5f5 62%, #fee2e2 100%);
+    }
+    .card-own:hover { transform: translateY(-3px); border-color: #f87171; box-shadow: 0 12px 28px rgba(220,38,38,.18); }
+    .card-own h3 { color: #b91c1c; }
+    .card-own .meta span:last-child { color: #dc2626; font-weight: 700; }
+    .card-own.fj {
+      border-left-color: #f59e0b; border-color: #fde68a;
+      background: linear-gradient(135deg, #ffffff 0%, #fffbeb 62%, #fef3c7 100%);
+    }
+    .card-own.fj:hover { border-color: #fbbf24; box-shadow: 0 12px 28px rgba(245,158,11,.18); }
+    .card-own.fj h3 { color: #b45309; }
+    .card-own.fj .meta span:last-child { color: #d97706; font-weight: 700; }
+    .cat-own-tag {
+      display: inline-block; margin-left: 8px; vertical-align: middle;
+      font-size: .68rem; font-weight: 700; color: #fff;
+      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+      padding: 2px 9px; border-radius: 999px;
+      box-shadow: 0 2px 8px rgba(220,38,38,.28);
+    }
+    /* 外站引流：避坑引导语 + 长尾关键词厚度 */
+    .ext-note {
+      margin: 0 0 8px; font-size: .84rem; color: #92400e;
+      background: #fffbeb; border: 1px solid #fde68a; border-radius: 10px; padding: 9px 12px;
+    }
+    .ext-seo {
+      margin: 10px 0 0; padding-top: 8px; border-top: 1px dashed var(--border);
+      font-size: .8rem; line-height: 1.7; color: var(--muted);
+    }
     .card-teach {
       border-left: 4px solid var(--primary);
       background: linear-gradient(135deg, #ffffff 0%, #eff6ff 55%, #dbeafe 100%);
@@ -479,27 +519,29 @@
       <h2>找资料 <span class="badge">题库导航</span></h2>
 
       <div class="cat reveal">公考真题</div>
+      <p class="ext-note reveal">市面资料太多？这里只聚合去水版——第三方真题库与网盘合集，都是能直接下载的原卷，不放引流页、不收手机号。</p>
       <div class="ext-links">
         <a class="ext-link reveal" href="https://gwy.gkzhenti.cn/" target="_blank" rel="noopener">
           <h3>国考 · 省考 · 事业编真题库 <span class="el-tag">外站</span></h3>
-          <p>行测 / 申论 / 面试 + 公基 / 职测 / 综应历年真题，在线查看与下载。</p>
+          <p>2026 最新国考、省考行测申论真题库，事业单位公基、职测、综应历年真题及解析外链汇总。覆盖国考副省 / 地市 / 行政执法卷、各省省考与联考原卷，支持按年份、省份、岗位检索，原卷在线查看与下载。</p>
         </a>
         <a class="ext-link reveal" href="https://dfds2989-source.github.io/kaogong-materials/index.html" target="_blank" rel="noopener">
           <h3>考公资料合集 <span class="el-tag">外站</span></h3>
-          <p>网盘外链，自取。</p>
+          <p>考公网盘资料合集：2026 国考省考笔试网课、行测刷题册、申论范文与热点素材、结构化面试真题 PDF，网盘外链自取、持续更新，无套路、不强制加群。</p>
         </a>
       </div>
+      <p class="ext-seo">覆盖 2026 国考、省考、事业单位、三支一扶、社区工作者等公职类考试：行测常识判断、言语理解、数量关系、判断推理、资料分析五大模块真题；申论归纳概括、综合分析、提出对策、贯彻执行、文章写作五大题型范文；公基政治、法律、经济、管理、公文、科技人文考点；职测与综应历年真题及答案解析。以上均为可下载原卷外链汇总，本站不托管、不收费。</p>
 
-      <div class="cat reveal">辅警 / 消防</div>
+      <div class="cat reveal">辅警 / 消防 <span class="cat-own-tag">本站独家</span></div>
       <div class="cards">
-        <a class="card card-sub reveal" href="https://exam.955827.xyz/fj/" target="_blank" rel="noopener">
-          <h3> 辅警</h3>
-          <p>深圳/惠州辅警结构化面试真题，录音演练、随机抽题、练习记录。</p>
-          <div class="meta"><span class="status status-local">本站</span></div>
+        <a class="card card-own fj reveal" href="https://exam.955827.xyz/fj/" target="_blank" rel="noopener">
+          <h3> 辅警线上面试</h3>
+          <p>深圳 / 惠州辅警结构化面试真题，录音演练、随机抽题、练习记录，免费在线练、数据存本机。</p>
+          <div class="meta"><span class="status status-local amber">本站</span></div>
         </a>
-        <a class="card card-sub xf reveal" href="xf/">
-          <h3> 消防</h3>
-          <p>国家队 + 政府专职面试题库，录音演练、随机抽题，本地留存。</p>
+        <a class="card card-own xf reveal" href="xf/">
+          <h3> 消防实战题库</h3>
+          <p>国家队 + 政府专职消防面试真题，录音演练、随机抽题，数据本地留存，免费无广告。</p>
           <div class="meta"><span class="status status-local">本站</span></div>
         </a>
       </div>
