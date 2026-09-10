@@ -50,7 +50,6 @@ a{color:var(--primary);text-decoration:none;transition:color .15s;}
 .theme-toggle:hover{background:rgba(255,255,255,.34);transform:rotate(15deg);}
 .hub-btn{position:absolute;top:16px;left:16px;z-index:3;display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);color:#fff;font-weight:600;font-size:.82rem;padding:7px 14px;border-radius:999px;transition:.15s;white-space:nowrap;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);}
 .hub-btn:hover{background:rgba(255,255,255,.3);transform:translateY(-1px);}
-.hub-btn .hub-icon{font-size:14px;line-height:1;}
 
 /* ── Stats ── */
 .stats{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:22px;position:relative;}
@@ -70,8 +69,7 @@ a{color:var(--primary);text-decoration:none;transition:color .15s;}
 .toolbar .tool-panel{max-width:880px;margin:0 auto;padding:0 16px;}
 .top-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:12px;}
 .search-wrap{position:relative;flex:1 1 260px;min-width:220px;}
-.search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);opacity:.45;font-size:15px;}
-.search-input{width:100%;padding:12px 14px 12px 40px;border:1px solid var(--border);border-radius:12px;
+.search-input{width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:12px;
   font-size:15px;background:var(--card);color:var(--text);box-shadow:var(--shadow-sm);transition:.18s;}
 .search-input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(181,72,70,.12);}
 .filter-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;align-items:center;}
@@ -92,8 +90,6 @@ body.dark .result-count strong{color:var(--primary-light-blue);}
 /* 折叠工具栏 */
 .tool-toggle{display:inline-flex;align-items:center;gap:4px;padding:7px 14px;border-radius:10px;background:var(--primary);color:#fff;border:none;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;}
 .tool-toggle:hover{opacity:.9;}
-.tool-toggle .chev{display:inline-block;transition:transform .2s;font-size:10px;}
-.toolbar.collapsed .tool-toggle .chev{transform:rotate(-90deg);}
 .tool-collapsed{display:none;padding:10px 14px;background:var(--surface);border-bottom:1px solid var(--border-light);align-items:center;gap:10px;flex-wrap:wrap;font-size:13px;}
 .toolbar.collapsed .tool-collapsed{display:flex;}
 .toolbar.collapsed .tool-panel{display:none;}
@@ -271,7 +267,6 @@ body{padding-bottom:80px;}
 <header class="header">
   <button class="theme-toggle" id="themeToggle" title="切换深色模式"></button>
   <a class="hub-btn" href="https://exam.955827.xyz/" target="_blank" rel="noopener">
-    <span class="hub-icon"></span>
     <span class="hub-txt">题库首页</span>
   </a>
   <h1>消防员面试真题库</h1>
@@ -295,9 +290,8 @@ body{padding-bottom:80px;}
     </div>
     <div class="tool-panel">
       <div class="top-row">
-        <button class="tool-toggle" id="collapseTool" title="折叠工具栏"> 折叠<span class="chev"></span></button>
+        <button class="tool-toggle" id="collapseTool" title="折叠工具栏"> 折叠</button>
         <div class="search-wrap">
-          <span class="search-icon"></span>
           <input type="text" class="search-input" id="searchInput" placeholder="搜索题目关键词、参考答案内容…">
         </div>
         <div class="action-row">
