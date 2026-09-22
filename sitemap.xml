@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- RCJ Exam Hub（exam.955827.xyz）— 题库 / 知识卡 / 结构化面试 / 教程 -->
   <url>
     <loc>https://exam.955827.xyz/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://exam.955827.xyz/fj/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
   </url>
   <url>
     <loc>https://exam.955827.xyz/fj/sz/</loc>
@@ -11,9 +17,14 @@
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://exam.955827.xyz/xf/</loc>
+    <loc>https://exam.955827.xyz/fj/hz/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://exam.955827.xyz/xf/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
   </url>
   <url>
     <loc>https://exam.955827.xyz/learn/</loc>
@@ -21,14 +32,9 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://exam.955827.xyz/fj/</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://exam.955827.xyz/fj/hz/</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <loc>https://exam.955827.xyz/structured/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://exam.955827.xyz/guides/</loc>
@@ -36,8 +42,33 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://exam.955827.xyz/structured/</loc>  <!-- 结构化面试练习（原 structured.html） -->
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <loc>https://exam.955827.xyz/guides/github.html</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://exam.955827.xyz/guides/cloudflare.html</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://exam.955827.xyz/guides/build-site.html</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://exam.955827.xyz/guides/api-key.html</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://exam.955827.xyz/guides/ai-tools.html</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://exam.955827.xyz/guides/advanced-deploy.html</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
   </url>
 </urlset>
