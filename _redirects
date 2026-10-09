@@ -4,3 +4,4 @@
 /solo.html /structured 301
 /tutorials/* /guides/:splat 301
 /structured.html /structured/ 301
+/* /404.html 404
