@@ -166,12 +166,9 @@
     /* ============== 数据背书条 ============== */
     .stats { max-width: 1040px; margin: 44px auto 0; padding: 0 20px; }
     .stats-inner {
-      display: flex; justify-content: center;
-      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-sm); overflow: hidden;
+      display: flex; justify-content: center; align-items: center; gap: 64px;
     }
-    .stat { flex: 1; text-align: center; padding: 26px 12px; }
-    .stat + .stat { border-left: 1px solid var(--border); }
+    .stat { text-align: center; }
     .stat .num {
       font-size: 2.15rem; font-weight: 800; line-height: 1.1; letter-spacing: -0.8px;
       background: linear-gradient(180deg, #1d4ed8 0%, #60a5fa 100%);
@@ -430,7 +427,7 @@
         <div class="stats-inner">
           <div class="stat"><div class="num">题库</div></div>
           <div class="stat"><div class="num">教程</div></div>
-          <div class="stat"><div class="num">0 门槛</div></div>
+          <div class="stat"><div class="num">门槛</div></div>
         </div>
       </div>
     </div>
