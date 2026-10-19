@@ -202,7 +202,7 @@
     .learn-ticker .tk-roll span { margin: 0 24px; }
     .learn-ticker .tk-roll b { color: var(--text); font-weight: 600; }
     @keyframes tkScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-    @media (prefers-reduced-motion: reduce) { .learn-ticker .tk-roll { animation: none; } }
+    /* Learn 滚动条为纯装饰动画，始终滚动（不随系统的减少动态设置停用） */
 
     /* ============== 通用区块 ============== */
     main { max-width: 1040px; margin: 0 auto; padding: 8px 20px 56px; }
