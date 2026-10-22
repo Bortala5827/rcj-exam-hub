@@ -187,8 +187,9 @@ export async function onRequestDelete(context) {
   const city = cityOf(url.searchParams.get("city"));
   const id = sanitize(url.searchParams.get("id"), 40);
   const admin = url.searchParams.get("admin") || "";
-  const secret = (context.env && context.env.WALL_ADMIN) || "rcj9527";
-  if (admin !== secret) return json({ ok: false, error: "BAD_ADMIN" }, 403);
+  // 管理员口令只从环境变量 WALL_ADMIN 读取；未配置或不匹配一律 403，不再内置公开回退值
+  const secret = (context.env && context.env.WALL_ADMIN) || "";
+  if (!secret || admin !== secret) return json({ ok: false, error: "BAD_ADMIN" }, 403);
   const db = getDB(context.env);
   if (!db) return json({ ok: false, error: "DB_NOT_BOUND" }, 503);
   try {
