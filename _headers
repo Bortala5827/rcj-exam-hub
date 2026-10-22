@@ -1,5 +1,15 @@
 # RCJ Exam Bank 缓存策略（Cloudflare Pages 自动读取本文件）
 # HTML 不长期缓存：每次访问都向源站验证，部署更新后用户无需手动清缓存即可看到新版
+
+# ===== 全局安全响应头（2026-10-22）：HSTS / 防点击劫持 / MIME 嗅探 / 引用来源 / 宽松 CSP =====
+# CSP 说明：全站内联脚本/样式普遍存在，故 script/style 保留 'unsafe-inline'；
+# 浏览器侧外联仅 955827.xyz 埋点（connect-src https:），GA4 经环境变量注入时放行 googletagmanager。
+/*
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+  X-Frame-Options: SAMEORIGIN
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https:; frame-ancestors 'self'; object-src 'none'; base-uri 'self'
 /*.html
   Cache-Control: public, max-age=0, must-revalidate
 

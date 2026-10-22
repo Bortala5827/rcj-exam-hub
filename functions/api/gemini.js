@@ -102,6 +102,67 @@ function json(data, status) {
   });
 }
 
+// ===== 防滥用加固辅助：D1 绑定探测 / 来源校验 / 限流（表故障一律 fail-open）=====
+const ALLOWED_HOST = "exam.955827.xyz";
+const MAX_TEXT_LEN = 8000; // topic/prompt/question/hook/concept 字符上限
+const PROVIDER_WHITELIST = ["dots", "agnes", "sensenova", "bai", "groq", "custom"];
+
+function getDB(env) {
+  if (env && env.DB) return env.DB;
+  if (env) {
+    for (const k of Object.keys(env)) {
+      const v = env[k];
+      if (v && typeof v.prepare === "function" && typeof v.exec === "function") return v;
+    }
+  }
+  return null;
+}
+
+// 来源校验：Origin 优先、Referer 兜底，必须是本站域；ALLOW_IPS 白名单豁免
+function checkSource(request, allowIps) {
+  const ip = request.headers.get("cf-connecting-ip") || "unknown";
+  if (Array.isArray(allowIps) && allowIps.includes(ip)) return true;
+  const src = request.headers.get("origin") || request.headers.get("referer") || "";
+  if (!src) return false;
+  try {
+    const host = new URL(src).hostname;
+    return host === ALLOWED_HOST || host.endsWith("." + ALLOWED_HOST);
+  } catch (e) {
+    return false;
+  }
+}
+
+// D1 限流：per-IP 每分钟 rpm 次、每天 rpd 次；任何异常（无绑定/表缺失/读写失败）放行
+async function rateLimited(env, ip, rpm, rpd) {
+  const db = getDB(env);
+  if (!db) return false;
+  try {
+    await db.prepare(
+      "CREATE TABLE IF NOT EXISTS rate_limits (ip TEXT, bucket TEXT, n INTEGER DEFAULT 0, updated_at INTEGER, PRIMARY KEY(ip, bucket))"
+    ).run();
+    const minuteKey = "m" + Math.floor(Date.now() / 60000);
+    const dayKey = "d" + new Date().toISOString().slice(0, 10);
+    const mRow = await db.prepare("SELECT n FROM rate_limits WHERE ip=? AND bucket=?").bind(ip, minuteKey).all();
+    const mN = mRow.results.length ? (Number(mRow.results[0].n) || 0) : 0;
+    if (mN >= rpm) return true;
+    const dRow = await db.prepare("SELECT n FROM rate_limits WHERE ip=? AND bucket=?").bind(ip, dayKey).all();
+    const dN = dRow.results.length ? (Number(dRow.results[0].n) || 0) : 0;
+    if (dN >= rpd) return true;
+    const bump = (bucket) =>
+      db.prepare(
+        "INSERT INTO rate_limits (ip, bucket, n, updated_at) VALUES (?,?,1,?) ON CONFLICT(ip, bucket) DO UPDATE SET n = n + 1, updated_at = excluded.updated_at"
+      ).bind(ip, bucket, Date.now()).run();
+    await bump(minuteKey);
+    await bump(dayKey);
+    return false;
+  } catch (e) {
+    return false; // fail-open：限流表故障不挡正常用户
+  }
+}
+
+// 供本地 mock 测试（CF 运行时忽略额外导出）
+export const __geminiTest = { checkSource, rateLimited, getDB, MAX_TEXT_LEN, PROVIDER_WHITELIST };
+
 export async function onRequestPost(context) {
   const { request, env } = context;
     const startedAt = Date.now();
@@ -125,6 +186,58 @@ export async function onRequestPost(context) {
   }
 
   const { topic, prompt } = body;
+
+  // ===== 0) 来源校验：仅本站 exam.955827.xyz（Origin/Referer），ALLOW_IPS 豁免 =====
+  const ip = request.headers.get("cf-connecting-ip") || "unknown";
+  const allowIps = (env && env.ALLOW_IPS ? env.ALLOW_IPS : "")
+    .split(",").map((s) => s.trim()).filter(Boolean);
+  if (!checkSource(request, allowIps)) {
+    return json({ error: "仅允许本站调用该接口" }, 403);
+  }
+
+  // ===== 0.5) 参数校验（白名单 + 长度上限，非法直接 400，不消耗渠道配额）=====
+  if (body.mode === "relate" || body.mode === "relate_follow") {
+    const provider = String(body.provider || "").toLowerCase();
+    if (provider && !PROVIDER_WHITELIST.includes(provider)) {
+      return json({ error: "provider 不在白名单：" + PROVIDER_WHITELIST.join("/") }, 400);
+    }
+    if (provider === "custom") {
+      const c = body.custom || {};
+      if (!String(c.baseUrl || "").trim() || !String(c.model || "").trim() || !String(c.apiKey || "").trim()) {
+        return json({ error: "自定义模型需要接口地址、模型名、API Key 三项齐全" }, 400);
+      }
+      if (String(c.model).length > 100) return json({ error: "模型名过长（上限 100 字符）" }, 400);
+    }
+    if (body.mode === "relate_follow" && !String(body.question || "").trim()) {
+      return json({ error: "relate_follow 缺少 question 字段" }, 400);
+    }
+    for (const f of ["hook", "concept", "question"]) {
+      if (typeof body[f] === "string" && body[f].length > MAX_TEXT_LEN) {
+        return json({ error: f + " 超长（上限 " + MAX_TEXT_LEN + " 字符）" }, 400);
+      }
+    }
+  } else if (body.mode === "relate_probe") {
+    const c = body.custom || {};
+    if (!String(c.baseUrl || "").trim() || !String(c.model || "").trim() || !String(c.apiKey || "").trim()) {
+      return json({ ok: false, error: "接口地址、模型名、API Key 三项齐全才能测试" }, 400);
+    }
+    if (String(c.model).length > 100) return json({ ok: false, error: "模型名过长（上限 100 字符）" }, 400);
+  } else {
+    if (!topic && !prompt) return json({ error: "请提供 topic 或 prompt 字段" }, 400);
+    if (typeof topic === "string" && topic.length > MAX_TEXT_LEN) {
+      return json({ error: "topic 超长（上限 " + MAX_TEXT_LEN + " 字符）" }, 400);
+    }
+    if (typeof prompt === "string" && prompt.length > MAX_TEXT_LEN) {
+      return json({ error: "prompt 超长（上限 " + MAX_TEXT_LEN + " 字符）" }, 400);
+    }
+  }
+
+  // ===== 0.6) D1 限流：每分钟 GEMINI_RPM（默认 10）、每天 GEMINI_RPD（默认 100），故障放行 =====
+  const rpm = parseInt((env && env.GEMINI_RPM) || "10", 10);
+  const rpd = parseInt((env && env.GEMINI_RPD) || "100", 10);
+  if (!allowIps.includes(ip) && await rateLimited(env, ip, rpm, rpd)) {
+    return json({ error: "请求过于频繁，请稍后再试" }, 429);
+  }
 
   // ===== 连通性探针：仅 custom 源用，验证用户自己的接口能否通 =====
   if (body.mode === "relate_probe") {
