@@ -133,9 +133,10 @@ function checkSource(request, allowIps) {
 }
 
 // D1 限流：per-IP 每分钟 rpm 次、每天 rpd 次；任何异常（无绑定/表缺失/读写失败）放行
+let __rlErr = "";
 async function rateLimited(env, ip, rpm, rpd) {
   const db = getDB(env);
-  if (!db) return false;
+  if (!db) { __rlErr = "NO_DB_BINDING"; return false; }
   try {
     await db.prepare(
       "CREATE TABLE IF NOT EXISTS rate_limits (ip TEXT, bucket TEXT, n INTEGER DEFAULT 0, updated_at INTEGER, PRIMARY KEY(ip, bucket))"
@@ -156,6 +157,7 @@ async function rateLimited(env, ip, rpm, rpd) {
     await bump(dayKey);
     return false;
   } catch (e) {
+    __rlErr = String((e && e.message) || e);
     return false; // fail-open：限流表故障不挡正常用户
   }
 }
@@ -237,6 +239,9 @@ export async function onRequestPost(context) {
   const rpd = parseInt((env && env.GEMINI_RPD) || "100", 10);
   if (!allowIps.includes(ip) && await rateLimited(env, ip, rpm, rpd)) {
     return json({ error: "请求过于频繁，请稍后再试" }, 429);
+  }
+  if (new URL(request.url).searchParams.get("rl_debug") === "1") {
+    return json({ debug: __rlErr || "ok", rpm, rpd, hasDb: !!getDB(env) }, 200);
   }
 
   // ===== 连通性探针：仅 custom 源用，验证用户自己的接口能否通 =====
