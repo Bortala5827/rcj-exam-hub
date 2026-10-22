@@ -110,7 +110,7 @@ const PROVIDER_WHITELIST = ["dots", "agnes", "sensenova", "bai", "groq", "custom
 // 只认 env.DB 这个 D1 绑定；不做全 env 扫描（避免把 R2 等其他 RPC 绑定误判为 D1）
 function getDB(env) {
   const db = env && env.DB;
-  if (db && typeof db.prepare === "function" && typeof db.exec === "function") return db;
+  if (db && typeof db.prepare === "function") return db;
   return null;
 }
 
@@ -128,56 +128,38 @@ function checkSource(request, allowIps) {
   }
 }
 
-// 无 D1 绑定/表故障时的内存兜底：同 isolate 内 per-IP 计数，防突发刷量；
-// isolate 回收即清空，仅作兜底，权威计数始终走 D1。
-const memHits = new Map();
-function memLimited(ip, rpm, rpd) {
-  const now = Date.now();
-  const minuteKey = "m" + Math.floor(now / 60000);
-  const dayKey = "d" + new Date().toISOString().slice(0, 10);
-  let e = memHits.get(ip);
-  if (!e || e.mk !== minuteKey) e = { mk: minuteKey, m: 0, dk: dayKey, d: 0 };
-  if (e.dk !== dayKey) { e.dk = dayKey; e.d = 0; }
-  if (e.m >= rpm || e.d >= rpd) return true;
-  e.m += 1;
-  e.d += 1;
-  memHits.set(ip, e);
-  return false;
-}
-
 // 限流：优先 D1 rate_limits 表（per-IP 每分钟 rpm、每天 rpd）；
-// 无绑定/表缺失/读写失败 → 内存兜底，再不行才放行（fail-open）。
+// 本 Pages 项目当前未绑定 D1，无绑定/表缺失/读写失败一律 fail-open 放行（不挡正常用户）。
+// 注意：CF isolate 会回收/轮换，内存计数不可靠，故不做内存兜底；接入 D1 后此函数即生效。
 async function rateLimited(env, ip, rpm, rpd) {
   const db = getDB(env);
-  if (db) {
-    try {
-      await db.prepare(
-        "CREATE TABLE IF NOT EXISTS rate_limits (ip TEXT, bucket TEXT, n INTEGER DEFAULT 0, updated_at INTEGER, PRIMARY KEY(ip, bucket))"
-      ).run();
-      const minuteKey = "m" + Math.floor(Date.now() / 60000);
-      const dayKey = "d" + new Date().toISOString().slice(0, 10);
-      const mRow = await db.prepare("SELECT n FROM rate_limits WHERE ip=? AND bucket=?").bind(ip, minuteKey).all();
-      const mN = mRow.results.length ? (Number(mRow.results[0].n) || 0) : 0;
-      if (mN >= rpm) return true;
-      const dRow = await db.prepare("SELECT n FROM rate_limits WHERE ip=? AND bucket=?").bind(ip, dayKey).all();
-      const dN = dRow.results.length ? (Number(dRow.results[0].n) || 0) : 0;
-      if (dN >= rpd) return true;
-      const bump = (bucket) =>
-        db.prepare(
-          "INSERT INTO rate_limits (ip, bucket, n, updated_at) VALUES (?,?,1,?) ON CONFLICT(ip, bucket) DO UPDATE SET n = n + 1, updated_at = excluded.updated_at"
-        ).bind(ip, bucket, Date.now()).run();
-      await bump(minuteKey);
-      await bump(dayKey);
-      return false;
-    } catch (e) {
-      // D1 故障：落入内存兜底，不直接放行
-    }
+  if (!db) return false;
+  try {
+    await db.prepare(
+      "CREATE TABLE IF NOT EXISTS rate_limits (ip TEXT, bucket TEXT, n INTEGER DEFAULT 0, updated_at INTEGER, PRIMARY KEY(ip, bucket))"
+    ).run();
+    const minuteKey = "m" + Math.floor(Date.now() / 60000);
+    const dayKey = "d" + new Date().toISOString().slice(0, 10);
+    const mRow = await db.prepare("SELECT n FROM rate_limits WHERE ip=? AND bucket=?").bind(ip, minuteKey).all();
+    const mN = mRow.results.length ? (Number(mRow.results[0].n) || 0) : 0;
+    if (mN >= rpm) return true;
+    const dRow = await db.prepare("SELECT n FROM rate_limits WHERE ip=? AND bucket=?").bind(ip, dayKey).all();
+    const dN = dRow.results.length ? (Number(dRow.results[0].n) || 0) : 0;
+    if (dN >= rpd) return true;
+    const bump = (bucket) =>
+      db.prepare(
+        "INSERT INTO rate_limits (ip, bucket, n, updated_at) VALUES (?,?,1,?) ON CONFLICT(ip, bucket) DO UPDATE SET n = n + 1, updated_at = excluded.updated_at"
+      ).bind(ip, bucket, Date.now()).run();
+    await bump(minuteKey);
+    await bump(dayKey);
+    return false;
+  } catch (e) {
+    return false; // fail-open：限流表故障不挡正常用户
   }
-  return memLimited(ip, rpm, rpd);
 }
 
 // 供本地 mock 测试（CF 运行时忽略额外导出）
-export const __geminiTest = { checkSource, rateLimited, memLimited, getDB, MAX_TEXT_LEN, PROVIDER_WHITELIST };
+export const __geminiTest = { checkSource, rateLimited, getDB, MAX_TEXT_LEN, PROVIDER_WHITELIST };
 
 export async function onRequestPost(context) {
   const { request, env } = context;
