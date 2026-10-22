@@ -241,7 +241,15 @@ export async function onRequestPost(context) {
     return json({ error: "请求过于频繁，请稍后再试" }, 429);
   }
   if (new URL(request.url).searchParams.get("rl_debug") === "1") {
-    return json({ debug: __rlErr || "ok", rpm, rpd, hasDb: !!getDB(env) }, 200);
+    const keys = Object.keys(env || {}).map((k) => {
+      const v = env[k];
+      let kind = typeof v;
+      if (v && typeof v === "object") {
+        kind = "obj[prepare:" + (typeof v.prepare) + ",exec:" + (typeof v.exec) + "]";
+      }
+      return k + "=" + kind;
+    });
+    return json({ debug: __rlErr || "ok", rpm, rpd, hasDb: !!getDB(env), envKeys: keys }, 200);
   }
 
   // ===== 连通性探针：仅 custom 源用，验证用户自己的接口能否通 =====
