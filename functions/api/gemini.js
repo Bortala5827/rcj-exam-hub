@@ -107,14 +107,10 @@ const ALLOWED_HOST = "exam.955827.xyz";
 const MAX_TEXT_LEN = 8000; // topic/prompt/question/hook/concept 字符上限
 const PROVIDER_WHITELIST = ["dots", "agnes", "sensenova", "bai", "groq", "custom"];
 
+// 只认 env.DB 这个 D1 绑定；不做全 env 扫描（避免把 R2 等其他 RPC 绑定误判为 D1）
 function getDB(env) {
-  if (env && env.DB) return env.DB;
-  if (env) {
-    for (const k of Object.keys(env)) {
-      const v = env[k];
-      if (v && typeof v.prepare === "function" && typeof v.exec === "function") return v;
-    }
-  }
+  const db = env && env.DB;
+  if (db && typeof db.prepare === "function" && typeof db.exec === "function") return db;
   return null;
 }
 
@@ -132,38 +128,56 @@ function checkSource(request, allowIps) {
   }
 }
 
-// D1 限流：per-IP 每分钟 rpm 次、每天 rpd 次；任何异常（无绑定/表缺失/读写失败）放行
-let __rlErr = "";
+// 无 D1 绑定/表故障时的内存兜底：同 isolate 内 per-IP 计数，防突发刷量；
+// isolate 回收即清空，仅作兜底，权威计数始终走 D1。
+const memHits = new Map();
+function memLimited(ip, rpm, rpd) {
+  const now = Date.now();
+  const minuteKey = "m" + Math.floor(now / 60000);
+  const dayKey = "d" + new Date().toISOString().slice(0, 10);
+  let e = memHits.get(ip);
+  if (!e || e.mk !== minuteKey) e = { mk: minuteKey, m: 0, dk: dayKey, d: 0 };
+  if (e.dk !== dayKey) { e.dk = dayKey; e.d = 0; }
+  if (e.m >= rpm || e.d >= rpd) return true;
+  e.m += 1;
+  e.d += 1;
+  memHits.set(ip, e);
+  return false;
+}
+
+// 限流：优先 D1 rate_limits 表（per-IP 每分钟 rpm、每天 rpd）；
+// 无绑定/表缺失/读写失败 → 内存兜底，再不行才放行（fail-open）。
 async function rateLimited(env, ip, rpm, rpd) {
   const db = getDB(env);
-  if (!db) { __rlErr = "NO_DB_BINDING"; return false; }
-  try {
-    await db.prepare(
-      "CREATE TABLE IF NOT EXISTS rate_limits (ip TEXT, bucket TEXT, n INTEGER DEFAULT 0, updated_at INTEGER, PRIMARY KEY(ip, bucket))"
-    ).run();
-    const minuteKey = "m" + Math.floor(Date.now() / 60000);
-    const dayKey = "d" + new Date().toISOString().slice(0, 10);
-    const mRow = await db.prepare("SELECT n FROM rate_limits WHERE ip=? AND bucket=?").bind(ip, minuteKey).all();
-    const mN = mRow.results.length ? (Number(mRow.results[0].n) || 0) : 0;
-    if (mN >= rpm) return true;
-    const dRow = await db.prepare("SELECT n FROM rate_limits WHERE ip=? AND bucket=?").bind(ip, dayKey).all();
-    const dN = dRow.results.length ? (Number(dRow.results[0].n) || 0) : 0;
-    if (dN >= rpd) return true;
-    const bump = (bucket) =>
-      db.prepare(
-        "INSERT INTO rate_limits (ip, bucket, n, updated_at) VALUES (?,?,1,?) ON CONFLICT(ip, bucket) DO UPDATE SET n = n + 1, updated_at = excluded.updated_at"
-      ).bind(ip, bucket, Date.now()).run();
-    await bump(minuteKey);
-    await bump(dayKey);
-    return false;
-  } catch (e) {
-    __rlErr = String((e && e.message) || e);
-    return false; // fail-open：限流表故障不挡正常用户
+  if (db) {
+    try {
+      await db.prepare(
+        "CREATE TABLE IF NOT EXISTS rate_limits (ip TEXT, bucket TEXT, n INTEGER DEFAULT 0, updated_at INTEGER, PRIMARY KEY(ip, bucket))"
+      ).run();
+      const minuteKey = "m" + Math.floor(Date.now() / 60000);
+      const dayKey = "d" + new Date().toISOString().slice(0, 10);
+      const mRow = await db.prepare("SELECT n FROM rate_limits WHERE ip=? AND bucket=?").bind(ip, minuteKey).all();
+      const mN = mRow.results.length ? (Number(mRow.results[0].n) || 0) : 0;
+      if (mN >= rpm) return true;
+      const dRow = await db.prepare("SELECT n FROM rate_limits WHERE ip=? AND bucket=?").bind(ip, dayKey).all();
+      const dN = dRow.results.length ? (Number(dRow.results[0].n) || 0) : 0;
+      if (dN >= rpd) return true;
+      const bump = (bucket) =>
+        db.prepare(
+          "INSERT INTO rate_limits (ip, bucket, n, updated_at) VALUES (?,?,1,?) ON CONFLICT(ip, bucket) DO UPDATE SET n = n + 1, updated_at = excluded.updated_at"
+        ).bind(ip, bucket, Date.now()).run();
+      await bump(minuteKey);
+      await bump(dayKey);
+      return false;
+    } catch (e) {
+      // D1 故障：落入内存兜底，不直接放行
+    }
   }
+  return memLimited(ip, rpm, rpd);
 }
 
 // 供本地 mock 测试（CF 运行时忽略额外导出）
-export const __geminiTest = { checkSource, rateLimited, getDB, MAX_TEXT_LEN, PROVIDER_WHITELIST };
+export const __geminiTest = { checkSource, rateLimited, memLimited, getDB, MAX_TEXT_LEN, PROVIDER_WHITELIST };
 
 export async function onRequestPost(context) {
   const { request, env } = context;
@@ -239,17 +253,6 @@ export async function onRequestPost(context) {
   const rpd = parseInt((env && env.GEMINI_RPD) || "100", 10);
   if (!allowIps.includes(ip) && await rateLimited(env, ip, rpm, rpd)) {
     return json({ error: "请求过于频繁，请稍后再试" }, 429);
-  }
-  if (new URL(request.url).searchParams.get("rl_debug") === "1") {
-    const keys = Object.keys(env || {}).map((k) => {
-      const v = env[k];
-      let kind = typeof v;
-      if (v && typeof v === "object") {
-        kind = "obj[prepare:" + (typeof v.prepare) + ",exec:" + (typeof v.exec) + "]";
-      }
-      return k + "=" + kind;
-    });
-    return json({ debug: __rlErr || "ok", rpm, rpd, hasDb: !!getDB(env), envKeys: keys }, 200);
   }
 
   // ===== 连通性探针：仅 custom 源用，验证用户自己的接口能否通 =====
